@@ -1,0 +1,321 @@
+<div class="" >
+    <div class="panel-heading" style="    margin: 0 -15px;">
+
+        <!--<a href="#" class="save-button"><img src="assets/img/save-icon.png" alt="Save" width="20" height="20">-->
+        <div class="row">
+
+            <div class="col-md-8">
+                <h3 class="m-t-6" data-i18n="" class="panel-title">İmtahan </h3>
+            </div>
+            <div class="col-md-2">
+                <button id="exam_add_ques" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Yadda saxla</button>
+            </div>
+            <div class="col-md-2">
+                <button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel-body " style="    margin: 0 -15px;">
+        <table id="question_list_for_exam" class="table table-celled table-hover">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th >Mövzu</th>
+                    <th >Fənn</th>
+                    <th >Sualın çətinliyi</th>
+                    <th >Sualın növü</th>
+                    <th></th> 
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        Exam.i18n(Exam.lang);
+        $('.search-scroll').slimScroll();
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
+            if (eduLevels) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(eduLevels, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_edu_level').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
+            if (questionLevel) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionLevel, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_level').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TYPE, function (questionType) {
+            if (questionType) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionType, function (i, v) {
+                    html += '<option code="' + v.code + '" value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_type').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LANG, function (eduLang) {
+            if (eduLang) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(eduLang, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_lang').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadSubjects(function (subjects) {
+            if (subjects) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(subjects, function (i, v) {
+                    html += '<option value= "' + v.id + '">' + v.subject.value[Exam.lang] + '</option>'
+                });
+                $('#quest_subject').html(html);
+            }
+
+        });
+
+        $('#main-div').on('change', '#quest_subject', function (e) {
+            try {
+                var subjectId = $(this).val();
+                Exam.Proxy.getTopics(subjectId, function (topics) {
+                    if (topics) {
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(topics, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.value['az'] + '</option>';
+                        });
+                        $('#quest_topic').html(html);
+                    }
+
+                });
+
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        $('#main-div').on('change', '#quest_file, .variant_file', function (e) {
+            try {
+                var fileName = this.files[0].name;
+                $(this).closest('label').siblings('span.file-name').text(fileName);
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+
+
+        $('#main-div').on('change', '#quest_type', function (e) {
+            try {
+                var type = $(this).find('option:selected').attr('code');
+
+                var inputType = '';
+                switch (type) {
+                    case "ONE_CHOISE":
+                        inputType = "radio";
+                        break;
+                    case "MULTIPLE_CHOISE":
+                        inputType = "checkbox";
+                        break;
+
+                }
+                if (type == "OPEN_QUEST") {
+                    $('.question_choises').addClass('hidden');
+                } else {
+                    $('.question_choises').removeClass('hidden');
+                }
+
+                if (type != "") {
+                    $('input[name="rightChoise"]').each(function (i, v) {
+                        if ($(this).is(':checked')) {
+                            $(this).prop('checked', false);
+                        }
+                        $(this).attr('type', inputType);
+                    });
+                }
+
+
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        $('#main-div').on('click', '#question_add', function (e) {
+            try {
+                var allValid = true;
+                var formData = new FormData();
+                var question = {
+                    subjectId: 0,
+                    eduLevelId: 0,
+                    questionLevelId: 0,
+                    questionTypeId: 0,
+                    topicId: 0,
+                    langId: 0,
+                    content: '',
+                    variants: [],
+                    token: Exam.token
+                }
+                if (Exam.Validation.validateRequiredFields('data-required')) {
+                    question.subjectId = $('#quest_subject').val();
+                    question.eduLevelId = $('#quest_edu_level').val();
+                    question.questionLevelId = $('#quest_level').val();
+                    question.questionTypeId = $('#quest_type').val();
+                    question.topicId = $('#quest_topic').val();
+                    question.langId = $('#quest_lang').val();
+                    question.content = $('#quest_content').val();
+
+                    var questionTypeCode = $('#quest_type').find('option:selected').attr('code');
+                    if (questionTypeCode != undefined && questionTypeCode != "OPEN_QUEST") {
+                        if (Exam.Validation.validateRequiredFields('variant-required')) {
+                            var inputType = $(".answer:input").attr('type');
+                            var checkedCount = $(".answer:input:checked").length;
+                            if (inputType == "radio") {
+                                if (checkedCount == 0) {
+                                    $.alert({
+                                        title: Exam.dictionary[Exam.lang]['warning'],
+                                        content: Exam.dictionary[Exam.lang]['select_one'],
+                                        theme: 'material'
+                                    });
+                                    allValid = false;
+                                }
+                            } else if (inputType == "checkbox") {
+                                if (checkedCount <= 1) {
+                                    $.alert({
+                                        title: Exam.dictionary[Exam.lang]['warning'],
+                                        content: Exam.dictionary[Exam.lang]['select_two'],
+                                        theme: 'material'
+                                    });
+                                    allValid = false;
+                                }
+                            }
+
+                            var wrongFiles = ''
+                            $('.variant-item').each(function (i, v) {
+                                var variant = {
+                                    id: (++i),
+                                    content: $(this).find('textarea').val(),
+                                    rightChoise: $(this).find('.answer').is(':checked') ? true : false
+                                }
+                                question.variants.push(variant);
+
+                                if ($(this).find('.variant_file')[0].files[0]) {
+                                    var file = $(this).find('.variant_file')[0].files[0];
+                                    console.log(file);
+                                    console.log('--');
+                                    if (Exam.Validation.checkFile(file.type, fileTypes.IMAGE_CONTENT_TYPE)) {
+                                        if (file.size > 5 * 1024 * 1024) {
+
+                                            $.notify(file.name + Exam.dictionary[Exam.lang]['exceed_volume'], {
+                                                type: 'warning'
+                                            });
+                                            allValid = false;
+                                        } else {
+                                            formData.append('file_' + i, file);
+                                        }
+                                    } else {
+                                        wrongFiles += wrongFiles != '' ? ', ' + file.name : file.name;
+                                    }
+                                }
+                            });
+
+                            if (wrongFiles != '') {
+                                $.notify(Exam.dictionary[Exam.lang]['wrong_format'] + wrongFiles, {
+                                    type: 'warning'
+                                });
+                                allValid = false;
+                            }
+                            console.log(question.variants);
+
+                        } else {
+                            allValid = false;
+                        }
+                    }
+
+                    formData.append('question', new Blob([JSON.stringify(question)], {
+                        type: "application/json"
+                    }));
+
+                    if ($('#quest_file')[0].files[0]) {
+                        alert('')
+                        var image = $('#quest_file')[0].files[0];
+                        if (Exam.Validation.checkFile(image.type, fileTypes.IMAGE_CONTENT_TYPE)) {
+                            formData.append('file', image);
+                        } else {
+                            alert('')
+                            $.notify(Exam.dictionary[Exam.lang]['wrong_format'] + image.name, {
+                                type: 'warning'
+                            });
+
+                            allValid = false;
+                        }
+                    }
+
+                    if (allValid) {
+                        Exam.Proxy.addQuestion(formData, function () {alert('')
+                            alert('sadad')
+                            var params = $('.question-search-form').serialize();
+                            Exam.Proxy.loadQuestions('', params);
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
+        Exam.Proxy.loadQuestionsForExam('', '', function (data) {
+            console.log('sadasda')
+            if (data) {
+                var html = '';
+                var count = 0;
+                $.each(data, function (i, v) {
+
+                    html += '<tr question-content="' + v.content + '">' +
+                            '<td>' + (++count) + '</td>' +
+                            '<td>' + v.topic.value[Exam.lang] + '</td>' +
+                            '<td>' + v.subject.value[Exam.lang] + '</td>' +
+                            '<td>' + v.level.value[Exam.lang] + '</td>' +
+                            '<td>' + v.questionType.value[Exam.lang] + '</td>' +
+                            '<td><input type="checkbox"></td>' +
+                            '</tr>';
+                });
+
+                $('#main-div').find('#question_list_for_exam tbody').html(html);
+
+            }
+        });
+
+        $('body').on('click', '#exam_add_ques', function () {
+            $.notify(Exam.dictionary[Exam.lang]['success'], {
+                type: 'success'
+            });
+            $('body').find('.add-new').css('right', '-100%');
+        })
+
+
+    });
+</script>

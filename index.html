@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+       <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title data-i18n="app.name"></title>
+        <meta name="description" content=""/>
+        <meta name="keywords" content=""/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <link rel="shortcut icon" type="image/png" href="assets/img/unibook-favicon.ico"/>
+
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" id="link-bootstrap"/>
+        <link rel="stylesheet" href="assets/css/animate.min.css" type="text/css"/>
+        <link rel="stylesheet" href="assets/css/app.min.css" type="text/css" id="link-app"/>
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css"/>
+        <link rel="stylesheet" href="assets/css/pe-icon-7-stroke.css" type="text/css"/>
+        <link rel="stylesheet" href="assets/css/page-loading.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/select2.min.css">
+        <link rel="stylesheet" href="assets/default/style.css">
+        <link rel="stylesheet" href="assets/css/jquery-confirm.css">
+        <link rel="stylesheet" href="assets/css/progress.css">
+        <link rel="stylesheet" href="assets/css/exam.css">
+        <link rel="stylesheet" href="assets/css/file-input.css">
+        <link rel="stylesheet" href="assets/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="assets/css/notify.css">
+        <link rel="stylesheet" href="assets/css/update.css">
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery-ui.js"></script>
+        <script src="assets/js/modernizr.custom.js"></script>
+        <script src="assets/js/progress.js"></script>
+        <script src="assets/js/lib/animsition/animsition.min.js"></script>
+<!--        <script src="assets/js/main.js"></script>-->
+        <script src="assets/js/additionalFunctions.js"></script>
+        <script src="assets/js/jquery.slimscroll.min.js"></script>
+        <script src="assets/js/jstree.js"></script>
+        <script src="assets/js/stomp.js"></script>
+         <script src="assets/js/sockjs-0.3.js"></script>
+        <script src="assets/js/exam.js"></script>
+        <script src="assets/js/events.js"></script>
+        <script src="assets/js/notify.min.js"></script>
+        <script src="assets/js/notification_options.js"></script>
+        <script src="assets/js/jquery-confirm.js"></script>
+        <script src="assets/js/file-input.js"></script>
+        <script src="assets/js/bootstrap-datepicker.js"></script>
+       <script src="assets/js/extra/ckeditor.js"></script>
+        <script src="assets/js/jquery.mask.min.js"></script>
+        <script src="assets/js/select2.min.js"></script>
+        <script src="assets/js/notify.js"></script>
+        <script type="text/javascript" src="assets/plugins/inputmask/js/jasny-bootstrap.min.js"></script>
+    </head>
+    <body onload="Exam.WebSocket.disconnect(1)">
+
+
+        <div class="progress-backdrop hidden"></div>
+        <div id="main-div" class="hidden ">
+            <header class="header-upd container-fluid">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <a href="#" class="logo-upd"><img src="assets/img/unibook-logo.svg" alt="MIS"></a>
+                    </div>
+                    <div class="col-sm-10 content-upper-header">
+                        <div class="profile-photo">
+                            <div class="main-img">
+                                <div class="notify-wrapper">
+                                    <div class="notification hidden"></div>
+                                </div>
+                                <img src="assets/img/index.png" alt="default-img" >
+                            </div>
+                            <div class="user-info animated">
+                                <div class="big-img no-border-radius">
+                                    <img src="assets/img/index.png" alt="" class="no-border-radius" />
+                                </div>
+                                <div class="data profile-data">
+                                    <ul>
+                                        <li data-type="name"></li>
+                                        <li data-type="role"></li>
+                                        <li data-type="org"></li>                        
+                                    </ul>
+                                </div>
+                                <div class="row userinfo-logout-block">
+                                    <a href="" class="get_notification_page"><i class="fa fa-bell"></i>Bildirişlər</a>
+                                    <div class="col-md-6">
+                                        <form id="logoutForm" method="POST">
+                                            <input type="hidden" name="token">
+                                            <button data-i18n="logout" class="btn btn-default btn-block" type="submit">
+                                                Logout
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button data-i18n="settings"  class="btn btn-default settings-button">Settings</button>
+                                    </div>
+                                </div>
+                                <div class="cancel">✖</div>
+                            </div>
+                            <!--<div class="header-arrow"></div>-->
+                        </div>
+
+                        <div class="hide-menu less-menu">
+                            <i class="glyphicon glyphicon-menu-hamburger"></i>
+                        </div>
+                        <div class="app-list less-menu">
+                            <ul class="app-con">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="main-upd">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-3 left-menu">
+                            <div class="sidebar-upd">
+                                <div class="side-title-block">
+                                    <img src="assets/img/upd/8-22.jpg" alt="">
+                                    <p>Azərbaycan Dövlət <br/>Pedaqoji Universiteti</p>
+                                </div>
+                                <div class="side-menu">
+                                    <ul class="module-list">
+                                        <li><a href="" class="icon-teshkilatistruktur">Təşkilati Struktur</a></li>
+                                        <li><a href="" class="icon-kadrlar">Kardlar</a></li>
+                                        <li class="active">
+                                            <a href="" class="icon-telebeler">Tələbələr</a>
+                                            <div class="sub-module-con">
+
+                                            </div>
+                                        </li>
+                                        <li><a href="" class="icon-icon_akamedikqruplar">Akademik qruplar</a></li>
+                                        <li><a href="" class="icon-telebeler">Xaricdə oxuyan tələbələr</a></li>
+                                        <li><a href="" class="icon-elanlar">Elanlar</a></li>
+                                        <li><a href="" class="icon-diplomlar">Diplomlar</a></li>
+                                        <li><a href="" class="icon-mtb">MTB</a></li>
+                                        <li><a href="" class="icon-soraqchalar">Soraqçalar</a></li>
+                                        <li><a href="" class="icon-emrler">Əmrlər</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9 content-part">
+                            <!-- <div class="content-part"> -->
+                                <div class="main-content-upd">
+                                    
+                                </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div class="modal settings-password-modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 data-i18n="change_password" class="modal-title">Change password</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label data-i18n="last_password" >Last password</label>
+                                <input data-i18n="last_password" type="password" class="form-control last-password required" placeholder="Last password" />
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="new_password">New password</label>
+                                <input data-i18n="new_password" type="password" class="form-control new-password required" placeholder="New password" />
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="repeat_password" >Repeat password</label>
+                                <input data-i18n="repeat_password" type="password" class="form-control confirmed-password required" placeholder="Confirm password" />
+                            </div>
+                        </div>
+                        <div class="modal-footer flex-img">
+                            <button data-i18n="ok"  class="btn btn-primary change-password-submit">OK</button>
+                            <button data-i18n="close"  type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="footer">
+                <div class="col-xs-12">
+                    <p>Developed by Neuron Technologies</p>
+                </div>
+            </div>
+        </div>
+
+
+                <img src="assets/img/default.svg" alt="" class="small-loading hidden">
+
+        <!--         <div class="cssload-triangles">
+                    <div class="cssload-tri cssload-invert"></div>
+                    <div class="cssload-tri cssload-invert"></div>
+                    <div class="cssload-tri"></div>
+                    <div class="cssload-tri cssload-invert"></div>
+                    <div class="cssload-tri cssload-invert"></div>
+                    <div class="cssload-tri"></div>
+                    <div class="cssload-tri cssload-invert"></div>
+                    <div class="cssload-tri"></div>
+                    <div class="cssload-tri cssload-invert"></div>
+                </div> -->
+                <div class="temp-load" style="
+           
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            z-index: 138;
+          
+            width: 50px;
+            height: 50px;
+        "><img src="assets/img/unibook_portal.gif" alt="" style="width: 100%"></div>
+        <script src="assets/js/page-loading.js"></script> 
+        <script>
+        $(function() {
+            Exam.i18n(Exam.lang);
+
+            
+            $('.module-list, .content-part, .search-scroll').slimScroll();
+   
+        });
+            var flag = false;
+            var timer;
+
+            var contentBody = $('.main-content-upd');
+            var smallLoading = $('.small-loading');
+
+            var offset = 0;
+            
+            
+
+            $(document).ajaxStart(function (e) {
+//                if($('#main-div').has('.main-content').length < 1) {
+//                    $('.progress-backdrop').removeClass('hidden');
+//                }
+                NProgress.start();
+                
+                    
+
+            }).ajaxStop(function () {
+
+                
+                NProgress.done();
+                $('.progress-backdrop').addClass('hidden');
+
+            });
+
+            $('body').on('click', '#operation_1000028, #operation_1000027', function (e) {
+                contentBody = $('#main-div');
+            });
+
+
+        </script>
+    </body>
+</html>
+

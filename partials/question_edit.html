@@ -1,0 +1,564 @@
+<div class="panel panel-white">
+    <div class="panel-heading">
+
+        <!--<a href="#" class="save-button"><img src="assets/img/save-icon.png" alt="Save" width="20" height="20">-->
+        <div class="row">
+
+            <div class="col-md-8">
+                <h3 class="m-t-6" data-i18n="question" class="panel-title">Sual </h3>
+            </div>
+            <div class="col-md-2">
+                <button id="question_edit" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Yadda saxla</button>
+            </div>
+            <div class="col-md-2">
+                <button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel-body flex-panel">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label data-i18n="question_type" >Sualın növü</label>
+                <div class="prepend-icon">
+                    <select  class="form-control quest-type" id="quest_type"  data-required=""></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="">Tədris planı</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="edu_plan" data-required=""></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="topic"  placeholder="topic">Mövzu</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_topic" data-required=""></select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label data-i18n="edu_level" >Təhsil səviyyəsi</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_edu_level" data-required=""></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label data-i18n="question_complexity"  >Sualın Çətinliyi</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_level" data-required=""></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="subject">Fənn</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_subject" data-required=""></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="language" >Dil</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_lang"  data-required=""></select>
+                </div>
+            </div>
+                        <div class="form-group">
+                <label data-i18n="">Sualın Tipi</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_tipi" data-required=""></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label data-i18n="question_content" >Sualın məzmunu</label>
+                <textarea  class="form-control custom-ckeditor" id="quest_content"></textarea>
+            </div>
+        </div>
+        <div class="image_uploader col-md-12" style="margin-bottom:35px;">
+            <label class="image_uploader_label">
+                <div class="quest_image"><img class="quest-pic-img hidden" src="assets/img/upload-img.png" width="20" height="20"></div>
+                
+                <input type="file" onchange="readURLImage(this);">
+            </label>
+            <div class="image_uploader_after hidden">
+                <i class="fa fa-remove remove-image" onclick="removeImage(this);" style="left:70px;"></i>
+                <img src="">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="question_choises hidden">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="m-t-6" data-i18n="question" class="panel-title">Variantlar </h3>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body flex-panel">
+            <div class="col-md-12 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise" style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-9">
+                    <label data-i18n="" >Variant A</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+                <div class="image_uploader col-md-2 text-center">
+                    <label class="image_uploader_label">
+                        <img class="quest-pic-img" src="assets/img/upload-img.png" width="20" height="20">
+                        <input type="file" onchange="readURLImage(this);">
+                    </label>
+                    <div class="image_uploader_after hidden">
+                        <i class="fa fa-remove remove-image" onclick="removeImage(this);"></i>
+                        <img src="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-9">
+                    <label data-i18n="" >Variant B</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="image_uploader col-md-2 text-center">
+                    <label class="image_uploader_label">
+                        <img class="quest-pic-img" src="assets/img/upload-img.png" width="20" height="20">
+                        <input type="file" onchange="readURLImage(this);">
+                    </label>
+                    <div class="image_uploader_after hidden">
+                        <i class="fa fa-remove remove-image" onclick="removeImage(this);"></i>
+                        <img src="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12  m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-9">
+                    <label data-i18n="" >Variant C</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="image_uploader col-md-2 text-center">
+                    <label class="image_uploader_label">
+                        <img class="quest-pic-img" src="assets/img/upload-img.png" width="20" height="20">
+                        <input type="file" onchange="readURLImage(this);">
+                    </label>
+                    <div class="image_uploader_after hidden">
+                        <i class="fa fa-remove remove-image" onclick="removeImage(this);"></i>
+                        <img src="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12  m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-9">
+                    <label data-i18n="" >Variant D</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="image_uploader col-md-2 text-center">
+                    <label class="image_uploader_label">
+                        <img class="quest-pic-img" src="assets/img/upload-img.png" width="20" height="20">
+                        <input type="file" onchange="readURLImage(this);">
+                    </label>
+                    <div class="image_uploader_after hidden">
+                        <i class="fa fa-remove remove-image" onclick="removeImage(this);"></i>
+                        <img src="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12  m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-9">
+                    <label data-i18n="" >Variant E</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="image_uploader col-md-2 text-center">
+                    <label class="image_uploader_label">
+                        <img class="quest-pic-img" src="assets/img/upload-img.png" width="20" height="20">
+                        <input type="file" onchange="readURLImage(this);">
+                    </label>
+                    <div class="image_uploader_after hidden">
+                        <i class="fa fa-remove remove-image" onclick="removeImage(this);"></i>
+                        <img src="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+       function readURLImage(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                var parent = $(input).parents(".image_uploader");
+                parent.find(".image_uploader_after").removeClass("hidden");
+                parent.find(".image_uploader_label").addClass("hidden");
+                parent.find(".image_uploader_after img").attr('src', e.target.result);
+              }
+              
+              var allValid = true;
+                if (Exam.Validation.validateRequiredFields('resource-required')) {
+                    try {
+                        var questId = $('body').attr('data-id');
+                        var formData = new FormData();
+                        var questionDetails = {
+                            id:$(input).parents(".variant-item").attr('data-id'),
+                            token: Exam.token
+                        };
+                        var wrongFiles = '';
+                        if (input.files[0]) {
+                            var file = input.files[0];
+                            console.log(file);
+                            if (Exam.Validation.checkFile(file.type, fileTypes.IMAGE_CONTENT_TYPE)) {
+                                if (file.size > 5 * 1024 * 1024) {
+                                    alert('large file')
+                                    $.notify(file.name + Exam.dictionary[Exam.lang]['exceed_volume'], {type: 'warning'});
+                                    allValid = false;
+                                } else {
+                                    formData.append('file', file);
+                                }
+                            } else {
+                                wrongFiles += wrongFiles != '' ? ', ' + file.name : file.name;
+                            }
+                        }
+                        formData.append('questionDetails', new Blob([JSON.stringify(questionDetails)], {type: "application/json"}));
+                        if (allValid) {
+                            Exam.Proxy.addImageToQuestion(questId, formData, function () {
+                            });
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+
+                } else {
+                    return false;
+                }
+              
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function removeImage(t) {
+            var parent = $(t).parents(".image_uploader");
+            parent.find(".image_uploader_after").addClass("hidden");
+            parent.find(".image_uploader_label").removeClass("hidden");
+            parent.find(".image_uploader_after img").attr('src', '');
+            parent.find(".image_uploader_label input").val('');
+        }
+    $(function () {
+        setCkeditor();
+        Exam.i18n(Exam.lang);
+        $('.search-scroll').slimScroll();
+        
+        Exam.Proxy.loadEduType(function (data) {
+            if (data) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(data, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.name + '</option>'
+                });
+                $('#edu_plan').html(html);
+            }
+        });
+
+        $('#main-div').on('change', '#edu_plan', function (e) {
+                if ($(this).val()>0) {
+    
+                $('#quest_topic').val("")
+            try {
+                var eduPlanId = $(this).val();
+                Exam.Proxy.getEducationPlanDetails(eduPlanId, '', function (data) {
+                    if (data) {
+                        var result = data.data.allSubjects
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(result, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.dicName.value['az'] + '</option>';
+                        });
+                        $('#quest_subject').html(html);
+                    }
+                });
+            }
+            catch (err) {
+                console.error(err);
+            }
+        }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
+            if (eduLevels) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(eduLevels, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_edu_level').html(html);
+
+            }
+        });
+        
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TIPI, function (questionTipi) {
+            if (questionTipi) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionTipi, function (i, v) {
+                    html += '<option code="' + v.code + '" value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_tipi').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
+            if (questionLevel) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionLevel, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_level').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TYPE, function (questionType) {
+            if (questionType) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionType, function (i, v) {
+                    html += '<option code="' + v.code + '" value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_type').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LANG, function (eduLang) {
+            if (eduLang) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(eduLang, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_lang').html(html);
+
+            }
+        });
+
+        $('#main-div').on('change', '#quest_subject', function (e) {
+            try {
+                var subjectId = $(this).val();
+                Exam.Proxy.getTopics(subjectId, function (topics) {
+                    if (topics) {
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(topics, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.value['az'] + '</option>';
+                        });
+                        $('#quest_topic').html(html);
+                    }
+
+                });
+
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+        
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    $('.qimage').removeClass('hidden');
+                    $('.quest_pic').attr('src', e.target.result);
+                  }
+                  reader.readAsDataURL(input.files[0]);
+                }
+            }
+            
+            
+
+            $('#quest_file').change(function() {
+              readURL(this);
+            });
+              
+//        $('#main-div').on('change', '#quest_file, .variant_file', function (e) {
+//            try {
+//                
+//                var fileName = this.files[0].name;
+//                $(this).closest('label').siblings('span.file-name').text(fileName);
+//                $('.quest_image span.file-name').removeClass('hidden')
+//            }
+//            catch (err) {
+//                console.error(err);
+//            }
+//        });
+
+
+
+        $('#main-div').on('change', '#quest_type', function (e) {
+            try {
+                var type = $(this).find('option:selected').attr('code');
+
+                var inputType = '';
+                switch (type) {
+                    case "ONE_CHOISE":
+                        inputType = "radio";
+                        break;
+                    case "MULTIPLE_CHOISE":
+                        inputType = "checkbox";
+                        break;
+
+                }
+                if (type == "OPEN_QUEST") {
+                    $('.question_choises').addClass('hidden');
+                }
+                else {
+                    $('.question_choises').removeClass('hidden');
+                }
+
+                if (type != "") {
+                    $('input[name="rightChoise"]').each(function (i, v) {
+                        if ($(this).is(':checked')) {
+                            $(this).prop('checked', false);
+                        }
+                        $(this).attr('type', inputType);
+                    });
+                }
+
+
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+        
+        var id =  $('body').attr('data-id')
+        Exam.Proxy.getQuestionDetails(id, function (data) {
+
+            if (data) {
+
+                $('body').find('#quest_level').val(data.level.id)
+                $('body').find('#quest_type').val(data.questionType.id)
+                $('body').find('#quest_edu_level').val(data.eduLevel.id)
+                setTimeout(function(){
+                    $('body').find('option[value="' + data.eduPlan.id + '"]').prop('selected', true);
+                }, 200)
+                Exam.Proxy.getEducationPlanDetails(data.eduPlan.id, '', function (data) {
+                    if (data) {
+                        var result = data.data.allSubjects
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(result, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.dicName.value['az'] + '</option>';
+                        });
+                        $('#quest_subject').html(html);
+                    }
+                });
+                setTimeout(function() {
+                    $('body').find('#quest_subject').find('option[value="' + data.subject.id + '"]').prop('selected', true);
+                }, 500)
+                Exam.Proxy.getEducationPlanSubjectTopic(data.eduPlan.id, data.subject.id, function (topics) {
+                    if (topics) {
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(topics.data, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.topicName + '</option>';
+                        });
+                        $('#quest_topic').html(html);
+                    }
+                });
+                setTimeout(function() {
+                $('body').find('#quest_topic').val(data.topic.id);}, 400)
+                if(data.fileWrapper.id){
+                    $('.imagediv').attr('data-path', data.fileWrapper.path);
+//                    $('.quest_image span.file-name').addClass('hidden')
+//                    $('.quest_image span.file-name').text(data.fileWrapper.originalName);
+                }else{
+                    $('.qimage').addClass('hidden');
+                    $('.quest-pic-img').removeClass('hidden');
+                }
+                
+                $('body').find('.quest_image').append('<img class = "quest_pic" src ="'+ Exam.urls.ExamRest + '/questions/file/' + data.fileWrapper.path + '/?token=' + Exam.token + '">')
+                $('body').find('#quest_lang').val(data.language.id);
+                $('body').find('#quest_tipi').val(data.tipi.id);
+//                $('body').find('#quest_tipi').val(data.tipi.id);
+                
+                setTimeout(function() {
+                   CKEDITOR.instances.quest_content.setData( data.content );
+                },10);
+
+                var questType = $('#quest_type').find('option:selected').attr('code');
+                var inputType = '';
+                switch (questType) {
+                    case "ONE_CHOISE":
+                        inputType = "radio";
+                        break;
+                    case "MULTIPLE_CHOISE":
+                        inputType = "checkbox";
+                        break;
+
+                }
+                
+                if (questType != "") {
+                    $('input[name="rightChoise"]').each(function (i, v) {
+                        if ($(this).is(':checked')) {
+                            $(this).prop('checked', false);
+                        }
+                        $(this).attr('type', inputType);
+                    });
+                }
+                
+                if (questType == "OPEN_QUEST") {
+                $('.question_choises').addClass('hidden');
+                }
+                else {
+                    $('.question_choises').removeClass('hidden');
+                    $.each(data.choises, function (i, v){
+                        var count = 0;
+                        $('#main-div .variant-item').each(function() {
+                            
+                            var id = $(this).find('textarea').attr('data-id');
+                            
+                            if(!id && count == 0) {
+                                
+                                ++count;
+                                $(this).find('.answer').attr('data-id', v.id)
+                                if(v.rightChoise == 0) {
+                                    $(this).find('.answer').removeAttr('checked')
+                                } else {
+                                   $(this).find('.answer').attr('checked', 'checked'); 
+                                }
+                                $(this).find('textarea').attr('data-id', v.id)
+                                $(this).attr('data-id', v.id)
+                                $(this).find('textarea').val(v.questionContent)
+                                $(this).find('.answer_image').append('<img class = "answer_image" src ="'+ Exam.urls.ExamRest + 'questions/file/' + v.fileWrapper.path + '/?token=' + Exam.token + '">')
+                                $(this).attr('data-path', v.fileWrapper.path)
+                            }
+                            
+                        })
+                    });
+                }
+                
+            }
+        });
+        
+
+    });
+</script>

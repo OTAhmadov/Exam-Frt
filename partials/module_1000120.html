@@ -1,0 +1,246 @@
+<div style="display: none; padding-right: 17px;" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" id="exportModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="modal-pdf col-md-4">
+                        <a class="export" data-value="pdf" href="#"><img class="a-export" src="assets/img/pdf-icon.png" width="150" height="150" alt="pdf"></a>
+                    </div>
+                    <div class="modal-excel col-md-4">
+                        <a class="export"  data-value="xls" href="#"><img class="a-export" src="assets/img/excel-icon.png" width="150" height="150" alt="xls"></a>
+                    </div>
+                    <div class="modal-html col-md-4">
+                        <a class="export" data-value="html" href="#"><img class="a-export" src="assets/img/html-icon.png" width="150" height="150" alt="html"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <iframe src="http://unibook.otk.az/" frameborder="0"></iframe>
+    </div>
+</div>
+
+<div class="add-new">
+   <div class="search-scroll"></div>
+</div>
+
+
+
+
+
+<script>
+    $(function () {
+        Exam.i18n(Exam.lang);
+
+
+
+        $('#subjects').select2({
+            placeholder: Exam.dictionary[Exam.lang]["subjects"],
+            language: {
+                noResults: function () {
+                    return Exam.dictionary[Exam.lang]["no_information"];
+                }
+            }
+        });
+         
+
+
+
+
+
+        Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
+            $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
+
+        });
+
+        $('#main-div .sub_modules_div').remove();
+        $('.module-list').find('.sub-module-con').remove();
+
+
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
+            if (eduLevels) {
+                var html = '';
+                $.each(eduLevels, function (i, v) {
+                    html += '<li data-id="' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>';
+                });
+                $('#edu_levels').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
+            if (questionLevel) {
+                var html = '';
+                $.each(questionLevel, function (i, v) {
+                    html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+                });
+                $('#question_level').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TYPE, function (questionType) {
+            if (questionType) {
+                var html = '';
+                $.each(questionType, function (i, v) {
+                    html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+                });
+                $('#question_type').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadSubjects(function (subjects) {
+            if (subjects) {
+                var html = '<option value=""></option>';
+                $.each(subjects, function (i, v) {
+                    html += '<option value= "' + v.id + '">' + v.subject.value[Exam.lang] + '</option>'
+                });
+                $('#subjects').html(html);
+            }
+
+        });
+
+        var params = $('.question-search-form').serialize();
+        //Exam.Proxy.loadQuestions('', params);
+
+        $('.modal-content').draggable();
+
+        $('.datepicker').datepicker();
+
+        $('#main-div').on('change', '#subjects', function (e) {
+            try {
+                var subjectId = $('#subjects').find('option:selected').val();
+                if (subjectId > 0) {
+                    $('input[name="subjectId"]').val(subjectId);
+
+                }
+                else {
+                    $('input[name="subjectId"]').val('');
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                var params = $('.question-search-form').serialize();
+                //Exam.Proxy.loadQuestions('', params);
+            }
+            catch (err) {
+                console.error(err);
+            }
+
+        });
+
+        $('#main-div').on('click', '.dropdown-filter li', function () {
+            try {
+                var id = $(this).attr('data-id');
+                var name = $(this).parent('ul').attr('data-name');
+                if (id != 0) {
+                    $('.question-search-form input[name="' + name + '"]').val(id);
+                }
+                else {
+                    $('.question-search-form input[name="' + name + '"]').val('');
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                var params = $('.question-search-form').serialize();
+                //Exam.Proxy.loadQuestions('', params);
+            }
+            catch (err) {
+                console.error(err)
+            }
+        });
+
+        $('#main-div').on('keypress', '#question_search', function (e) {
+            try {
+
+                if (e.keyCode == 13) {
+                    var keyword = $('#question_search').val();
+
+                    if (keyword.trim().length > 2) {
+                        $('.btn-load-more').removeAttr('data-page');
+                        $('.question-search-form input[name="keyword"]').val(keyword);
+                        var queryparams = $('.question-search-form').serialize();
+                        Exam.Proxy.loadQuestions('', queryparams);
+                    }
+                    else if (keyword.trim().length == 0) {
+                        $('.btn-load-more').removeAttr('data-page');
+                        $('.question-search-form input[name="keyword"]').val('');
+                        var params = $('.question-search-form').serialize();
+                        //Exam.Proxy.loadQuestions('', params);
+                    }
+                }
+
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+        
+        // $('#main-div').on('click','#operation_ADD_QUEST',function() {
+        //     try {
+        //         $('body .add-new .search-scroll').load('partials/question_add.html');
+        //          $('body').find('.add-new').css('right', '0');
+                
+        //     }
+        //     catch(err) {
+        //         console.error(err);
+        //     }
+        // });]
+
+        $('body').on('click','#new-exam',function() {
+            try {
+                $('body .add-new .search-scroll').load('partials/add_exam.html');
+                 $('body').find('.add-new').css('right', '0');
+                
+            }
+            catch(err) {
+                console.error(err);
+            }
+        });
+        
+
+
+
+        $('body').on('dblclick', '#exam_list tbody tr', function (e) {
+            try {
+
+                $('body .add-new .search-scroll').load('partials/add_question_to_exam.html');
+                 $('body').find('.add-new').css('right', '0');
+
+
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+
+
+        $('body').on('click', '#exam_list tbody tr', function (e) {
+            try {
+                var content = $(this).attr('question-content');
+                $('#question_content').html(content);
+
+                $('body').find('.col-sm-12.data').removeClass('col-sm-12').addClass('col-sm-8');
+                setTimeout(function(){
+                    $('body').find('.col-sm-4.info').fadeIn();
+                }, 400)
+                
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+
+
+
+
+
+    });
+</script>

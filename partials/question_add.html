@@ -1,0 +1,375 @@
+<div class="panel panel-white">
+    <div class="panel-heading">
+
+        <!--<a href="#" class="save-button"><img src="assets/img/save-icon.png" alt="Save" width="20" height="20">-->
+        <div class="row">
+
+            <div class="col-md-8">
+                <h3 class="m-t-6" data-i18n="question" class="panel-title">Sual </h3>
+            </div>
+            <div class="col-md-2">
+                <button id="question_add" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Yadda saxla</button>
+            </div>
+            <div class="col-md-2">
+                <button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="panel-body flex-panel">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label data-i18n="question_type" >Sualın növü</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_type"  data-required=""></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="">Tədris planı</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="edu_plan" data-required=""></select>
+                </div>
+            </div>
+                        <div class="form-group">
+                <label data-i18n="topic"  placeholder="topic">Mövzu</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_topic"  data-required=""></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="edu_level" >Təhsil səviyyəsi</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_edu_level" data-required=""></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label data-i18n="question_complexity"  >Sualın Çətinliyi</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_level" data-required=""></select>
+                </div>
+            </div>
+
+                        <div class="form-group">
+                <label data-i18n="subject">Fənn</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_subject" data-required=""></select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label data-i18n="language" >Dil</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_lang"  data-required=""></select> 
+                </div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="">Sualın Tipi</label>
+                <div class="prepend-icon">
+                    <select  class="form-control" id="quest_tipi" data-required=""></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 ">
+            <div class="form-group">
+                <label data-i18n="question_content" >Sualın məzmunu</label>
+                <!--<textarea  class="form-control" id="quest_content"></textarea>-->
+                <textarea  class="form-control custom-ckeditor" id="quest_content"></textarea>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-2" style="text-decoration:underline">Şəkil seçin:<input id="quest_file" style="opacity:0" type="file"></label><span class="col-md-8 file-name"></span>
+        </div>
+    </div>
+</div>
+<div class="question_choises hidden">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="m-t-6" data-i18n="question" class="panel-title">Variantlar </h3>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body flex-panel">
+            <div class="col-md-12 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise" style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-11">
+                    <label data-i18n="" >Variant A</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-2 m-l-50" style="text-decoration:underline">Şəkil seçin:<input class="variant_file" style="opacity:0" type="file"></label><span class="col-md-8 file-name"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-11">
+                    <label data-i18n="" >Variant B</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-2 m-l-50" style="text-decoration:underline">Şəkil seçin:<input class="variant_file" style="opacity:0" type="file"></label><span class="col-md-8 file-name"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12  m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-11">
+                    <label data-i18n="" >Variant C</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-2 m-l-50" style="text-decoration:underline">Şəkil seçin:<input class="variant_file" style="opacity:0" type="file"></label><span class="col-md-8 file-name"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12  m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-11">
+                    <label data-i18n="" >Variant D</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-2 m-l-50" style="text-decoration:underline">Şəkil seçin:<input class="variant_file" style="opacity:0" type="file"></label><span class="col-md-8 file-name"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12  m-t-5 variant-item">
+                <div class="col-md-1 m-t-30" >
+                    <input class="answer" name ="rightChoise"  style="opacity:1;position:static" type="radio">
+                </div>
+                <div class="form-group col-md-11">
+                    <label data-i18n="" >Variant E</label>
+                    <textarea class="form-control"  variant-required=""></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="col-md-2 m-l-50" style="text-decoration:underline">Şəkil seçin:<input class="variant_file" style="opacity:0" type="file"></label><span class="col-md-8 file-name"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+   
+    $(function () {
+        setCkeditor();
+        Exam.i18n(Exam.lang);
+        $('.search-scroll').slimScroll();
+
+        Exam.Proxy.loadEduType(function (data) {
+            if (data) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(data, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.name + '</option>'
+                });
+                $('#edu_plan').html(html);
+            }
+        });
+        
+        //        Exam.Proxy.loadSubjects(function (subjects) {
+//            if (subjects) {
+//                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+//                $.each(subjects, function (i, v) {
+//                    html += '<option value= "' + v.id + '">' + v.subject.value[Exam.lang] + '</option>'
+//                });
+//                $('#quest_subject').html(html);
+//            }
+//
+//        });
+
+        $('#main-div').on('change', '#edu_plan', function (e) {
+            try {
+                var eduPlanId = $(this).val();
+                Exam.Proxy.getEducationPlanDetails(eduPlanId, '', function (data) {
+                    if (data) {
+                        var result = data.data.allSubjects
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(result, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.dicName.value['az'] + '</option>';
+                        });
+                        $('#quest_subject').html(html);
+                    }
+                });
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+        
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
+            if (eduLevels) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(eduLevels, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_edu_level').html(html);
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
+            if (questionLevel) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionLevel, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_level').html(html);
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TIPI, function (questionTipi) {
+            if (questionTipi) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionTipi, function (i, v) {
+                    html += '<option code="' + v.code + '" value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_tipi').html(html);
+
+            }
+        });
+        
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TYPE, function (questionType) {
+            if (questionType) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(questionType, function (i, v) {
+                    html += '<option code="' + v.code + '" value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_type').html(html);
+
+            }
+        });
+
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LANG, function (eduLang) {
+            if (eduLang) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(eduLang, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#quest_lang').html(html);
+            }
+        });
+
+//        Exam.Proxy.loadSubjects(function (subjects) {
+//            if (subjects) {
+//                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+//                $.each(subjects, function (i, v) {
+//                    html += '<option value= "' + v.id + '">' + v.subject.value[Exam.lang] + '</option>'
+//                });
+//                $('#quest_subject').html(html);
+//            }
+//
+//        });
+
+//        $('#main-div').on('change', '#edu_plan', function (e) {
+//            try {
+//                var eduPlanId = $(this).val();
+//                Exam.Proxy.getEducationPlanDetails(eduPlanId, '', function (data) {
+//                    if (data) {
+//                        var result = data.data.allSubjects
+//                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+//                        $.each(result, function (i, v) {
+//                            html += '<option value="' + v.id + '">' + v.dicName.value['az'] + '</option>';
+//                        });
+//                        $('#quest_subject').html(html);
+//                    }
+//                });
+//            }
+//            catch (err) {
+//                console.error(err);
+//            }
+//        });
+        
+        $('#main-div').on('change', '#quest_subject', function (e) {
+            try {
+                var eduPlanId = $('body').find('#edu_plan').val();
+                var subjectId = $(this).val();
+                Exam.Proxy.getEducationPlanSubjectTopic(eduPlanId, subjectId, function (data) {
+                    if (data) {
+                        var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                        $.each(data.data, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.topicName + '</option>';
+                        });
+                        $('#quest_topic').html(html);
+                    }
+                });
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+
+        $('#main-div').on('change', '#quest_file, .variant_file', function (e) {
+            try {
+                var fileName = this.files[0].name;
+                $(this).closest('label').siblings('span.file-name').text(fileName);
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+
+        $('#main-div').on('change', '#quest_type', function (e) {
+            try {
+                var type = $(this).find('option:selected').attr('code');
+
+                var inputType = '';
+                switch (type) {
+                    case "ONE_CHOISE":
+                        inputType = "radio";
+                        break;
+                    case "MULTIPLE_CHOISE":
+                        inputType = "checkbox";
+                        break;
+
+                }
+                if (type == "OPEN_QUEST") {
+                    $('.question_choises').addClass('hidden');
+                }
+                else {
+                    $('.question_choises').removeClass('hidden');
+                }
+
+                if (type != "") {
+                    $('input[name="rightChoise"]').each(function (i, v) {
+                        if ($(this).is(':checked')) {
+                            $(this).prop('checked', false);
+                        }
+                        $(this).attr('type', inputType);
+                    });
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+    });
+</script>

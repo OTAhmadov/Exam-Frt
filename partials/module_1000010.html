@@ -1,0 +1,438 @@
+<div style="display: none; padding-right: 17px;" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" id="exportModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="modal-pdf col-md-4">
+                        <a class="export" data-value="pdf" href="#"><img class="a-export" src="assets/img/pdf-icon.png" width="150" height="150" alt="pdf"></a>
+                    </div>
+                    <div class="modal-excel col-md-4">
+                        <a class="export"  data-value="xls" href="#"><img class="a-export" src="assets/img/excel-icon.png" width="150" height="150" alt="xls"></a>
+                    </div>
+                    <div class="modal-html col-md-4">
+                        <a class="export" data-value="html" href="#"><img class="a-export" src="assets/img/html-icon.png" width="150" height="150" alt="html"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade search-pincode-teacher-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 data-i18n="search_teacher" class="modal-title">Search teacher</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="teacher-pincode-div-first">
+                    <label data-i18n="pincode">Pincode</label>
+                    <input class= "search-pincode" type="text" placeholder="#########"/>
+                </div>
+                <div class="teacher-pincode-div-second hidden">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-lg-8">
+                            <div><label data-i18n="pincode" >Pincode:</label>&nbsp;<b><label class="teacher-pincode"></label></b></div>
+                            <div><label class="teacher-pincode-label"></label></div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-lg-4 iamas-search ">
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label>
+                                        <input name="form-field-radio2" class="check-iamas-input" checked="checked" type="checkbox">
+                                        <span data-i18n="iamas" class="text">IAMAS </span>
+                                    </label>
+                                </div>
+                                <div class="radio" >
+                                    <label>
+                                        <input name="form-field-radio2"  type="checkbox" disabled="disabled">
+                                        <span data-i18n="myi" class="text">Müvəqqəti Yaşayış İcazəsi - Seriya</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button data-i18n="back" type="submit" class="btn btn-primary btn-block teacher-pincode-button-back hidden">Back</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button data-i18n="next" type="submit" class="btn btn-primary btn-block teacher-pincode-button-next">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-header">
+    <div class="con-head-left">
+        <span data-i18n="employees" placeholder="Tələbələr" class="hed-title"></span><span  class="head-total">Total: <span data-teacher-count></span></span>
+    </div>
+    <div class="con-head-right">
+        <div class="prepend-icon">
+            <input data-i18n="placeholder.search" id="teacher_search" type="search" placeholder="Search">
+    
+        </div>
+        <button  type="button" class="btn btn-default btn-teacher-advanced-search clear_search_button">
+            <span data-i18n="advanced_search">Advanced search</span>
+            
+        </button>
+        <div id="buttons_div" class="dropdown-func">
+            <div class="btn btn-default reg dropdown-toggle cog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                Ümumi əməliyyatlar
+            </div>
+            <ul id="module_operations" class="dropdown-menu calibrated">
+                <li><a id="registration" href="student_add.html">Item 1</a></li>
+                <li><a id="second-registration" href="#">Item 2</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="filters-block module_1000010">
+    <div class="form-group tree-modal-container btn-group">
+        <button  type="button" class="btn btn-default tree-modal btb-group">
+            <span data-i18n="structure">Structures</span>
+            <i class="fa fa-angle-down"></i>
+        </button>
+
+
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
+            <i  class="fa fa-ellipsis-horizontal"></i><span data-i18n="gender">Gender</span> <i class="fa fa-angle-down"></i>
+        </button>
+        <ul class="dropdown-menu teacher-gender">
+
+        </ul>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-ellipsis-horizontal"></i><span data-i18n="status" >Status</span> <i class="fa fa-angle-down"></i>
+        </button>
+        <ul class="dropdown-menu teacher-status">
+
+        </ul>
+    </div>
+
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-ellipsis-horizontal"></i><span data-i18n="staff_type"></span> <i class="fa fa-angle-down"></i>
+        </button>
+        <ul class="dropdown-menu teacher-staff-type">
+
+        </ul>
+    </div>
+
+
+    <div class="btn btn-info btn-lg btn-group top clear_search hidden " title="Ətraflı axtarışı Təmizlə">
+        <span class="glyphicon glyphicon-remove"></span>
+    </div>
+</div>
+
+            <form class="teacher-search-form">
+                <input type="hidden" name="genderId" />
+                <input type="hidden" name="orgId" />
+                <input type="hidden" name="statusId" />
+                <input type="hidden" name="staffType" />
+                <input type="hidden" name="keyword" />
+            </form>
+<div class="row">
+<div class="col-sm-12 data">
+    <div class="panel panel-white">
+
+        <div class="table-responsive">
+            <table id="teacher_list" class="table table-celled table-hover">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th data-i18n="table.orgName">Org Name</th>
+                        <th data-i18n="fullname">Name</th>
+                        <th data-i18n="employee.card_number">Teacher card number</th>
+                        <!--                        <th data-i18n="structure">Structure</th>-->
+                        <th data-i18n="gender">Gender</th>
+                        <th data-i18n="citizenship">Citizenship</th>
+                        <th data-i18n="status">Status</th>
+                        <!-- <th></th> -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="space-for-footer">
+            <div id="load_more_div" class="flex-input">
+                <button data-i18n="load.more"  data-i18n="load.more" data-table="teachers" class="btn loading-margins btn-load-more">Load more</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-4 info">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h3 data-i18n="info" class="panel-title">Info</h3>
+            <div class="panel-close"><img src="assets/img/upd/close.svg" alt=""></div>
+            <div class="type_2_btns"></div>
+        </div>
+        <div class="panel-body">
+            <div class="col-xs-12 flex-img">
+                <img id="teacherphoto" src="assets/img/guest.png" alt="" width="150" height="150">
+            </div>
+            <div class="col-xs-12 definition-list">
+                <dl class="dl-horizontal">
+                    <dt ><span data-i18n="name">Name</span>:</dt>
+                    <dd data-firstname></dd>
+                    <dt ><span data-i18n="surname">Surname</span>:</dt>
+                    <dd data-lastname></dd>
+                    <dt ><span data-i18n="structure">Structure</span>:</dt>
+                    <dd data-orgname></dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--tree modal-->
+<div class="modal tree-modal">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="modal-header header-primary">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 data-i18n="structure" class="modal-title">Structures</h4>
+            </div>
+            <div class="modal-body scrollable">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="search-bar">
+                            <div class="prepend-icon">
+                                <input data-i18n="placeholder.search" class="form-control input-sm tree-search" type="search" placeholder="Search">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                        <div id="structures-tree">
+                            <ul>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer flex-img">
+                <button data-i18n="ok" type="button" class="btn btn-primary orgStructureFilter">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/js/modal_drag.js"></script>
+<script src="assets/js/jquery-ui.js"></script>
+<script>
+    $(function () {
+        Exam.i18n(Exam.lang);
+        if (sessionStorage.teacherSearch != undefined) {
+            $('.clear_search').removeClass('hidden');
+        }
+
+        $('.tree-modal .modal-content').draggable({
+            cancel: '.scrollable'
+        });
+
+        $('#main-div .sub_modules_div').remove();
+ // $('.module-list').find('.sub-module-con').remove();
+  // $('.module-list').find('li[data-id=1000010].sub-module-con').fadeIn();
+    $('.module-list').find('.sub-module-con').remove();
+ Exam.Proxy.loadSubModules(1000010, function (data) {
+     var html = '<div class="sub_modules_div"><div class="sub_modules" >';
+
+     if (data) {
+         if (data.code == Exam.statusCodes.OK) {
+             if (data.data) {
+
+                var testArray = [];
+                var testHtml;
+                var curH;
+                $('.module-list').find('li.active').append('<div class="sub-module-con"></div>')
+                $.each(data.data, function(i, v){
+                    if($.inArray(v.typeId, testArray) == -1){
+                         testArray.push(v.typeId);
+                         testHtml = '<div data-type="'+ v.typeId +'" class="sub-module-group"></div>'
+                    
+                         $('.module-list').find('li.active .sub-module-con').append(testHtml)
+                       
+                         curH = $('body').find('div.sub-module-group[data-type="'+ v.typeId +'"]');
+                    
+                         curH.append('<div class="chekbox-con"><input type="checkbox" checked="checked" data-type-id="'+ v.typeId +'" value="'+ v.id +'" id="id_'+ v.id +'" data-type-id="'+ v.typeId +'"><label for="id_'+ v.id +'" data-parent="'+ v.parentId +'">'+ v.name.az +'</label></div>')
+                    
+                    }else{
+                        curH = $('body').find('div.sub-module-group[data-type="'+ v.typeId +'"]');
+                    
+                        curH.append('<div class="chekbox-con"><input type="checkbox" checked="checked" data-type-id="'+ v.typeId +'" value="'+ v.id +'" id="id_'+ v.id +'" data-type-id="'+ v.typeId +'"><label for="id_'+ v.id +'" data-parent="'+ v.parentId +'">'+ v.name.az +'</label></div>')
+                        
+
+
+                    }
+                    
+
+                })
+                
+                 var subModuleGroups = $('.module-list').find('li.active .sub-module-group');
+                 $.each(subModuleGroups, function(i, v){
+                     $(this).prepend('<p>Group '+ (++i) +'</p>')
+                     
+
+                 })
+
+
+                        $.each(data.data, function (i, v) {
+                            html += '<li data-parent="' + v.parentId + '"  data-id = "' + v.id + '" class="sub-module-item sub_module_' + v.id + '"><a href="#">' +
+                                    '<span class="state-icon radio-check"></span>' +
+                                    '<span class="m-l-10">' + v.name[Exam.lang] + '</span>' +
+                                    '<input type-id="' + v.typeId + '" value="' + v.id + '" class="hidden" type="checkbox">' +
+                                    '</a></li>'
+
+                        })
+                        html += '</div></div>'
+                        $('#main-div .sidebar-menu .module .mod-con ').append(html);
+
+                        var subModuleId = [];
+                        var params = $('.main-content-upd .teacher-search-form').serialize();
+
+                        if ($('.sub-module-con :checkbox')) {
+                            $.each($('.sub-module-con :checkbox'), function () {
+                                subModuleId.push($(this).val());
+
+                            });
+                            Exam.subModuleId = subModuleId;
+
+                            if (subModuleId.length > 0) {
+                                $('.btn-load-more').removeAttr('data-page');
+                                var text = Exam.tempData.form != "" ? Exam.tempData.form : params + '&subModuleId=' + subModuleId;
+                                Exam.Proxy.loadTeachers('', text);
+                            }
+
+                            // setTimeout(function () {
+                            //     Exam.top = 0;
+                            //     Exam.top = $('li.sub-module-item:last').offset().top;
+                            // }, 1000);
+
+                        }
+                    }
+                }
+            }
+        })
+
+
+
+        $(".tree-search").keyup(function () {
+            var searchString = $(this).val();
+            $('#structures-tree').jstree('search', searchString);
+        });
+
+        $('.orgStructureFilter').on('click', function (e) {
+            try {
+                var id = $('#structures-tree li[aria-selected="true"]').attr('id');
+                var text = $('#structures-tree li[aria-selected="true"]').find('a:first').text();
+
+                if (text.length > 0) {
+                    $('.btn.tree-modal').text(text);
+                    $('.btn.tree-modal').attr('data-id', id);
+                    if (window.matchMedia('(min-width: 1300px)').matches) {
+                        var length = $('.tree-modal.btb-group').width();
+                        if (length > 442) {
+                            $('.btn-group.top').addClass('m-t-5');
+                        }
+                        else {
+                            $('.btn-group.top').removeClass('m-t-5');
+                        }
+                    }
+                    if (id != 1000001) {
+                        $('.main-content-upd .teacher-search-form input[name="orgId"]').val(id);
+                        //Exam.Proxy.loadTeachers('',$('.main-content-upd .teacher-search-form').serialize());
+                    }
+                    else {
+                        $('.main-content-upd .teacher-search-form input[name="orgId"]').val('');
+                    }
+                    $('.tree-modal-container .modal-content').addClass('hidden');
+                    Exam.Proxy.loadTeachers('', $('.main-content-upd .teacher-search-form').serialize() + '&subModuleId=' + Exam.subModuleId);
+                    $('.modal.tree-modal').modal('hide');
+                }
+                else {
+                    $.notify(Exam.dictionary[Exam.lang]['select_information'], {
+                        type: 'warning'
+                    })
+                }
+
+
+
+            }
+            catch (err) {
+
+            }
+
+
+        });
+
+        $('.modal-content').draggable();
+
+        Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
+            $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
+
+        });
+
+        Exam.Proxy.loadDictionariesByTypeId(1000003, 0, function (gender) {
+            var html = "<li data-id = '0'><a href='#'>" + Exam.dictionary[Exam.lang]['all'] + "</a></li>";
+            $.each(gender, function (i, v) {
+                html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+            });
+            $('.teacher-gender').html(html);
+
+        });
+
+
+
+        Exam.Proxy.loadDictionariesByTypeId(1000044, 0, function (status) {
+            var html = "<li data-id = '0'><a href='#'>" + Exam.dictionary[Exam.lang]['all'] + "</a></li>";
+            $.each(status, function (i, v) {
+                html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+            });
+            $('.teacher-status').html(html);
+        });
+
+        Exam.Proxy.loadDictionariesByTypeId(1000023, 0, function (staffType) {
+            var html = "<li data-id = '0'><a href='#'>" + Exam.dictionary[Exam.lang]['all'] + "</a></li>";
+            $.each(staffType, function (i, v) {
+                html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+            });
+            $('.teacher-staff-type').html(html);
+        });
+
+        $('.datepicker').datepicker();
+
+        $('#main-div').on('click', '.clear_search', function (e) {
+            if (sessionStorage.teacherSearch != undefined) {
+                sessionStorage.removeItem('teacherSearch');
+                $(this).addClass('hidden');
+            }
+        });
+
+
+
+    });
+
+</script>
