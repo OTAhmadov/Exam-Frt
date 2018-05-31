@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: '8baeae67e4614000b4740073d715c23fb4ade2fbb380412aba0b07ff00411f57',
+    // token: 'b2b35e6683f9415e927efe01c998b55c5243f0e59853443e9cdceb2f147c8237',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -421,16 +421,16 @@ var Exam = {
                                 try {
                                     if (data.data) {
                                         var user = data.data;
-                                        $('.profile-data li[data-type="name"]').text(user.person.name + ' ' + user.person.surname + ' ' + user.person.patronymic);
-                                        $('.profile-data li[data-type="role"]').text(user.role.value[Exam.lang]);
-                                        $('.profile-data li[data-type="org"]').text(user.structure.name[Exam.lang]);
+                                        $('.user-notify-content h6[data-type="name"]').text(user.person.name + ' ' + user.person.surname + ' ' + user.person.patronymic);
+                                        $('.user-notify-content p[data-type="role"]').text(user.role.value[Exam.lang]);
+                                        $('.user-notify-content p[data-type="org"]').text(user.structure.name[Exam.lang]);
                                         $('.side-title-block p').text(user.orgName.value[Exam.lang]);
                                         $('.main-img img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
                                         $('.side-title-block img').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);
                                         var img = $('.main-img img');
                                         img.on('error', function (e) {
                                             $('.main-img img').attr('src', 'assets/img/guest.png');
-                                        })
+                                        });
 //                                        $('.logo-name').text(user.orgName.value[Exam.lang]);
 //                                        $('.main-img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
 //                                        $('.org-logo').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);

@@ -1512,3 +1512,115 @@ input[type=checkbox], input[type=radio] {
     height:60px;
     overflow:hidden;
 }
+.nav-item {
+	width: 200px;
+}
+.user-notify-content {
+	margin-top: 30px;
+	margin-left: 115px;
+}
+.user-notify-content h6 {
+	margin: 0;
+	font-size: 20px;
+	color: #338bf8;
+}
+.user-notify-content p {
+	margin: 0;
+}
+.content-upper-header .user-info .big-img {
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	border-radius: 50%;
+	border: 1px solid grey;
+	position: absolute;
+	top: 30px;
+	left: 20px;
+}
+.content-upper-header .no-border-radius img {
+	height: 87px;
+	width: 87px;
+}
+.ems-tab{
+	width: 200px;
+	text-decoration: none;
+	background-color: #acacac;
+	color: #fff !important;
+	margin: 0 !important;
+}
+.ems-tab a{
+	padding: 15px 30px !important;
+	font-size: 15px;
+	font-weight: 300;
+	text-transform: uppercase;
+	text-align: center;
+	border-radius: 0 !important;
+	color: #fff !important;
+}
+li.ems-tab.active>a,li.ems-tab.active>a:hover, li.ems-tab.active>a:focus{
+	background-color: #338bf8;
+	border-color: transparent ;
+}
+.content-upper-header .user-info .big-img{
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	border-radius: 50%;
+	border: 1px solid grey;
+	position: absolute;
+	top: 30px;
+	left: 20px;
+}
+.content-upper-header .no-border-radius img{
+	height: 87px;
+	width: 87px;
+}
+.user-notify-content{
+	margin-top: 30px;
+	margin-left: 115px;
+}
+.btn-power{
+	background: url("../img/power.png");
+	height: 20px;
+	width: 20px;
+	background-size: cover;
+	color: transparent;
+}
+#logoutForm {
+	position: absolute;
+	top: 32px;
+	right: 10px;
+	opacity: 1;
+	display: inline-block;
+}
+.btn-power:hover, .btn-power:active{
+	background-color: transparent !important;
+	color: transparent !important;
+	box-shadow: none !important;
+}
+.user-notify-content h6{
+	margin: 0;
+	font-size: 20px;
+	color: #338bf8;
+}
+.user-notify-content p{
+	margin: 0;
+}
+.nav-pills{
+	margin-top: 30px;
+}
+.setting {
+	width: 400px;
+	height: 400px;
+}
+.buzz {
+	background-color: #f5f5f5;
+	height: 100vh;
+	padding-top: 80px;
+}
+.profile-data{
+	display: block;
+	top: 25px;
+	height: 50px;
+	left: 32px;
+}

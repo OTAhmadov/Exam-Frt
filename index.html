@@ -64,37 +64,61 @@
                     <div class="col-sm-10 content-upper-header">
                         <div class="profile-photo">
                             <div class="main-img">
-                                <div class="notify-wrapper">
-                                    <div class="notification hidden"></div>
-                                </div>
+                                <!--<div class="notify-wrapper">-->
+                                    <!--<div class="notification hidden"></div>-->
+                                <!--</div>-->
                                 <img src="assets/img/index.png" alt="default-img" >
                             </div>
                             <div class="user-info animated">
                                 <div class="big-img no-border-radius">
                                     <img src="assets/img/index.png" alt="" class="no-border-radius" />
                                 </div>
-                                <div class="data profile-data">
-                                    <ul>
-                                        <li data-type="name"></li>
-                                        <li data-type="role"></li>
-                                        <li data-type="org"></li>                        
-                                    </ul>
+                                <div class="user-notify-content">
+                                    <h6 data-type="name"><span></span></h6>
+                                    <p data-type="current-date"><span></span></p>
+                                    <p data-type="role"></p>
+                                    <p data-type="org"></p>
+                                    <form id="logoutForm" method="POST">
+                                        <input type="hidden" name="token">
+                                        <button data-i18n="" class="btn btn-default btn-close btn-block btn-power" type="submit">
+                                        </button>
+                                    </form>
                                 </div>
-                                <div class="row userinfo-logout-block">
-                                    <a href="" class="get_notification_page"><i class="fa fa-bell"></i>Bildirişlər</a>
-                                    <div class="col-md-6">
-                                        <form id="logoutForm" method="POST">
-                                            <input type="hidden" name="token">
-                                            <button data-i18n="logout" class="btn btn-default btn-block" type="submit">
-                                                Logout
-                                            </button>
-                                        </form>
+                                <ul  class="nav nav-pills">
+                                    <li class="active ems-tab"><a  href="#1a" data-toggle="tab">Bildirişlər</a></li>
+                                    <li class="ems-tab"><a href="#2a" data-toggle="tab">Sazlamalar</a></li>
+                                </ul>
+                                <div class="tab-content clearfix">
+                                    <div class="tab-pane active " id="1a">
+                                        <iframe class="iframe-tab-1" frameborder="0"></iframe>
                                     </div>
-                                    <div class="col-md-6">
-                                        <button data-i18n="settings"  class="btn btn-default settings-button">Settings</button>
+                                    <div class="tab-pane buzz" id="2a">
+                                        <iframe class="setting" src="http://192.168.1.78:8082/Main/#/profile-edit?token=b2b35e6683f9415e927efe01c998b55c5243f0e59853443e9cdceb2f147c8237" frameborder="0"></iframe>
                                     </div>
                                 </div>
-                                <div class="cancel">✖</div>
+
+                                <!--<div class="data profile-data">-->
+                                    <!--<ul>-->
+                                        <!--<li data-type="name"></li>-->
+                                        <!--<li data-type="role"></li>-->
+                                        <!--<li data-type="org"></li>                        -->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                                <!--<div class="row userinfo-logout-block">-->
+                                    <!--<a href="" class="get_notification_page"><i class="fa fa-bell"></i>Bildirişlər</a>-->
+                                    <!--<div class="col-md-6">-->
+                                        <!--<form id="logoutForm" method="POST">-->
+                                            <!--<input type="hidden" name="token">-->
+                                            <!--<button data-i18n="logout" class="btn btn-default btn-block" type="submit">-->
+                                                <!--Logout-->
+                                            <!--</button>-->
+                                        <!--</form>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-6">-->
+                                        <!--<button data-i18n="settings"  class="btn btn-default settings-button">Settings</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="cancel">✖</div>-->
                             </div>
                             <!--<div class="header-arrow"></div>-->
                         </div>
@@ -257,6 +281,14 @@
             $('body').on('click', '#operation_1000028, #operation_1000027', function (e) {
                 contentBody = $('#main-div');
             });
+
+            var dayOfWeekName = ['Bazar', 'Bazar ertəsi', 'Çərşənbə axşamı', 'Çərşənbə', 'Cümə axşamı', 'Cümə', 'Şənbə'];
+            var monthNames = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun",
+                "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
+            ];
+            var date = new Date();
+            var fullDate = dayOfWeekName[date.getDay()] + ', ' + date.getDate()  + ' ' + monthNames[date.getMonth()];
+            $('.user-notify-content p[data-type="current-date"] span').text(fullDate);
 
 
         </script>
