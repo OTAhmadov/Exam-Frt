@@ -119,9 +119,9 @@ and open the template in the editor.
     width: 90%;
 }
 
-.content-upper-header .user-info {
-    height: 172px;
-}
+/*.content-upper-header .user-info {*/
+    /*height: 172px;*/
+/*}*/
 
 .no-border-radius {
     border-radius: 0px !important;

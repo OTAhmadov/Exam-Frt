@@ -1136,7 +1136,7 @@
 }
 .app-con li{
     float: left;
-    padding: 0 15px;
+    /*padding: 0 15px;*/
 }
 .app-con li a{
     font-size: 13px;

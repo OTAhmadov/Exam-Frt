@@ -1003,21 +1003,13 @@ $(function () {
         var params = $('.ticket-search-form').serialize();
         Exam.Proxy.getTickets('', params);
     });
+
+
+    $(".main-img").on("click", function () {
+        $('.user-info').toggleClass("helloWorld");
+    });
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 });
 
 function ckeditors(editorName) {

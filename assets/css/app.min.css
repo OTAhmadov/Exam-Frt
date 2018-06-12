@@ -15521,6 +15521,7 @@ table > thead > tr > th {
 .table>thead>tr>th:first-child,
 .table>tfoot>tr>th:first-child {
     /*padding-left: 24px*/;
+    color: #000;
     -webkit-border-radius: 2px 0 0 0;
     -webkit-background-clip: padding-box;
     -moz-border-radius: 2px 0 0 0;
@@ -19665,26 +19666,34 @@ a.fc-more:hover {
 }
 
 .content-upper-header .user-info {
-    width: 230px;
-    height: 208px;
+    width: 400px;
+    height: 100vh;
     position: absolute;
-    right: 25px;
-    top: 71px;
-    z-index: 10000;
+    right: -500px;
+    opacity: 0;
+    visibility: hidden;
+    top: 50px;
+    z-index: 999!important;
     background-color: white;
     border-radius: 2px;
+    transition: ease-in-out 500ms;
     box-shadow: 0px 3px 3px #cdcdcd;
 }
-
-.content-upper-header .user-info::after {
-    content: '';
-    display: block;
-    border: 5px solid transparent;
-    border-bottom: 5px solid white;
-    position: absolute;
-    top: -8px;
-    right: 19px;
+.helloWorld{
+    right: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
+
+/*.content-upper-header .user-info::after {*/
+    /*content: '';*/
+    /*display: block;*/
+    /*border: 5px solid transparent;*/
+    /*border-bottom: 5px solid white;*/
+    /*position: absolute;*/
+    /*top: -8px;*/
+    /*right: 19px;*/
+/*}*/
 
 .content-upper-header .user-info .big-img {
     width: 60px;
@@ -19710,17 +19719,17 @@ a.fc-more:hover {
     width: 65px;
 }
 
-.content-upper-header .user-info {
-    width: 200px;
-    height: 189px;
-    position: absolute;
-    right: 25px;
-    top: 71px;
-    z-index: 10;
-    background-color: white;
-    border-radius: 2px;
-    box-shadow: 0px 3px 3px #cdcdcd;
-}
+/*.content-upper-header .user-info {*/
+    /*width: 200px;*/
+    /*height: 189px;*/
+    /*position: absolute;*/
+    /*right: 25px;*/
+    /*top: 71px;*/
+    /*z-index: 10;*/
+    /*background-color: white;*/
+    /*border-radius: 2px;*/
+    /*box-shadow: 0px 3px 3px #cdcdcd;*/
+/*}*/
 
 .content-upper-header .user-info .data {
     position: absolute;

@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: '596515c806ab4ff29256694b66f66baa66becba393da4268903640e776d60989',
+    // token: '596515c806ab4ff29256694b66f66baa66becba393da4268903640e776d60989',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -685,9 +685,9 @@ var Exam = {
                                 try {
                                     if (data.data) {
                                         var user = data.data;
-                                        $('.profile-data li[data-type="name"]').text(user.person.name + ' ' + user.person.surname + ' ' + user.person.patronymic);
-                                        $('.profile-data li[data-type="role"]').text(user.role.value[Exam.lang]);
-                                        $('.profile-data li[data-type="org"]').text(user.structure.name[Exam.lang]);
+                                        $('.user-notify-content h6[data-type="name"]').text(user.person.name + ' ' + user.person.surname + ' ' + user.person.patronymic);
+                                        $('.user-notify-content p[data-type="role"]').text(user.role.value[Exam.lang]);
+                                        $('.user-notify-content p[data-type="org"]').text(user.structure.name[Exam.lang]);
                                         $('.side-title-block p').text(user.orgName.value[Exam.lang]);
                                         $('.main-img img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
 //                                        $('.side-title-block img').attr('src', Exam.urls.HSIS + 'structures/1000001/logo?token=' + Exam.token);
@@ -695,14 +695,15 @@ var Exam = {
                                         var img = $('.main-img img');
                                         img.on('error', function (e) {
                                             $('.main-img img').attr('src', 'assets/img/guest.png');
-                                        })
-                                        $('.logo-name').text(user.orgName.value[Exam.lang]);
-                                        $('.main-img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
-                                        $('.org-logo').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);
-                                        var img = $('.main-img');
-                                        img.on('error', function (e) {
-                                            $('.main-img').attr('src', 'assets/img/guest.png');
-                                        })
+                                        });
+
+                                        // $('.logo-name').text(user.orgName.value[Exam.lang]);
+                                        // $('.main-img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
+                                        // $('.org-logo').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);
+                                        // var img = $('.main-img');
+                                        // img.on('error', function (e) {
+                                        //     $('.main-img').attr('src', 'assets/img/guest.png');
+                                        // })
                                         $('div.big-img img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
                                         $('div.big-img img').on('error', function (e) {
                                             $('div.big-img img').attr('src', 'assets/img/guest.png');
