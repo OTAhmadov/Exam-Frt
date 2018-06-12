@@ -1,0 +1,198 @@
+<div class="ticket-for-pdf" >
+    <div class="panel-heading" style="margin: 0 -15px;">
+        <div class="row form-group col-md-12">
+            <div class="form-group col-md-8">
+                <!--<h3 class="m-t-6" data-i18n="" class="panel-title">İmtahan </h3>-->
+            </div>
+            <div class="form-group col-md-2">
+                <button id="printButton" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Çap et</button>
+            </div>
+            <div class="form-group col-md-2">
+                <button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>
+            </div>
+        </div>
+    </div>
+        <div class="row form-group col-md-12">
+        <div class="printableArea">
+        <div class="ticket-code"></div>
+    <div class="panel-body" style="margin: 0 -15px;">
+        <div class="abcde">
+            <div class="ticket-headers">
+                <span class="ticket-ministry">Azərbaycan Respublikası Təhsil Nazirliyi</span>
+                <span class="ticket-org">Bakı Slavyan Universiteti</span>
+                <span class="ticket-faculty"></span>
+                <span class="edu-year"><span class="ticket-edu-year"></span></span>
+            </div>
+            <div class="uni_logo"> 
+               <img style="padding-left: 20px; padding-top: 10px;">
+            </div>
+        </div>
+        <div class="row col-md-12">
+        <div class="ticket-other-details col-md-12">
+            <span>Kafedra: <span class="department_span"></span></span>
+            <span>Semestr: <span class="ticket-edu-part"></span></span>
+            <span>Qrup: <span class="ticket-group"></span></span>
+            <span class="fenn">Fənn: <span class="ticket-subject"></span></span>
+        </div>
+            <div class="row col-md-12 bilet">
+                <span>Bilet №</span>
+            </div>
+        </div>
+        <div class="col-md-12 tickets">
+        </div>
+    </div>
+    <div class="panel-footer" style="margin: 0 -15px;">
+            <div class="ticket-note">
+            </div>
+    </div>
+    </div>
+    </div>
+    </div>
+<script type="text/javascript">
+    $(function () {
+            
+        var img = $('body .side-title-block img').attr('src');
+        
+        $('body .uni_logo img').attr('src', img)
+        
+        $("#printButton").click(function(){
+            var mode = 'iframe'; //popup
+            var close = mode == "iframe";
+            var options = { mode : mode, popClose : close};
+            $("div.printableArea").printArea(options);
+        });
+        
+        Exam.i18n(Exam.lang);
+        $('.search-scroll').slimScroll();
+        
+//        $('#group').select2({
+//            placeholder: 'Fənn qrupları',
+//            language: {
+//                noResults: function () {
+//                    return Exam.dictionary[Exam.lang]["no_information"];
+//                }
+//            }
+//        });
+//        $('#department_filter').select2({
+//            placeholder: 'Kafedra',
+//            language: {
+//                noResults: function () {
+//                    return Exam.dictionary[Exam.lang]["no_information"];
+//                }
+//            }
+//        });
+//        $('#org_faculty_filter').select2({
+//            placeholder: 'Fakültə',
+//            language: {
+//                noResults: function () {
+//                    return Exam.dictionary[Exam.lang]["no_information"];
+//                }
+//            }
+//        });
+
+
+//            
+//        $('body').on('change', '#group', function() {
+//            var groupId = $(this).val();
+//            Exam.Proxy.loadCoursesByGroupId(groupId, function(data) {
+//                data = data.data
+//                $('body').find('.ticket-group').text(data.code)
+//                $('body').find('.ticket-edu-year').text(data.eduYear.value[Exam.lang] + ' tədris ili')
+//                $('body').find('.ticket-edu-part').text(data.semestr.value[Exam.lang])
+//                $('body').find('.ticket-subject').text(data.eduPlanSubject.value[Exam.lang])
+//            })
+//        });
+//        
+//        Exam.Proxy.getStructureListByFilter(0, 0, function (data) {
+//           
+//            if (data && data.data) {
+//                var html = '';
+//                var uni = data.data.universityList;
+//                var faculty = data.data.facultyList;
+//                var uniCount = data.data.universityList.length;
+//                var facultyCount = data.data.facultyList.length;
+//                var departmentCount = data.data.departmentList.length;
+//                var department = data.data.departmentList;
+//
+//                if (uniCount <= 1) {
+//				
+//                    $('#org_uni_filter').attr('disabled', 'disabled')
+//                    $.each(uni, function (i, v) {
+//
+//                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+//                        
+//                    })
+//                    $('#org_uni_filter').html(html)
+//                    
+//                } else {
+//                    
+//                    html = '<option value = "0">Universitet</option>'
+//                    $.each(uni, function (i, v) {
+//
+//                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+//                    })
+//                    $('#org_uni_filter').html(html)
+//                }
+//               
+//                if (departmentCount <= 1) {
+//                    html = '';
+//                    $('#department_filter').attr('disabled', 'disabled')
+//                    
+//                    $.each(department, function (i, v) {
+//
+//                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+//                    })
+//                    $('#department_filter').html(html)
+//                } else {
+//                    html = '<option value = "0">Kafedra</option>'
+//                    
+//                    $.each(department, function (i, v) {
+//                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+//                    })
+//                    $('#department_filter').html(html)
+//                }
+//                if (facultyCount <= 1) {
+//                    html = '';
+//                    $('#org_faculty_filter').attr('disabled', 'disabled')
+//					
+//                    $.each(faculty, function (i, v) {
+//
+//                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+//                    })
+//					
+//                    $('#org_faculty_filter').html(html)
+//                    
+//                } else {
+//                    
+//                    html = '<option value = "0">Fakültə</option>'
+//                    
+//                        $.each(faculty, function (i, v) {
+//
+//                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+//                    })
+//                    $('#org_faculty_filter').html(html)
+//                }
+//            }
+//        });
+//        
+//        $('#org_faculty_filter').on('change', function () {
+//            var text = $(this).find('option:selected').text();
+//            if ($(this).val()>0) {
+//                $('.ticket-faculty').text(text);
+//            }else{
+//                $('.ticket-faculty').text('');
+//            }
+//         });
+//         
+//        $('#department_filter').on('change', function () {
+//            var text = $(this).find('option:selected').text();
+//            if ($(this).val()>0) {
+//                $('.department_span').text(text);
+//            }else{
+//                $('.department_span').text('');
+//            }
+//         });
+        
+        
+    });
+</script>

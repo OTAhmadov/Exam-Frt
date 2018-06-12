@@ -1,0 +1,376 @@
+<div style="display: none; padding-right: 17px;" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" id="exportModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="modal-pdf col-md-4">
+                        <a class="export" data-value="pdf" href="#"><img class="a-export" src="assets/img/pdf-icon.png" width="150" height="150" alt="pdf"></a>
+                    </div>
+                    <div class="modal-excel col-md-4">
+                        <a class="export"  data-value="xls" href="#"><img class="a-export" src="assets/img/excel-icon.png" width="150" height="150" alt="xls"></a>
+                    </div>
+                    <div class="modal-html col-md-4">
+                        <a class="export" data-value="html" href="#"><img class="a-export" src="assets/img/html-icon.png" width="150" height="150" alt="html"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="content-header">
+    <div class="con-head-left">
+        <span data-i18n="" placeholder="Suallar" class="hed-title">Biletlər</span>
+    </div>
+    <div class="con-head-right">
+        <div class="prepend-icon">
+            <input data-i18n="placeholder.search" id="ticket_search" type="search" placeholder="Search">
+        </div>
+        <div id="buttons_div" class="dropdown-func">
+            <div class="btn btn-default reg dropdown-toggle cog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                Ümumi əməliyyatlar
+            </div>
+            <ul id="module_operations" class="dropdown-menu calibrated">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<form class="ticket-search-form">
+    <input type="hidden" name="keyword">
+    <input type="hidden" name="subjectId">
+    <input type="hidden" name="eduPlanId">
+    <input type="hidden" name="ticketGroup">
+    <input type="hidden" name="ticketFaculty">
+    <input type="hidden" name="ticketDepartment">
+</form>
+
+<div class="filters-block module_1000011">
+    <div class="btn-group">
+        <select id="edu_plan_select" class="">
+        </select>
+    </div>
+    <div class="btn-group">
+        <select  id="quest_subject_select">
+        </select>
+    </div>
+    <div class="btn-group">
+        <select id="group_filter" class="">
+        </select>
+    </div>
+    <div class="btn-group">
+        <select  id="department_filter_select">
+        </select>
+    </div>
+    <div class="btn-group">
+        <select  id="org_faculty_filter_select">
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 data">
+        <div  class="panel panel-white">
+            <div class="table-responsive">
+                <table id="ticket_list" class="table table-celled table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Kodu</th>
+                            <th>Fənnin adı</th>
+                            <th>Tədris planı</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>        
+            <div class="space-for-footer">
+                <div id="load_more_div" class="flex-input">
+                    <button  data-i18n="load.more" data-table="tickets" class="btn loading-margins btn-load-more">Load more</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 info te">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h3 data-i18n="info" class="panel-title">Info</h3>
+                <div class="panel-close"><img src="assets/img/upd/close.svg" alt=""></div>
+                <div class="type_2_btns"></div>
+            </div>
+            <div class="panel-body">
+              
+                <div class="col-xs-12 definition-list">
+                    <dl id="question_content" class="dl-horizontal">
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="add-new">
+   <div class="search-scroll"></div>
+</div>
+
+
+
+
+
+<script>
+    $(function () {
+        
+        Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
+            $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
+            Exam.Proxy.getTickets();
+        });
+        Exam.i18n(Exam.lang);
+        
+        Exam.Proxy.loadGroups(function (groups) {
+            if (groups) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['group'] + '</option>';
+                $.each(groups.data, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.code + '</option>'
+                });
+                $('#group_filter').html(html);
+            }
+         });
+         
+        $('#group_filter').select2({
+            placeholder: Exam.dictionary[Exam.lang]["groups"],
+            language: {
+                noResults: function () {
+                    return Exam.dictionary[Exam.lang]["no_information"];
+                }
+            }
+        });
+        $('#quest_subject_select').select2({
+            placeholder: Exam.dictionary[Exam.lang]["subject"],
+            language: {
+                noResults: function () {
+                    return Exam.dictionary[Exam.lang]["no_information"];
+                }
+            }
+        });
+        Exam.Proxy.getStructureListByFilter(0, 0, function (data) {
+            if (data && data.data) {
+                var html = '';
+                var faculty = data.data.facultyList;
+                var facultyCount = data.data.facultyList.length;
+                var departmentCount = data.data.departmentList.length;
+                var department = data.data.departmentList;
+               
+                if (departmentCount <= 1) {
+                    html = '';
+                    $('#department_filter').attr('disabled', 'disabled')
+                    
+                    $.each(department, function (i, v) {
+
+                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+                    $('#department_filter_select').html(html)
+                } else {
+                    html = '<option value = "0">Kafedra</option>'
+                    
+                    $.each(department, function (i, v) {
+                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+                    $('#department_filter_select').html(html)
+                }
+                if (facultyCount <= 1) {
+                    html = '';
+                    $('#org_faculty_filter_select').attr('disabled', 'disabled')
+					
+                    $.each(faculty, function (i, v) {
+
+                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+					
+                    $('#org_faculty_filter_select').html(html)
+                    
+                } else {
+                    
+                    html = '<option value = "0">Fakültə</option>'
+                    
+                        $.each(faculty, function (i, v) {
+
+                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+                    $('#org_faculty_filter_select').html(html)
+                }
+            }
+        }); 
+        Exam.Proxy.loadEduType(function (data) {
+            if (data) {
+                var html = '<option value="">Tədris planı</option>';
+                $.each(data, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.name + '</option>'
+                });
+                $('#edu_plan_select').html(html);
+            }
+        });
+        
+        $('#main-div').on('change', '#edu_plan_select', function (e) {
+            try {
+                var eduPlanId = $(this).val();
+                Exam.Proxy.getEducationPlanDetails(eduPlanId, '', function (data) {
+                    if (data) {
+                        var result = data.data.allSubjects
+                        var html = '<option value="">Fənn</option>';
+                        $.each(result, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.dicName.value['az'] + '</option>';
+                        });
+                        $('#quest_subject_select').html(html);
+                    }
+                });
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+
+
+
+
+//        Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
+//            $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
+//
+//        });
+//
+//        $('#main-div .sub_modules_div').remove();
+//        $('.module-list').find('.sub-module-con').remove();
+//
+//
+//
+//        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
+//            if (eduLevels) {
+//                var html = '';
+//                $.each(eduLevels, function (i, v) {
+//                    html += '<li data-id="' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>';
+//                });
+//                $('#edu_levels').html(html);
+//
+//            }
+//        });
+//
+//        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
+//            if (questionLevel) {
+//                var html = '';
+//                $.each(questionLevel, function (i, v) {
+//                    html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+//                });
+//                $('#question_level').html(html);
+//
+//            }
+//        });
+//
+//        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TYPE, function (questionType) {
+//            if (questionType) {
+//                var html = '';
+//                $.each(questionType, function (i, v) {
+//                    html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
+//                });
+//                $('#question_type').html(html);
+//
+//            }
+//        });
+
+//        Exam.Proxy.loadSubjects(function (subjects) {
+//            if (subjects) {
+//                var html = '<option value=""></option>';
+//                $.each(subjects, function (i, v) {
+//                    html += '<option value= "' + v.id + '">' + v.subject.value[Exam.lang] + '</option>'
+//                });
+//                $('#subjects').html(html);
+//            }
+//
+//        });
+
+
+        $('.modal-content').draggable();
+
+        $('.datepicker').datepicker();
+
+        $('#main-div').on('change', '#subjects', function (e) {
+            try {
+                var subjectId = $('#subjects').find('option:selected').val();
+                if (subjectId > 0) {
+                    $('input[name="subjectId"]').val(subjectId);
+
+                }
+                else {
+                    $('input[name="subjectId"]').val('');
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                var params = $('.question-search-form').serialize();
+                //Exam.Proxy.loadQuestions('', params);
+            }
+            catch (err) {
+                console.error(err);
+            }
+
+        });
+
+        $('#main-div').on('click', '.dropdown-filter li', function () {
+            try {
+                var id = $(this).attr('data-id');
+                var name = $(this).parent('ul').attr('data-name');
+                if (id != 0) {
+                    $('.question-search-form input[name="' + name + '"]').val(id);
+                }
+                else {
+                    $('.question-search-form input[name="' + name + '"]').val('');
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                var params = $('.question-search-form').serialize();
+                //Exam.Proxy.loadQuestions('', params);
+            }
+            catch (err) {
+                console.error(err)
+            }
+        });
+
+        $('#main-div').on('keypress', '#ticket_search', function (e) {
+            try {
+
+                if (e.keyCode == 13) {
+                    var keyword = $(this).val();
+                    
+                    if (keyword.trim().length > 2) {
+                        $('.btn-load-more').removeAttr('data-page');
+                        $('.ticket-search-form input[name="keyword"]').val(keyword);
+                        var queryparams = $('.ticket-search-form').serialize();
+                        Exam.Proxy.getTickets('', queryparams);
+                    }
+                    else if (keyword.trim().length == 0) {
+                        $('.btn-load-more').removeAttr('data-page');
+                        $('.ticket-search-form input[name="keyword"]').val('');
+                        var params = $('.ticket-search-form').serialize();
+                        Exam.Proxy.getTickets('', params);
+                    }
+                }
+
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+
+        $('body').on('click', '#operation_1001405',function() {
+            try {
+                $('body .add-new .search-scroll').load('partials/add_ticket.html');
+                 $('body').find('.add-new').css('right', '0');
+                
+            }
+            catch(err) {
+                console.error(err);
+            }
+        });
+        
+    });
+</script>

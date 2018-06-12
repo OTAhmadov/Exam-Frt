@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: 'b2b35e6683f9415e927efe01c998b55c5243f0e59853443e9cdceb2f147c8237',
+    token: '596515c806ab4ff29256694b66f66baa66becba393da4268903640e776d60989',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -17,15 +17,25 @@ var Exam = {
     personId: 0,
     button: '',
     top: 0,
-    stompClient:0,
-    personId:'',
-            Codes: {
-                QUESTION_LEVEL: 77,
-                QUESTION_TYPE: 78,
-                QUESTION_TIPI: 114,
-                EDU_LEVEL: 25,
-                EDU_LANG: 36,
-            },
+    stompClient: 0,
+    personId: '',
+    Codes: {
+        QUESTION_LEVEL: 77,
+        QUESTION_TYPE: 78,
+        QUESTION_TIPI: 114,
+        EDU_LEVEL: 25,
+        EDU_COURSE: 1000060,
+        EDU_LANG: 36,
+        EXAM_TYPE: 116,
+        EXAM_FORM_TYPE: 115,
+    },
+    Type: {
+        EDU_LEVEL: 1000002,
+        EDU_SEMESTER: 1000060,
+    },
+    Parent: {
+        EDU_LEVEL: 1000700,
+    },
     tempData: {
         form: ''
     },
@@ -43,8 +53,8 @@ var Exam = {
 //        ExamRest: 'http://192.168.1.78:8082/ExamRest/',
         COMMUNICATION: 'http://192.168.1.78:8082/CommunicationRest/',
         NOTIFICATION: 'http://192.168.1.78:8082/NotificationSystem/greeting.html?token=',
-        SOCKET: 'http://http://192.168.1.78:8082/SocketRest',
-        REPORT: 'http://http://192.168.1.78:8082/ReportingRest/'
+        SOCKET: 'http://192.168.1.78:8082/SocketRest',
+        REPORT: 'http://192.168.1.78:8082/ReportingRest/'
     },
     statusCodes: {
         OK: 'OK',
@@ -73,9 +83,7 @@ var Exam = {
 
         if (document.cookie == name + null || document.cookie == "") {
             window.location.href = '/AdministrationSystem/greeting.html'
-        }
-
-        else {
+        } else {
             var ca = document.cookie.split(';');
             for (var i = 0; i < ca.length; i++) {
                 var c = ca[i];
@@ -157,7 +165,241 @@ var Exam = {
         ru: {}
     },
     Proxy: {
-                
+
+        addTicket: function (formData, callback) {
+            $.ajax({
+                url: Exam.urls.ExamRest + 'ticket/add',
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                beforeSend: function (xhr) {
+                    $('.module-block[data-id="1000115"]').attr('check', 1);
+                },
+                success: function (data) {
+                    if (data) {
+                        switch (data.code) {
+                            case Exam.statusCodes.OK:
+                                if (callback) {
+                                    callback(data.data);
+                                }
+                                $('body').find('.add-new').css('right', '-100%')
+
+                                break;
+                            case Exam.statusCodes.ERROR:
+                                if(data.message) {
+                                    $.notify(data.message[Exam.lang], {
+                                        type: 'danger'
+                                    });
+                                }
+                                break;
+                        }
+                    }
+                },
+                complete: function () {
+                    $('.module-block[data-id="1000115"]').removeAttr('check', 1);
+                }
+            })
+        },
+
+        loadTicketQuestions: function (ticketId, callback) {
+            $.ajax({
+                url: Exam.urls.ExamRest + 'ticket/' + ticketId + '?token=' + Exam.token,
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+
+                                if (callback) {
+                                    callback(result.data);
+                                }
+                                Exam.Service.parseTicketQuestions(result.data)
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
+
+        getTickets: function (page, params, callback) {
+            var data;
+            $.ajax({
+                url: Exam.urls.ExamRest + 'ticket?token=' + Exam.token + (params ? '&' + params : '') + (page ? '&page=' + page : ''),
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+                                    data= result.data
+                                Exam.Service.parseTickets(result.data, page);
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                            case Exam.statusCodes.UNAUTHORIZED:
+
+                                window.location = Exam.urls.ROS + 'unauthorized';
+                                break;
+
+                        }
+                    }
+                }, 
+                complete: function (jqXHR, textStatus) {
+                    if (callback) {
+                        callback(data);
+                    }
+                }
+            })
+        },
+
+        loadEduYear: function (callback) {
+            $.ajax({
+                url: Exam.urls.EMS + 'course/eduyear?token=' + Exam.token,
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+
+                                if (callback) {
+                                    callback(result);
+                                }
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
+
+        loadCoursesByGroupId: function (id, callback) {
+            $.ajax({
+                url: Exam.urls.EMS + 'course/' + id + '?token=' + Exam.token,
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+
+                                if (callback) {
+                                    callback(result);
+                                }
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
+
+        loadGroups: function (callback) {
+            $.ajax({
+                url: Exam.urls.EMS + 'course?token=' + Exam.token + '&pageSize=1000000',
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+
+                                if (callback) {
+                                    callback(result);
+                                }
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
+
+        getStructureListByFilter: function (id, levelId, callback) {
+            $.ajax({
+                url: Exam.urls.HSIS + 'structures/allFilter?token=' + Exam.token,
+                type: 'GET',
+                data: {
+                    parentId: id ? id : 0,
+                    levelId: levelId ? levelId : 0
+                },
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+
+                                if (callback) {
+                                    callback(result);
+                                }
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
+
+        loadOrgTree: function (facultyId, callback) {
+            $.ajax({
+                url: Exam.urls.HSIS + 'groups/select?token=' + Exam.token + '&orgId=' + facultyId,
+                type: 'GET',
+                success: function (result) {
+                    try {
+                        if (result) {
+                            switch (result.code) {
+                                case Exam.statusCodes.OK:
+                                    if (callback) {
+                                        callback(result.data);
+                                    }
+                                    break;
+
+                                case Exam.statusCodes.ERROR:
+                                    $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                        type: 'danger'
+                                    });
+                                    break;
+
+                                case Exam.statusCodes.UNAUTHORIZED:
+
+                                    window.location = Exam.urls.ROS + 'unauthorized';
+                                    break;
+                            }
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+
+            });
+        },
+
         getExam: function (page, params, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'exam?token=' + Exam.token + (params ? '&' + params : '') + (page ? '&page=' + page : ''),
@@ -185,17 +427,15 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
 
             });
-
         },
-                
-        getQuestionDetails: function(id, callback) {
+
+        getQuestionDetails: function (id, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'questions/' + id + '?token=' + Exam.token,
                 type: 'GET',
@@ -221,8 +461,8 @@ var Exam = {
                 }
             })
         },
-        
-        removeFile: function(path, callback) {
+
+        removeFile: function (path, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'questions/file/' + path + '/remove?token=' + Exam.token,
                 type: 'POST',
@@ -248,8 +488,35 @@ var Exam = {
                 }
             })
         },
+
+        removeTicket: function (id, callback) {
+            $.ajax({
+                url: Exam.urls.ExamRest + 'ticket/' + id + '/remove?token=' + Exam.token,
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    $('.module-block[data-id="1000106"]').attr('check', 1);
+                },
+                success: function (data) {
+                    if (data) {
+                        switch (data.code) {
+                            case Exam.statusCodes.OK:
+                                if (callback) {
+                                    callback(data.data);
+                                }
+                                break;
+                            case Exam.statusCodes.ERROR:
+                                alert("Error");
+                                break;
+                        }
+                    }
+                },
+                complete: function () {
+                    $('.module-block[data-id="1000106"]').removeAttr('check', 1);
+                }
+            })
+        },
         
-        removeQuestion: function(id, callback) {
+        removeQuestion: function (id, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'questions/' + id + '/remove?token=' + Exam.token,
                 type: 'POST',
@@ -275,7 +542,7 @@ var Exam = {
                 }
             })
         },
-        
+
         loadApplications: function () {
             $.ajax({
                 url: Exam.urls.ROS + 'applications?token=' + Exam.token,
@@ -300,8 +567,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -312,7 +578,7 @@ var Exam = {
                 url: Exam.urls.ROS + 'applications/1000014/subApplications?token=' + Exam.token,
                 type: 'GET',
 //                headers: {
-//                    'Token': Hsis.token
+//                    'Token': Exam.token
 //                },
                 success: function (data) {
                     try {
@@ -363,8 +629,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 },
@@ -397,8 +662,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -421,31 +685,31 @@ var Exam = {
                                 try {
                                     if (data.data) {
                                         var user = data.data;
-                                        $('.user-notify-content h6[data-type="name"]').text(user.person.name + ' ' + user.person.surname + ' ' + user.person.patronymic);
-                                        $('.user-notify-content p[data-type="role"]').text(user.role.value[Exam.lang]);
-                                        $('.user-notify-content p[data-type="org"]').text(user.structure.name[Exam.lang]);
+                                        $('.profile-data li[data-type="name"]').text(user.person.name + ' ' + user.person.surname + ' ' + user.person.patronymic);
+                                        $('.profile-data li[data-type="role"]').text(user.role.value[Exam.lang]);
+                                        $('.profile-data li[data-type="org"]').text(user.structure.name[Exam.lang]);
                                         $('.side-title-block p').text(user.orgName.value[Exam.lang]);
                                         $('.main-img img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
+//                                        $('.side-title-block img').attr('src', Exam.urls.HSIS + 'structures/1000001/logo?token=' + Exam.token);
                                         $('.side-title-block img').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);
                                         var img = $('.main-img img');
                                         img.on('error', function (e) {
                                             $('.main-img img').attr('src', 'assets/img/guest.png');
-                                        });
-//                                        $('.logo-name').text(user.orgName.value[Exam.lang]);
-//                                        $('.main-img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
-//                                        $('.org-logo').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);
-//                                        var img = $('.main-img');
-//                                        img.on('error', function (e) {
-//                                            $('.main-img').attr('src', 'assets/img/guest.png');
-//                                        })
+                                        })
+                                        $('.logo-name').text(user.orgName.value[Exam.lang]);
+                                        $('.main-img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
+                                        $('.org-logo').attr('src', Exam.urls.HSIS + 'structures/' + user.orgName.id + '/logo?token=' + Exam.token);
+                                        var img = $('.main-img');
+                                        img.on('error', function (e) {
+                                            $('.main-img').attr('src', 'assets/img/guest.png');
+                                        })
                                         $('div.big-img img').attr('src', Exam.urls.AdminRest + 'users/' + user.id + '/image?token=' + Exam.token);
                                         $('div.big-img img').on('error', function (e) {
                                             $('div.big-img img').attr('src', 'assets/img/guest.png');
                                         });
                                         Exam.structureId = user.structure.id;
                                     }
-                                }
-                                catch (err) {
+                                } catch (err) {
                                     console.error(err);
                                 }
                                 break;
@@ -484,8 +748,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 },
@@ -524,8 +787,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 },
@@ -561,8 +823,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -572,7 +833,7 @@ var Exam = {
 
         loadEduType: function (callback) {
             $.ajax({
-                url: Exam.urls.EMS + 'eduplan/?token=' + Exam.token,
+                url: Exam.urls.EMS + 'eduplan/?token=' + Exam.token + '&pageSize=1000000',
                 type: 'GET',
                 success: function (result) {
                     try {
@@ -597,18 +858,17 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
 
             });
         },
-        
+
         getEducationPlanDetails: function (id, orgId, callback) {
             $.ajax({
-                url: Exam.urls.EMS + 'eduplan/' + id + '?token=' + Exam.token+'&orgId=' + orgId,
+                url: Exam.urls.EMS + 'eduplan/' + id + '?token=' + Exam.token + '&orgId=' + orgId,
                 type: 'GET',
                 success: function (data) {
                     if (data) {
@@ -636,7 +896,7 @@ var Exam = {
                 }
             });
         },
-        
+
         loadDictionariesByParentCode: function (parentCode, callback) {
             var form = {
                 parentCode: parentCode
@@ -668,15 +928,14 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
 
             });
         },
-        
+
         loadSubjects: function (callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'exam/subjects?token=' + Exam.token,
@@ -703,8 +962,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -722,10 +980,11 @@ var Exam = {
                         if (result) {
                             switch (result.code) {
                                 case Exam.statusCodes.OK:
-                                    if (callback) {
+                                   
+                                    Exam.Service.parseQuestions(result.data, page);
+                                     if (callback) {
                                         callback(result.data);
                                     }
-                                    Exam.Service.parseQuestions(result.data, page);
                                     break;
 
                                 case Exam.statusCodes.ERROR:
@@ -740,8 +999,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -749,7 +1007,7 @@ var Exam = {
             });
 
         },
-        
+
         loadQuestionsForExam: function (page, params, callback) {
 
             $.ajax({
@@ -778,8 +1036,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -813,8 +1070,7 @@ var Exam = {
                                     break;
                             }
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                     }
                 }
@@ -822,7 +1078,7 @@ var Exam = {
             });
 
         },
-        
+
         addQuestion: function (formData, callback) {
             var question = {};
             $.ajax({
@@ -832,7 +1088,8 @@ var Exam = {
                 contentType: false,
                 processData: false,
                 beforeSend: function (xhr) {
-                    $('#main-div #question_add').attr('disabled', 'disabled');
+//                    $('#main-div #question_add').attr('disabled', 'disabled');
+
                 },
                 success: function (result) {
                     if (result) {
@@ -851,8 +1108,7 @@ var Exam = {
                                     $.notify(result.message[Exam.lang], {
                                         type: 'danger'
                                     });
-                                }
-                                else {
+                                } else {
                                     $.notify(Exam.dictionary[Exam.lang]['error'], {
                                         type: 'danger'
                                     });
@@ -866,7 +1122,7 @@ var Exam = {
                 }
             });
         },
-        
+
         updateQuestion: function (id, formData, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'questions/' + id + '/update',
@@ -884,16 +1140,16 @@ var Exam = {
                                 $.notify(Exam.dictionary[Exam.lang]['success'], {
                                     type: 'success'
                                 });
-                                if (callback) callback(result);
-                                
+                                if (callback)
+                                    callback(result);
+
                                 break;
                             case Exam.statusCodes.ERROR:
                                 if (result.message) {
                                     $.notify(result.message[Exam.lang], {
                                         type: 'danger'
                                     });
-                                }
-                                else {
+                                } else {
                                     $.notify(Exam.dictionary[Exam.lang]['error'], {
                                         type: 'danger'
                                     });
@@ -910,10 +1166,10 @@ var Exam = {
                 }
             });
         },
-        
+
         getEducationPlanSubjectTopic: function (id, eduplanSubjectId, callback) {
             $.ajax({
-                url: Exam.urls.EMS + 'eduplan/' + id + '/subject/topic?token=' + Exam.token+'&eduplanSubjectId='+eduplanSubjectId,
+                url: Exam.urls.EMS + 'eduplan/' + id + '/subject/topic?token=' + Exam.token + '&eduplanSubjectId=' + eduplanSubjectId,
                 type: 'GET',
                 success: function (data) {
                     if (data) {
@@ -940,7 +1196,7 @@ var Exam = {
                 }
             });
         },
-         
+
         getUnreadNotification: function (callback) {
             $.ajax({
                 url: Exam.urls.COMMUNICATION + 'notification/unread/count?token=' + Exam.token,
@@ -949,7 +1205,7 @@ var Exam = {
                     if (result) {
                         switch (result.code) {
                             case Exam.statusCodes.OK:
-                                
+
                                 callback(result);
                                 break;
 
@@ -972,10 +1228,10 @@ var Exam = {
                 }
             });
         },
-        
+
         addImageToQuestion: function (id, formData, callback) {
             $.ajax({
-                url: Exam.urls.ELIBRARY + 'questions/' + id + '/add',
+                url: Exam.urls.ExamRest + 'questions/' + id + '/add',
                 type: 'POST',
                 contentType: false,
                 processData: false,
@@ -990,7 +1246,6 @@ var Exam = {
                                 if (callback) {
                                     callback(data.data);
                                 }
-                                $('body').find('.add-new').css('right', '-100%')
 
                                 break;
                             case Exam.statusCodes.ERROR:
@@ -1005,7 +1260,7 @@ var Exam = {
             })
         },
     },
-    
+
     Service: {
         parseApplications: function (applications) {
             var html = '';
@@ -1029,15 +1284,15 @@ var Exam = {
                 $.each(data, function (i, v) {
                     if (v.id == 1000001)
                         html += '<li data-toggle="tooltip" data-placement="bottom" title = "' + v.name[Exam.lang] + '">' +
-                            '<a data-id="' + v.id + '"  href="' + v.url + '?token=' + Exam.token + '">' + v.shortName[Exam.lang] + '</a>' +
-                            '</li>';
+                                '<a data-id="' + v.id + '"  href="' + v.url + '?token=' + Exam.token + '">' + v.shortName[Exam.lang] + '</a>' +
+                                '</li>';
                 });
                 Exam.Proxy.loadSubApplications(function (data) {
                     if (data && data.data) {
                         $.each(data.data, function (i, v) {
                             html += '<li data-toggle="tooltip" data-placement="bottom" title = "' + v.name[Exam.lang] + '">' +
-                                '<a data-id="' + v.id + '"  href="' + v.url + '?token=' + Exam.token + '">' + v.shortName[Exam.lang] + '</a>' +
-                                '</li>';
+                                    '<a data-id="' + v.id + '"  href="' + v.url + '?token=' + Exam.token + '">' + v.shortName[Exam.lang] + '</a>' +
+                                    '</li>';
                         })
                     }
 
@@ -1087,12 +1342,10 @@ var Exam = {
                         if (type == '1') {
                             html += '<li><a data-id="' + v.id + '" id="operation_' + v.code + '" href="#" >' + v.name[Exam.lang] + '</a></li>';
 
-                        }
-                        else if (type == '2') {
+                        } else if (type == '2') {
                             if ($obj) {
                                 html += '<li><a id="operation_' + v.id + '" href="#">' + v.name[Exam.lang] + '</a></li>';
-                            }
-                            else {
+                            } else {
                                 html += '<li><a id="operation_' + v.id + '"  href="#">' + v.name[Exam.lang] + '</a></li>';
                             }
                         }
@@ -1118,9 +1371,9 @@ var Exam = {
             }
             return html;
         },
-        
+
         parseExam: function (data, page) {
-           
+
             if (data) {
                 var html = '';
                 var count;
@@ -1140,25 +1393,112 @@ var Exam = {
                             '<td>' + v.duration + '</td>' +
                             '<td>' + v.date + '</td>' +
                             '</tr>';
-                    
+
                 });
                 if ($('#main-div #load_more_div').children().length == 0) {
                     $('#main-div #load_more_div').html('<button  data-table="exam" class="btn loading-margins btn-load-more">' + Exam.dictionary[Exam.lang]["load.more"] + '</button>');
                 }
-               
+
 
                 if (page) {
                     $('#main-div').find('#exam_list tbody').append(html);
-                }
-                else {
+                } else {
                     $('#main-div').find('#exam_list tbody').html(html);
                 }
 
             }
         },
-        
-        parseQuestions: function (data, page) {
-           
+
+        parseTickets: function (data, page) {
+
+            if (data) {
+                var html = '';
+                var count;
+
+                if (page) {
+                    count = $('#ticket_list tbody tr').length;
+                } else {
+                    count = 0;
+                }
+                $.each(data, function (i, v) {
+                    
+                    html += '<tr data-id="' + v.id + '" data-note = "' + v.ticketNote + '">' +
+
+                            '<td>' + (++count) + '</td>' +
+                            '<td>' + v.id + '</td>' +
+                            '<td>' + v.eduPlanId.value[Exam.lang] + '</td>' +
+                            '<td>' + v.subjectId.value[Exam.lang] + '</td>' +
+                            '<td><div class="type_2_btns">' + Exam.Service.parseOperations(Exam.operationList, '2') +'</div></td>' +
+                            '</tr>'
+                   
+                });
+                if ($('#main-div #load_more_div').children().length == 0) {
+                    $('#main-div #load_more_div').html('<button  data-table="tickets" class="btn loading-margins btn-load-more">' + Exam.dictionary[Exam.lang]["load.more"] + '</button>');
+                }
+
+
+                if (page) {
+                    $('#main-div').find('#ticket_list tbody').append(html);
+                } else {
+                    $('#main-div').find('#ticket_list tbody').html(html);
+                }
+
+            }
+        },
+
+        parseTicketQuestions: function (data, page) {
+
+            if (data) {
+                var noteForPage = $('body').attr('data-note');
+                var html = '';
+                var count;
+
+                if (page) {
+                    count = $('#ticket_questions tbody tr').length;
+                } else {
+                    count = 0;
+                }
+                
+                $.each(data, function (i, v) {
+
+                    html += '<div data-id="' + v.id + '">' +
+                            '<div class = "count_of_questions_of_tickets">' + (++count) + '.</div>' +
+                            '<div class = "quest-content"><div data-path = "'+ v.filePath +'">' + v.content + '</div>' +
+                            '<div class = "ticket-image"><img class = "imageofquestinticket" src =' + Exam.urls.ExamRest + '/questions/file/' + v.filePath + '/?token=' + Exam.token + '></div>' +           
+                            '</div></div>';
+                    
+                    $('body').find('.ticket-code').text(v.id);
+                    $('body').find('.ticket-faculty').text(v.faculty.value[Exam.lang]);
+                    $('body').find('.department_span').text(v.department.value[Exam.lang]);
+                    $('body').find('.ticket-group').text(v.course.value[Exam.lang]);
+                    $('body').find('.ticket-edu-year').text(v.eduYear.value[Exam.lang] + ' tədris ili')
+                    $('body').find('.ticket-edu-part').text(v.eduPart.value[Exam.lang])
+                    $('body').find('.ticket-subject').text(v.subject.value[Exam.lang])
+                });
+                $('.btn-load-more').removeAttr('data-page');
+                $('body').find('img.imageofquestinticket').on('error', function () {
+                    // $(this).attr('src','http://anl.az/new/images/book.png');
+                    $(this).addClass('hidden')
+                });
+                if ($('#main-div #load_more_div').children().length == 0) {
+                    $('#main-div #load_more_div').html('<button  data-table="questions" class="btn loading-margins btn-load-more">' + Exam.dictionary[Exam.lang]["load.more"] + '</button>');
+                }
+
+
+                if (page) {
+                    $('#main-div').find('.tickets').append(html);
+                } else {
+                    $('#main-div').find('.tickets').html(html);
+                }
+                $('body').find('.add-new .panel-footer .ticket-note').html(noteForPage);
+                $('body').find('.imageofquestinticket').error(function () {
+                    $(this).hide(); 
+                });
+            }
+        },
+
+            parseQuestions: function (data, page) {
+
             if (data) {
                 var html = '';
                 var count;
@@ -1171,26 +1511,27 @@ var Exam = {
                 $.each(data, function (i, v) {
                     html += '<tr data-id="' + v.id + '" question-content="' + v.content + '">' +
                             '<td>' + (++count) + '</td>' +
-                            '<td>' + v.content.substring(0, 70) + '</td>' +
-                            '<td>' + v.topic.value[Exam.lang] + '</td>' +
+//                            '<td>' + v.content.substring(0, 50) + '</td>' +
+                            '<td>' + v.topic.value[Exam.lang].substring(0, 70) + '</td>' +
                             '<td>' + v.subject.value[Exam.lang].substring(0, 70) + '</td>' +
+                            '<td>' + v.eduPlan.value[Exam.lang].substring(0, 70) + '</td>' +
                             '<td>' + v.level.value[Exam.lang] + '</td>' +
                             '<td>' + v.questionType.value[Exam.lang].substring(0, 70) + '</td>' +
                             '<td>' + v.eduLevel.value[Exam.lang] + '</td>' +
                             '</tr>';
-                    
+
                 });
                 if ($('#main-div #load_more_div').children().length == 0) {
                     $('#main-div #load_more_div').html('<button  data-table="questions" class="btn loading-margins btn-load-more">' + Exam.dictionary[Exam.lang]["load.more"] + '</button>');
+                    
                 }
-               
-
+                $('.btn-load-more').removeAttr('data-page');
                 if (page) {
                     $('#main-div').find('#question_list tbody').append(html);
-                }
-                else {
+                } else {
                     $('#main-div').find('#question_list tbody').html(html);
                 }
+                $('body').find('.btn-load-more').prop('disabled', false);
 
             }
         },
@@ -1244,37 +1585,36 @@ var Exam = {
             var result = contentType.match(fileType);
             if (result) {
                 return true;
-            }
-            else {
+            } else {
 
                 return false;
             }
         }
     },
-    
-    WebSocket: {
-            
-           connect: function () {
-                var name = $('.namename').val();
-                var socket = new SockJS(Exam.urls.SOCKET + '/chat');
-                Exam.stompClient = Stomp.over(socket);
-                Exam.stompClient.connect({'Login':Exam.token}, function (frame) {
-                    var sessionId = /\/([^\/]+)\/websocket/.exec(socket._transport.url)[1];
-                    Exam.stompClient.subscribe('/topic/messages/' + sessionId, function (messageOutput) {
-                            $('body .notification').removeClass('hidden');
-                            
-                    });
-                });
-            },
 
-            disconnect: function (a) {
-                if (Exam.stompClient != 0) {
-                    Exam.stompClient.disconnect();
-                }
-                if(a==1) {
-                    Exam.WebSocket.connect();
-                }
-            },
+    WebSocket: {
+
+        connect: function () {
+            var name = $('.namename').val();
+            var socket = new SockJS(Exam.urls.SOCKET + '/chat');
+            Exam.stompClient = Stomp.over(socket);
+            Exam.stompClient.connect({'Login': Exam.token}, function (frame) {
+                var sessionId = /\/([^\/]+)\/websocket/.exec(socket._transport.url)[1];
+                Exam.stompClient.subscribe('/topic/messages/' + sessionId, function (messageOutput) {
+                    $('body .notification').removeClass('hidden');
+
+                });
+            });
+        },
+
+        disconnect: function (a) {
+            if (Exam.stompClient != 0) {
+                Exam.stompClient.disconnect();
+            }
+            if (a == 1) {
+                Exam.WebSocket.connect();
+            }
+        },
     },
 
 };
@@ -1283,5 +1623,3 @@ var fileTypes = {
     IMAGE_CONTENT_TYPE: '^(' + Exam.REGEX.IMAGE_EXPRESSION + ')$',
     FILE_CONTENT_TYPE: '^(' + Exam.REGEX.TEXT + '|' + Exam.REGEX.PDF + '|' + Exam.REGEX.XLS + '|' + Exam.REGEX.XLSX + '|' + Exam.REGEX.DOC + '|' + Exam.REGEX.DOCX + '|' + Exam.REGEX.IMAGE_EXPRESSION + ')$'
 };
-
-

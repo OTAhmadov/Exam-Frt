@@ -3,7 +3,6 @@
 
         <!--<a href="#" class="save-button"><img src="assets/img/save-icon.png" alt="Save" width="20" height="20">-->
         <div class="row">
-
             <div class="col-md-8">
                 <h3 class="m-t-6" data-i18n="question" class="panel-title">Sual </h3>
             </div>
@@ -13,9 +12,7 @@
             <div class="col-md-2">
                 <button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>
             </div>
-
         </div>
-
     </div>
     <div class="panel-body flex-panel">
 
@@ -60,7 +57,6 @@
                     <select  class="form-control" id="quest_subject" data-required=""></select>
                 </div>
             </div>
-            
             <div class="form-group">
                 <label data-i18n="language" >Dil</label>
                 <div class="prepend-icon">
@@ -226,15 +222,24 @@
             }
         });
         
-        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
-            if (eduLevels) {
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevel) {
+            if (eduLevel) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
-                $.each(eduLevels, function (i, v) {
+                $.each(eduLevel, function (i, v) {
                     html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
                 });
                 $('#quest_edu_level').html(html);
-            }
-        });
+                }
+            });
+//        Exam.Proxy.loadDictionariesByTypeId(Exam.Type.EDU_LEVEL, '', function (eduLevel) {
+//            if (eduLevel) {
+//                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+//                $.each(eduLevel, function (i, v) {
+//                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+//                });
+//                $('#quest_edu_level').html(html);
+//                }
+//            });
 
         Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
             if (questionLevel) {

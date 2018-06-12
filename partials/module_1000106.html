@@ -20,7 +20,6 @@
     <!-- /.modal-dialog -->
 </div>
 
-
 <div class="content-header">
     <div class="con-head-left">
         <span data-i18n="questions" placeholder="Suallar" class="hed-title"></span>
@@ -28,7 +27,6 @@
     <div class="con-head-right">
         <div class="prepend-icon">
             <input data-i18n="placeholder.search" id="question_search" type="search" placeholder="Search">
-
         </div>
 
         <div id="buttons_div" class="dropdown-func">
@@ -36,8 +34,6 @@
                 Ümumi əməliyyatlar
             </div>
             <ul id="module_operations" class="dropdown-menu calibrated">
-                <li><a id="registration" href="student_add.html">Item 1</a></li>
-                <li><a id="second-registration" href="#">Item 2</a></li>
             </ul>
         </div>
     </div>
@@ -49,15 +45,27 @@
     <input type="hidden" name="eduLevelId">
     <input type="hidden" name="questionLevelId">
     <input type="hidden" name="questionTypeId">
+    <input type="hidden" name="langId">
+    <input type="hidden" name="tipiId">
 </form>
 
 <div class="filters-block module_1000011">
     <div class="btn-group">
-        <select id="subjects">
+        <select id="edu_plan_select">
+            <option value="0" data-i18n="subject">Tədris planı</option>
+        </select>
+    </div>
+    <div class="btn-group">
+        <select id="quest_subject_select_filter">
             <option value="0" data-i18n="subject">Subject</option>
         </select>
     </div>
 
+    <div class="btn-group">
+        <select id="question_tipi">
+            <option value="0" data-i18n="">Sualın tipi</option>
+        </select>
+    </div>
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
             <span data-i18n="question_complexity">Sualın çətinliyi</span> 
@@ -73,9 +81,12 @@
         </button>
         <ul data-name="questionTypeId" id="question_type" class="dropdown-menu dropdown-filter">
         </ul>
+    </div>    
+    <div class="btn-group">
+        <select id="question_lang">
+            <option value="0" data-i18n="">Dil</option>
+        </select>
     </div>
-
-
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             <span data-i18n="edu_level" >Təhsil səviyyəsi</span> <i class="fa fa-angle-down"></i>
@@ -95,7 +106,7 @@
             <div class="panel-body">
               
                 <div class="col-xs-12 definition-list">
-                    <b style="font-size: 15px">1.</b> <dl id="question_content" class="dl-horizontal" style="font-size: 15px; display:  inline-table">
+                     <dl id="question_content" class="dl-horizontal" style="font-size: 15px; display:  inline-table">
                         </dl>
                 </div>
             </div>
@@ -103,21 +114,19 @@
     </div>
     <div class="row">
         <div class="col-sm-12 data">
-            <div  class="panel panel-white">
-
+            <div  class="panel panel-white table-scroll">
                 <div class="table-responsive">
-
                     <table id="question_list" class="table table-celled table-hover">
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th data-i18n="">İmtahan sualı</th>
+                                <!--<th data-i18n="">İmtahan sualı</th>-->
                                 <th data-i18n="topic">Mövzu</th>
                                 <th data-i18n="subject">Fənn</th>
+                                <th data-i18n="">Tədris planı</th>
                                 <th data-i18n="question_complexity">Sualın çətinliyi</th>
                                 <th data-i18n="question_type">Sualın növü</th>
                                 <th data-i18n="edu_level"></th>
-                                <th></th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -146,7 +155,7 @@
 
 
 
-        $('#subjects').select2({
+        $('#quest_subject_select_filter').select2({
             placeholder: Exam.dictionary[Exam.lang]["subjects"],
             language: {
                 noResults: function () {
@@ -154,76 +163,14 @@
                 }
             }
         });
-         
-
-
-//        $('#edu_levels').on('select2:select', function (evt) {
-//            var arr = $(this).val();
-//            var last = evt.params.data.id;
-//            if (last > 0) {
-//                Exam.subModuleId.push(last);
-//                var orgId = $('.student-search-form input[name="orgId"]').val();
-//                var eduTypesSelect = $('input[type="checkbox"][type-id="1000015"]');
-//                var eduTypes = [];
-//                eduTypesSelect.each(function (i, v) {
-//                    if (v.value.length > 0) {
-//                        if (v.value == '1000102') {
-//                            eduTypes.push(1000186);
-//                        }
-//                        else if (v.value == '1000103') {
-//                            eduTypes.push(1000140);
-//                        }
-//                    }
-//                });
-//
-//            }
-//        });
-
-//        $('#edu_levels').on('change', function (e) {
-//            var uldiv = $(this).siblings('span.select2').find('ul');
-//            var count = uldiv.find('li').length - 1;
-//            uldiv.html('<li class="modified">' + Exam.dictionary[Exam.lang]["selected_count"] + ": " + count + "</li>");
-//        });
-
-//        $('#edu_levels').on('select2:unselecting', function (e) {
-//            var arr = $(this).val();
-//            var val = e.params.args.data.id;
-//            arr = jQuery.grep(arr, function (value) {
-//                return value != val;
-//            });
-//            var orgId = $('.student-search-form input[name="orgId"]').val();
-//            var eduTypesSelect = $('input[type="checkbox"][type-id="1000015"]');
-//            var eduTypes = [];
-//            eduTypesSelect.each(function (i, v) {
-//                if (v.value.length > 0) {
-//                    if (v.value == '1000102') {
-//                        eduTypes.push(1000186);
-//                    }
-//                    else if (v.value == '1000103') {
-//                        eduTypes.push(1000140);
-//                    }
-//                }
-//            });
-//
-//
-//            Exam.subModuleId = jQuery.grep(Exam.subModuleId, function (value) {
-//                return value != val;
-//            });
-//
-//        });
-
-
-
+        
         Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
             $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
-
         });
 
         $('#main-div .sub_modules_div').remove();
         $('.module-list').find('.sub-module-con').remove();
-
-
-
+        $('body').find('.table-scroll').slimScroll();
         Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LEVEL, function (eduLevels) {
             if (eduLevels) {
                 var html = '';
@@ -234,7 +181,27 @@
 
             }
         });
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LANG, function (eduLang) {
+            if (eduLang) {
+                var html = '<option value="">Dil</option>';
+                $.each(eduLang, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#question_lang').html(html);
+            }
+        });
 
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TIPI, function (questionTipi) {
+            if (questionTipi) {
+                var html = '<option value="">Sual Tipi</option>';
+                $.each(questionTipi, function (i, v) {
+                    html += '<option code="' + v.code + '" value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#question_tipi').html(html);
+
+            }
+        });
+        
         Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
             if (questionLevel) {
                 var html = '';
@@ -242,7 +209,6 @@
                     html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
                 });
                 $('#question_level').html(html);
-
             }
         });
 
@@ -253,31 +219,49 @@
                     html += '<li data-id = "' + v.id + '"><a href="#">' + v.value[Exam.lang] + '</a></li>'
                 });
                 $('#question_type').html(html);
-
             }
         });
-
-        Exam.Proxy.loadSubjects(function (subjects) {
-            if (subjects) {
-                var html = '<option value=""></option>';
-                $.each(subjects, function (i, v) {
-                    html += '<option value= "' + v.id + '">' + v.subject.value[Exam.lang] + '</option>'
+        
+        Exam.Proxy.loadEduType(function (data) {
+            if (data) {
+                var html = '<option value="">Tədris planı</option>';
+                $.each(data, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.name + '</option>'
                 });
-                $('#subjects').html(html);
+                $('#edu_plan_select').html(html);
             }
-
+        });
+        
+        $('#main-div').on('change', '#edu_plan_select', function (e) {
+            try {
+                var eduPlanId = $(this).val();
+                Exam.Proxy.getEducationPlanDetails(eduPlanId, '', function (data) {
+                    var result = data.data.allSubjects
+                    if (result) {
+                        var html = '<option value="">Fənn</option>';
+                        $.each(result, function (i, v) {
+                            html += '<option value="' + v.id + '">' + v.dicName.value['az'] + '</option>';
+                        });
+                        $('#quest_subject_select_filter').html(html);
+                    }
+                });
+            }
+            catch (err) {
+                console.error(err);
+            }
         });
 
         var params = $('.question-search-form').serialize();
+        
         Exam.Proxy.loadQuestions('', params);
 
         $('.modal-content').draggable();
 
         $('.datepicker').datepicker();
 
-        $('#main-div').on('change', '#subjects', function (e) {
+        $('#main-div').on('change', '#quest_subject_select_filter', function (e) {
             try {
-                var subjectId = $('#subjects').find('option:selected').val();
+                var subjectId = $('#quest_subject_select_filter').find('option:selected').val();
                 if (subjectId > 0) {
                     $('input[name="subjectId"]').val(subjectId);
 
@@ -292,7 +276,42 @@
             catch (err) {
                 console.error(err);
             }
+        });
+        $('#main-div').on('change', '#question_tipi', function (e) {
+            try {
+                var questTipi = $('#question_tipi').find('option:selected').val();
+                if (questTipi > 0) {
+                    $('input[name="tipiId"]').val(questTipi);
 
+                }
+                else {
+                    $('input[name="tipiId"]').val('');
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                var params = $('.question-search-form').serialize();
+                Exam.Proxy.loadQuestions('', params);
+            }
+            catch (err) {
+                console.error(err);
+            }
+        });
+        $('#main-div').on('change', '#question_lang', function (e) {
+            try {
+                var langId = $('#question_lang').find('option:selected').val();
+                if (langId > 0) {
+                    $('input[name="langId"]').val(langId);
+
+                }
+                else {
+                    $('input[name="langId"]').val('');
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                var params = $('.question-search-form').serialize();
+                Exam.Proxy.loadQuestions('', params);
+            }
+            catch (err) {
+                console.error(err);
+            }
         });
 
         $('#main-div').on('click', '.dropdown-filter li', function () {
@@ -313,32 +332,6 @@
                 console.error(err)
             }
         });
-
-        $('#main-div').on('keypress', '#question_search', function (e) {
-            try {
-
-                if (e.keyCode == 13) {
-                    var keyword = $('#question_search').val();
-
-                    if (keyword.trim().length > 2) {
-                        $('.btn-load-more').removeAttr('data-page');
-                        $('.question-search-form input[name="keyword"]').val(keyword);
-                        var queryparams = $('.question-search-form').serialize();
-                        Exam.Proxy.loadQuestions('', queryparams);
-                    }
-                    else if (keyword.trim().length == 0) {
-                        $('.btn-load-more').removeAttr('data-page');
-                        $('.question-search-form input[name="keyword"]').val('');
-                        var params = $('.question-search-form').serialize();
-                        Exam.Proxy.loadQuestions('', params);
-                    }
-                }
-
-            }
-            catch (err) {
-                console.error(err);
-            }
-        });
         
         $('#main-div').on('click','#operation_ADD_QUEST',function() {
             try {
@@ -351,10 +344,5 @@
             }
         });
         
-
-
-
-
-
     });
 </script>

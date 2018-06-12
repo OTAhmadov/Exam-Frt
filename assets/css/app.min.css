@@ -1073,9 +1073,9 @@ h6 {
 h5 {
     font-size: 13px
 }
-strong {
+/*strong {
     font-weight: 400
-}
+}*/
 hr {
     clear: both;
     height: 0;
@@ -19676,15 +19676,15 @@ a.fc-more:hover {
     box-shadow: 0px 3px 3px #cdcdcd;
 }
 
-/*.content-upper-header .user-info::after {*/
-    /*content: '';*/
-    /*display: block;*/
-    /*border: 5px solid transparent;*/
-    /*border-bottom: 5px solid white;*/
-    /*position: absolute;*/
-    /*top: -8px;*/
-    /*right: 19px;*/
-/*}*/
+.content-upper-header .user-info::after {
+    content: '';
+    display: block;
+    border: 5px solid transparent;
+    border-bottom: 5px solid white;
+    position: absolute;
+    top: -8px;
+    right: 19px;
+}
 
 .content-upper-header .user-info .big-img {
     width: 60px;
@@ -19711,24 +19711,17 @@ a.fc-more:hover {
 }
 
 .content-upper-header .user-info {
-    width: 400px;
-    height: 100vh;
+    width: 200px;
+    height: 189px;
     position: absolute;
-    right: -500px;
-    opacity: 0;
-    visibility: hidden;
-    top: 55px;
-    z-index: 999!important;
+    right: 25px;
+    top: 71px;
+    z-index: 10;
     background-color: white;
     border-radius: 2px;
-    transition: ease-in-out 500ms;
     box-shadow: 0px 3px 3px #cdcdcd;
 }
-.helloWorld{
-    right: 0 !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
+
 .content-upper-header .user-info .data {
     position: absolute;
     right: 20px;
@@ -20320,6 +20313,12 @@ td .blocked {
     left: -150px !important;
 }*/
 
+#ticket_list .operations + .dropdown-menu {
+/*    left: -24px !important;
+    top: 25px !important;*/
+left: -140px !important;
+    top: -55px !important;
+}
 .operations + .dropdown-menu {
     left: -24px !important;
     top: 25px !important;
