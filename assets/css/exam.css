@@ -124,7 +124,7 @@ and open the template in the editor.
 /*}*/
 
 .no-border-radius {
-    border-radius: 0px !important;
+    /*border-radius: 0px !important;*/
 }
 
 .notify .message {
