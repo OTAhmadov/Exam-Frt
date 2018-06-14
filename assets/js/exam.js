@@ -5,8 +5,7 @@
  */
 
 var Exam = {
-    // token: '45ea60fbd0fc49cd9ebee781d0c6f551883571092a434530b6721f2607375c51',
-    lang: 'az',
+    // token: '596515c806ab4ff29256694b66f66baa66becba393da4268903640e776d60989',    lang: 'az',
     appId: 1000011,
     currModule: '',
     operationList: [],
@@ -1324,6 +1323,7 @@ var Exam = {
                     }
 
                 });
+                html += '<li title="" class="module-block"><a href="exam.html">Imtahan ver</a></li>';
             }
 
             return html;

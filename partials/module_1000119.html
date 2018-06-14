@@ -28,14 +28,6 @@
     <div class="con-head-right">
         <div class="prepend-icon">
             <input data-i18n="placeholder.search" id="question_search" type="search" placeholder="Search">
-
-        </div>
-
-        <div  class="dropdown-func">
-            <div class="btn btn-default reg dropdown-toggle cog" id="new-exam">
-                İmtahan yarat
-            </div>
-
         </div>
 
         <div id="buttons_div" class="dropdown-func">
@@ -43,8 +35,6 @@
                 Ümumi əməliyyatlar
             </div>
             <ul id="module_operations" class="dropdown-menu calibrated">
-                <li><a id="registration" href="student_add.html">Item 1</a></li>
-                <li><a id="second-registration" href="#">Item 2</a></li>
             </ul>
         </div>
     </div>
@@ -189,11 +179,6 @@
                 }
             }
         });
-         
-
-
-
-
 
         Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
             $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
@@ -320,30 +305,6 @@
                 console.error(err);
             }
         });
-        
-        // $('#main-div').on('click','#operation_ADD_QUEST',function() {
-        //     try {
-        //         $('body .add-new .search-scroll').load('partials/question_add.html');
-        //          $('body').find('.add-new').css('right', '0');
-                
-        //     }
-        //     catch(err) {
-        //         console.error(err);
-        //     }
-        // });]
-
-        $('body').on('click','#new-exam',function() {
-            try {
-                $('body .add-new .search-scroll').load('partials/add_exam.html');
-                 $('body').find('.add-new').css('right', '0');
-                
-            }
-            catch(err) {
-                console.error(err);
-            }
-        });
-        
-
 
 
         $('body').on('dblclick', '#exam_list tbody tr', function (e) {
