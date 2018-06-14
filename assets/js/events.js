@@ -329,7 +329,17 @@ $(function () {
             console.error(err);
         }
     });
+    
+    $('body').on('click', '#operation_1001401', function () {
+        try {
+            $('body .add-new .search-scroll').load('partials/add_exam.html');
+            $('body').find('.add-new').css('right', '0');
 
+        } catch (err) {
+            console.error(err);
+        }
+    });
+        
     $('body').on('click', '#operation_1001389 ', function (e) {
         try {
             var questionId = $('body').attr('data-id');
