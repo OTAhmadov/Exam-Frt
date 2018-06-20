@@ -5,7 +5,8 @@
  */
 
 var Exam = {
-    // token: '596515c806ab4ff29256694b66f66baa66becba393da4268903640e776d60989',    lang: 'az',
+    // token: '523c0b7e96334e229344d9bae528eccd26928b20a16640cbb582acd6df69cb80',
+    lang: 'az',
     appId: 1000011,
     currModule: '',
     operationList: [],

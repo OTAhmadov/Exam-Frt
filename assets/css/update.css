@@ -1017,8 +1017,9 @@ i.jstree-icon.jstree-ocl {
 		line-height: 0;
 		/*height: 0;*/
 		float: none;
-		/*padding: 10px 15px;*/
+		padding: 10px 15px;
 		margin-right: 0;
+		height: auto;
 		text-align: center;
 		width: 200px;
 	}
