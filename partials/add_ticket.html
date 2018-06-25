@@ -40,7 +40,7 @@
                 <div class="form-group col-md-12">
                     <div class="form-group col-md-6 фы">
                         <label data-i18n="">Qrup</label>
-                        <select  class="form-control" id="group"></select>
+                        <select class="form-control" id="group" ticket-required></select>
                     </div>
                     <div class="form-group col-md-6">
                         <label data-i18n="">Fakültə</label>
@@ -79,6 +79,12 @@
                     <div class="form-group">
                         <label>Bilet sayı</label>
                          <input class="form-control" id="ticket_count" ticket-required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>İmtahan növü</label>
+                        <select class="form-control" id="exam_type" ticket-required></select>
                     </div>
                 </div>
             </div>
@@ -169,15 +175,15 @@
             }
         });
             
-//            Exam.Proxy.loadDictionariesByTypeId(Exam.Type.EDU_LEVEL, Exam.Parent.EDU_LEVEL, function (eduLevel) {
-//            if (eduLevel) {
-//                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
-//                $.each(eduLevel, function (i, v) {
-//                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
-//                });
-//                $('#edu_level').html(html);
-//                }
-//            });
+            Exam.Proxy.loadDictionariesByTypeId(Exam.Type.EXAM_TYPE, '0', function (examType) {
+            if (examType) {
+                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                $.each(examType, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
+                });
+                $('#exam_type').html(html);
+                }
+            });
 //            Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EXAM_TYPE, function (examType) {
 //            if (examType) {
 //                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';

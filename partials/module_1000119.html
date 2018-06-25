@@ -23,7 +23,7 @@
 
 <div class="content-header">
     <div class="con-head-left">
-        <span data-i18n="questions" placeholder="Suallar" class="hed-title"></span>
+        <span data-i18n="" placeholder="Suallar" class="hed-title">İmtahan</span>
     </div>
     <div class="con-head-right">
         <div class="prepend-icon">
@@ -103,12 +103,11 @@
                     <thead>
                         <tr>
                             <th>№</th>
-                            <th>İmtahanin adı</th>
-                            <th>İmtahanin növü</th>
-                            <th>İmtahanin kodu</th>
-                            <th>Sual sayı</th>
+                            <th>Fənnin adı</th>
+                            <th>Fənn qrupu</th>
+                            <th>Tarix</th>
+                            <th>Saat</th>
                             <th>Müddəti</th> 
-                            <th>Fənn</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,7 +123,7 @@
 
         </div>
     </div>
-    <div class="col-sm-4 info te">
+<!--    <div class="col-sm-4 info te">
         <div class="panel panel-white">
             <div class="panel-heading">
                 <h3 data-i18n="info" class="panel-title">Info</h3>
@@ -134,27 +133,12 @@
             <div class="panel-body">
               
                 <div class="col-xs-12 definition-list">
-                    <dl id="question_content" class="dl-horizontal">
-                        <p class="question">Entomologiya və ətraf mühitinin mühafizəsi</p>
-                        <p class="question">Riyazi analiz</p>
-                        <p class="question">kpk]-p0jk]0-p</p>
-                        <p class="question">asdasd</p>
-                        <p class="question">asdasd</p>
-                        <p class="question">movzu 1 for astrology</p>
-                        <p class="question">movzu 1 for astrology</p>
-                        <p class="question">Bulevaya</p> 
-                        <p class="question">movzu 1 for astrology</p>
-                        <p class="question">kpk]-p0jk]0-p</p>
-                        <p class="question">asdasd</p>
-                        <p class="question">asdasd</p>
-                        <p class="question">movzu 1 for astrology</p>
-                        <p class="question">Bulevaya</p>
-     
+                    <dl id="question_content" class="dl-horizontal">     
                     </dl>
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <div class="add-new">
@@ -169,7 +153,7 @@
     $(function () {
         Exam.i18n(Exam.lang);
 
-        Exam.Proxy.getExam();
+        Exam.Proxy.getExamList();
 
         $('#subjects').select2({
             placeholder: Exam.dictionary[Exam.lang]["subjects"],
@@ -306,7 +290,7 @@
             }
         });
 
-
+        
         $('body').on('dblclick', '#exam_list tbody tr', function (e) {
             try {
 
@@ -321,21 +305,21 @@
         });
 
 
-        $('body').on('click', '#exam_list tbody tr', function (e) {
-            try {
-                var content = $(this).attr('question-content');
-                $('#question_content').html(content);
-
-                $('body').find('.col-sm-12.data').removeClass('col-sm-12').addClass('col-sm-8');
-                setTimeout(function(){
-                    $('body').find('.col-sm-4.info').fadeIn();
-                }, 400)
-                
-            }
-            catch (err) {
-                console.error(err);
-            }
-        });
+//        $('body').on('click', '#exam_list tbody tr', function (e) {
+//            try {
+//                var content = $(this).attr('question-content');
+//                $('#question_content').html(content);
+//
+//                $('body').find('.col-sm-12.data').removeClass('col-sm-12').addClass('col-sm-8');
+//                setTimeout(function(){
+//                    $('body').find('.col-sm-4.info').fadeIn();
+//                }, 400)
+//                
+//            }
+//            catch (err) {
+//                console.error(err);
+//            }
+//        });
 
 
 

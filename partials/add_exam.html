@@ -29,25 +29,31 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Başlama tarixi</label>
-                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy hh:mm:ss" id="exam_start_date">
+                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_start_date">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Bitmə tarixi</label>
-                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy"" id="exam_finish_date">
+                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_finish_date">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Başlama vaxtı</label>
-                        <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy HH:mm:ss PP" id="exam_start_time">
+                        <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy" id="exam_start_time">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Bitmə vaxtı</label>
-                        <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy HH:mm:ss PP" id="exam_finish_time">
+                        <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy" id="exam_finish_time">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label data-i18n="" >İmtahan müddəti(dəqiqə)</label>
+                        <input type="text" class="form-control" id="exam_duration">
                     </div>
                 </div>
             </div>
@@ -62,8 +68,8 @@
         $('.search-scroll').slimScroll();
         $('.datepicker').datepicker();
         $('.timepicker').datetimepicker({
-            language: 'pt-BR'
-          });
+            format: 'hh:mm' //LT
+        });
         
         Exam.Proxy.loadGroups(function (groups) {
             if (groups) {
