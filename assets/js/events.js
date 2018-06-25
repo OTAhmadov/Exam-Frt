@@ -746,6 +746,33 @@ $(function () {
         return false;
     });
 
+    $('body').on('click', '#exam_add', function () {
+//        var params = $('.ticket-search-form').serialize();
+        if (Exam.Validation.validateRequiredFields('exam-required')) {
+                try {
+//                    var formData = new FormData();
+                    var examParams = {
+                        courseId: $('#group').val(),
+                        examStartDate: $('#exam_start_date').val(),
+                        examFinishDate: $('#exam_finish_date').val(),
+                        examStartTime: $('#exam_start_time').val(),
+                        examFinishTime: $('#exam_finish_time').val(),
+                        examDuration: $('#exam_duration').val(),
+                        token: Exam.token
+                    };
+                    Exam.Proxy.addExam(examParams, function () {    
+//                        Exam.Proxy.getExam(examParams);
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                }
+
+        } else {
+            return false;
+        }
+    });
+
     $('body').on('click', '.add-ticket #add_ticket', function () {
         var params = $('.ticket-search-form').serialize();
         if (Exam.Validation.validateRequiredFields('ticket-required')) {
@@ -760,6 +787,7 @@ $(function () {
                         questNote: $('#ticket_note').val(),
                         questTopic: $('#quest_topic').val(),
                         eduPlanId: $('#edu_plan').val(),
+                        examType: $('#exam_type').val(),
                         subjectId: $('#quest_subject').val(),
                         structure: [],
                         token: Exam.token

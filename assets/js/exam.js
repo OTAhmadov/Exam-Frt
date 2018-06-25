@@ -5,7 +5,8 @@
  */
 
 var Exam = {
-    // token: '596515c806ab4ff29256694b66f66baa66becba393da4268903640e776d60989',    lang: 'az',
+    token: 'b929fdac67444c078e96f04eeb99fff46ea20f4ceccf4e419ff9e7d6f1b922bc',    
+    lang: 'az',
     appId: 1000011,
     currModule: '',
     operationList: [],
@@ -29,6 +30,7 @@ var Exam = {
         EXAM_FORM_TYPE: 115,
     },
     Type: {
+        EXAM_TYPE: 1000106,
         EDU_LEVEL: 1000002,
         EDU_SEMESTER: 1000060,
     },
@@ -164,7 +166,76 @@ var Exam = {
         ru: {}
     },
     Proxy: {
+            
+            getExamList: function (callback) {
+                $.ajax({
+                    url: Exam.urls.ExamRest + 'exam/list?token=' + Exam.token,
+                    type: 'GET',
+                    success: function (result) {
+                        try {
+                            if (result) {
+                                switch (result.code) {
+                                    case Exam.statusCodes.OK:
+                                        if (callback) {
+                                            callback(result.data)
+                                        }
+                                        Exam.Service.parseExamList(result.data)
+                                        break;
 
+                                    case Exam.statusCodes.ERROR:
+                                        $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                            type: 'danger'
+                                        });
+                                        break;
+
+                                    case Exam.statusCodes.UNAUTHORIZED:
+
+                                        window.location = Exam.urls.ROS + 'unauthorized';
+                                        break;
+                                }
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+
+                });
+            },    
+
+        addExam: function (formData, callback) {
+            $.ajax({
+                url: Exam.urls.ExamRest + 'exam/add',
+                type: 'POST',
+                data: formData,
+                beforeSend: function (xhr) {
+                    $('.module-block[data-id="1000119"]').attr('check', 1);
+                },
+                success: function (data) {
+                    if (data) {
+                        switch (data.code) {
+                            case Exam.statusCodes.OK:
+                                if (callback) {
+                                    callback(data.data);
+                                }
+                                $('body').find('.add-new').css('right', '-100%')
+
+                                break;
+                            case Exam.statusCodes.ERROR:
+                                if(data.message) {
+                                    $.notify(data.message[Exam.lang], {
+                                        type: 'danger'
+                                    });
+                                }
+                                break;
+                        }
+                    }
+                },
+                complete: function () {
+                    $('.module-block[data-id="1000119"]').removeAttr('check', 1);
+                }
+            })
+        },
+        
         addTicket: function (formData, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'ticket/add',
@@ -399,9 +470,9 @@ var Exam = {
             });
         },
 
-        getExam: function (page, params, callback) {
+        getExam: function (callback) {
             $.ajax({
-                url: Exam.urls.ExamRest + 'exam?token=' + Exam.token + (params ? '&' + params : '') + (page ? '&page=' + page : ''),
+                url: Exam.urls.ExamRest + 'exam?token=' + Exam.token,
                 type: 'GET',
                 success: function (result) {
                     try {
@@ -411,7 +482,7 @@ var Exam = {
                                     if (callback) {
                                         callback(result.data);
                                     }
-                                    Exam.Service.parseExam(result.data, page)
+                                    Exam.Service.parseExam(result.data)
                                     break;
 
                                 case Exam.statusCodes.ERROR:
@@ -1323,7 +1394,7 @@ var Exam = {
                     }
 
                 });
-                html += '<li title="" class="module-block"><a href="exam.html">Imtahan ver</a></li>';
+//                html += '<li title="" class="module-block"><a href="exam.html">Imtahan ver</a></li>';
             }
 
             return html;
@@ -1531,6 +1602,43 @@ var Exam = {
                     $('#main-div').find('#question_list tbody').append(html);
                 } else {
                     $('#main-div').find('#question_list tbody').html(html);
+                }
+                $('body').find('.btn-load-more').prop('disabled', false);
+
+            }
+        },
+        
+            parseExamList: function (data, page) {
+
+            if (data) {
+                var html = '';
+                var count;
+
+                if (page) {
+                    count = $('#exam_list tbody tr').length;
+                } else {
+                    count = 0;
+                }
+                $.each(data, function (i, v) {
+                    html += '<tr data-id="' + v.id + '" >' +
+                            '<td>' + (++count) + '</td>' +
+                            '<td>' + v.subject.value[Exam.lang].substring(0, 70) + '</td>' +
+                            '<td>' + v.course.value[Exam.lang].substring(0, 70) + '</td>' +
+                            '<td>' + v.examStartDate + '-' + v.examFinishDate + '</td>' +
+                            '<td>' + v.examStartTime + '-' + v.examFinishTime + '</td>' +
+                            '<td>' + v.examDuration + '</td>' +
+                            '</tr>';
+
+                });
+                if ($('#main-div #load_more_div').children().length == 0) {
+                    $('#main-div #load_more_div').html('<button  data-table="examlist" class="btn loading-margins btn-load-more">' + Exam.dictionary[Exam.lang]["load.more"] + '</button>');
+                    
+                }
+                $('.btn-load-more').removeAttr('data-page');
+                if (page) {
+                    $('#main-div').find('#exam_list tbody').append(html);
+                } else {
+                    $('#main-div').find('#exam_list tbody').html(html);
                 }
                 $('body').find('.btn-load-more').prop('disabled', false);
 
