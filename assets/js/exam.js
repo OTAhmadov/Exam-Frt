@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: 'b929fdac67444c078e96f04eeb99fff46ea20f4ceccf4e419ff9e7d6f1b922bc',    
+    // token: 'b762e374123f44bf9a194cd020933932dc204ceaab48484eb3be612521c38c11',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -50,8 +50,8 @@ var Exam = {
 //        HSIS: "http://localhost:8080/UnibookExamRest/",
 //        REPORT: 'http://192.168.1.78:8082/ReportingRest/',
         EMS: 'http://192.168.1.78:8082/UnibookEMS/',
-        ExamRest: 'http://localhost:8080/ExamRest/',
-//        ExamRest: 'http://192.168.1.78:8082/ExamRest/',
+        // ExamRest: 'http://localhost:8080/ExamRest/',
+       ExamRest: 'http://192.168.1.78:8082/ExamRest/',
         COMMUNICATION: 'http://192.168.1.78:8082/CommunicationRest/',
         NOTIFICATION: 'http://192.168.1.78:8082/NotificationSystem/greeting.html?token=',
         SOCKET: 'http://192.168.1.78:8082/SocketRest',
