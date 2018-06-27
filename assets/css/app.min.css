@@ -20310,6 +20310,12 @@ td .blocked {
 left: -140px !important;
     top: -55px !important;
 }
+#exam_list .operations + .dropdown-menu {
+/*    left: -24px !important;
+    top: 25px !important;*/
+left: -140px !important;
+    top: -55px !important;
+}
 .operations + .dropdown-menu {
     left: -24px !important;
     top: 25px !important;

@@ -167,7 +167,42 @@ var Exam = {
     },
     Proxy: {
             
+        getTickets: function (page, params, callback) {
+            var data;
+            $.ajax({
+                url: Exam.urls.ExamRest + 'ticket?token=' + Exam.token + (params ? '&' + params : '') + (page ? '&page=' + page : ''),
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+                                    data= result.data
+                                Exam.Service.parseTickets(result.data, page);
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                            case Exam.statusCodes.UNAUTHORIZED:
+
+                                window.location = Exam.urls.ROS + 'unauthorized';
+                                break;
+
+                        }
+                    }
+                }, 
+                complete: function (jqXHR, textStatus) {
+                    if (callback) {
+                        callback(data);
+                    }
+                }
+            })
+        },
+        
             getExamList: function (callback) {
+                var data;
                 $.ajax({
                     url: Exam.urls.ExamRest + 'exam/list?token=' + Exam.token,
                     type: 'GET',
@@ -176,9 +211,8 @@ var Exam = {
                             if (result) {
                                 switch (result.code) {
                                     case Exam.statusCodes.OK:
-                                        if (callback) {
-                                            callback(result.data)
-                                        }
+                                        data= result.data
+
                                         Exam.Service.parseExamList(result.data)
                                         break;
 
@@ -192,15 +226,20 @@ var Exam = {
 
                                         window.location = Exam.urls.ROS + 'unauthorized';
                                         break;
+                                    }
                                 }
+                            } catch (err) {
+                                console.error(err);
                             }
-                        } catch (err) {
-                            console.error(err);
+                        },                
+                        complete: function (jqXHR, textStatus) {
+                        if (callback) {
+                            callback(data);
                         }
                     }
 
-                });
-            },    
+                    });
+                },    
 
         addExam: function (formData, callback) {
             $.ajax({
@@ -293,40 +332,6 @@ var Exam = {
                                 });
                                 break;
                         }
-                    }
-                }
-            })
-        },
-
-        getTickets: function (page, params, callback) {
-            var data;
-            $.ajax({
-                url: Exam.urls.ExamRest + 'ticket?token=' + Exam.token + (params ? '&' + params : '') + (page ? '&page=' + page : ''),
-                type: 'GET',
-                success: function (result) {
-                    if (result) {
-                        switch (result.code) {
-                            case Exam.statusCodes.OK:
-                                    data= result.data
-                                Exam.Service.parseTickets(result.data, page);
-                                break;
-
-                            case Exam.statusCodes.ERROR:
-                                $.notify(Exam.dictionary[Exam.lang]['error'], {
-                                    type: 'danger'
-                                });
-                                break;
-                            case Exam.statusCodes.UNAUTHORIZED:
-
-                                window.location = Exam.urls.ROS + 'unauthorized';
-                                break;
-
-                        }
-                    }
-                }, 
-                complete: function (jqXHR, textStatus) {
-                    if (callback) {
-                        callback(data);
                     }
                 }
             })
@@ -1408,7 +1413,6 @@ var Exam = {
                         '</div>' + '<ul class="dropdown-menu">' +
                         '</ul>' +
                         '</div>');
-
                 $.each(operations, function (i, v) {
                     if (v.typeId == type) {
                         if (type == '1') {
@@ -1627,6 +1631,7 @@ var Exam = {
                             '<td>' + v.examStartDate + '-' + v.examFinishDate + '</td>' +
                             '<td>' + v.examStartTime + '-' + v.examFinishTime + '</td>' +
                             '<td>' + v.examDuration + '</td>' +
+                            '<td><div class="type_2_btns">' + Exam.Service.parseOperations(Exam.operationList, '2') +'</div></td>' +
                             '</tr>';
 
                 });
