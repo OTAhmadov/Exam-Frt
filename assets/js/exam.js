@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    // token: 'b762e374123f44bf9a194cd020933932dc204ceaab48484eb3be612521c38c11',
+    // token: 'bb73c7b72eb346c483ec158843b2db28f8452129db964c219d5c05bba2934aba',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -1527,6 +1527,7 @@ var Exam = {
             if (data) {
                 var noteForPage = $('body').attr('data-note');
                 var html = '';
+
                 var count;
 
                 if (page) {
@@ -1536,10 +1537,13 @@ var Exam = {
                 }
                 
                 $.each(data, function (i, v) {
-
+                    var choices_html = '';
+                    $.each(v.choises,function() {
+                        choices_html += '<li class="question-answer">'+ this.questionContent+'</li>';
+                    });
                     html += '<div data-id="' + v.id + '">' +
-                            '<div class = "count_of_questions_of_tickets">' + (++count) + '.</div>' +
-                            '<div class = "quest-content"><div data-path = "'+ v.filePath +'">' + v.content + '</div>' +
+                            '<div class = "count_of_questions_of_tickets">' + (++count) + '</div>' +
+                            '<div class = "quest-content"><div data-path = "'+ v.filePath +'">' + v.content  + '<ul class="question-choices">'+choices_html+'</ul></div>' +
                             '<div class = "ticket-image"><img class = "imageofquestinticket" src =' + Exam.urls.ExamRest + '/questions/file/' + v.filePath + '/?token=' + Exam.token + '></div>' +           
                             '</div></div>';
                     
