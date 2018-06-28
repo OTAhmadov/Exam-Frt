@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: 'b929fdac67444c078e96f04eeb99fff46ea20f4ceccf4e419ff9e7d6f1b922bc',    
+    token: 'bd90363e63ff47e0adb8fcd1f170b20975f5a53814ab4b26afea6a670ee4448a',    
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -213,7 +213,7 @@ var Exam = {
                                     case Exam.statusCodes.OK:
                                         data= result.data
 
-                                        Exam.Service.parseExamList(result.data)
+                                        Exam.Service.parseExamList(data)
                                         break;
 
                                     case Exam.statusCodes.ERROR:

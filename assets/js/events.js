@@ -761,7 +761,7 @@ $(function () {
                         token: Exam.token
                     };
                     Exam.Proxy.addExam(examParams, function () {    
-//                        Exam.Proxy.getExam(examParams);
+                        Exam.Proxy.getExamList();
                     });
 
                 } catch (err) {

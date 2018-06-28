@@ -154,7 +154,7 @@
     $(function () {
         Exam.i18n(Exam.lang);
 
-        Exam.Proxy.getExamList();
+       
 
         $('#subjects').select2({
             placeholder: Exam.dictionary[Exam.lang]["subjects"],
@@ -164,11 +164,16 @@
                 }
             }
         });
-
+//
         Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
+            
             $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
-
+            Exam.Proxy.getExamList();
+             
         });
+//        Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
+//            $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 2));
+//        });
 //
 //        $('#main-div .sub_modules_div').remove();
 //        $('.module-list').find('.sub-module-con').remove();
@@ -176,31 +181,31 @@
 
 
        
-        $('#main-div').on('keypress', '#question_search', function (e) {
-            try {
-
-                if (e.keyCode == 13) {
-                    var keyword = $('#question_search').val();
-
-                    if (keyword.trim().length > 2) {
-                        $('.btn-load-more').removeAttr('data-page');
-                        $('.question-search-form input[name="keyword"]').val(keyword);
-                        var queryparams = $('.question-search-form').serialize();
-                        Exam.Proxy.loadQuestions('', queryparams);
-                    }
-                    else if (keyword.trim().length == 0) {
-                        $('.btn-load-more').removeAttr('data-page');
-                        $('.question-search-form input[name="keyword"]').val('');
-                        var params = $('.question-search-form').serialize();
-                        //Exam.Proxy.loadQuestions('', params);
-                    }
-                }
-
-            }
-            catch (err) {
-                console.error(err);
-            }
-        });
+//        $('#main-div').on('keypress', '#question_search', function (e) {
+//            try {
+//
+//                if (e.keyCode == 13) {
+//                    var keyword = $('#question_search').val();
+//
+//                    if (keyword.trim().length > 2) {
+//                        $('.btn-load-more').removeAttr('data-page');
+//                        $('.question-search-form input[name="keyword"]').val(keyword);
+//                        var queryparams = $('.question-search-form').serialize();
+//                        Exam.Proxy.loadQuestions('', queryparams);
+//                    }
+//                    else if (keyword.trim().length == 0) {
+//                        $('.btn-load-more').removeAttr('data-page');
+//                        $('.question-search-form input[name="keyword"]').val('');
+//                        var params = $('.question-search-form').serialize();
+//                        //Exam.Proxy.loadQuestions('', params);
+//                    }
+//                }
+//
+//            }
+//            catch (err) {
+//                console.error(err);
+//            }
+//        });
 
     });
 </script>
