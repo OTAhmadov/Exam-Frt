@@ -340,6 +340,28 @@ $(function () {
         }
     });
         
+    $('body').on('click', '#operation_1001403 ', function (e) {
+        try {
+            var examId  = $(this).parents('#exam_list tbody tr').attr('data-id');
+//            var params = $('.question-search-form').serialize();
+            $.confirm({
+                title: Exam.dictionary[Exam.lang]['warning'],
+                content: Exam.dictionary[Exam.lang]['delete_info'],
+                confirm: function () {
+                    Exam.Proxy.removeExam(examId, function () {
+                        Exam.Proxy.getExamList();
+                    })
+                },
+                theme: 'black'
+            });
+            $('body').find('.col-sm-4.info').fadeOut();
+            $('body').find('.col-sm-8.data').removeClass('col-sm-8').addClass('col-sm-12');
+        } catch (e) {
+            console.error(e)
+        }
+
+    });
+    
     $('body').on('click', '#operation_1001389 ', function (e) {
         try {
             var questionId = $('body').attr('data-id');

@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    // token: 'bb73c7b72eb346c483ec158843b2db28f8452129db964c219d5c05bba2934aba',
+    token: 'bb73c7b72eb346c483ec158843b2db28f8452129db964c219d5c05bba2934aba',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -567,6 +567,33 @@ var Exam = {
         removeTicket: function (id, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'ticket/' + id + '/remove?token=' + Exam.token,
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    $('.module-block[data-id="1000106"]').attr('check', 1);
+                },
+                success: function (data) {
+                    if (data) {
+                        switch (data.code) {
+                            case Exam.statusCodes.OK:
+                                if (callback) {
+                                    callback(data.data);
+                                }
+                                break;
+                            case Exam.statusCodes.ERROR:
+                                alert("Error");
+                                break;
+                        }
+                    }
+                },
+                complete: function () {
+                    $('.module-block[data-id="1000106"]').removeAttr('check', 1);
+                }
+            })
+        },
+        
+        removeExam: function (id, callback) {
+            $.ajax({
+                url: Exam.urls.ExamRest + 'exam/' + id + '/remove?token=' + Exam.token,
                 type: 'POST',
                 beforeSend: function (xhr) {
                     $('.module-block[data-id="1000106"]').attr('check', 1);
