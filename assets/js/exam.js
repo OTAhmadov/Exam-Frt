@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: 'bd90363e63ff47e0adb8fcd1f170b20975f5a53814ab4b26afea6a670ee4448a',    
+    // token: 'bb73c7b72eb346c483ec158843b2db28f8452129db964c219d5c05bba2934aba',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -50,8 +50,8 @@ var Exam = {
 //        HSIS: "http://localhost:8080/UnibookExamRest/",
 //        REPORT: 'http://192.168.1.78:8082/ReportingRest/',
         EMS: 'http://192.168.1.78:8082/UnibookEMS/',
-        ExamRest: 'http://localhost:8080/ExamRest/',
-//        ExamRest: 'http://192.168.1.78:8082/ExamRest/',
+        // ExamRest: 'http://localhost:8080/ExamRest/',
+       ExamRest: 'http://192.168.1.78:8082/ExamRest/',
         COMMUNICATION: 'http://192.168.1.78:8082/CommunicationRest/',
         NOTIFICATION: 'http://192.168.1.78:8082/NotificationSystem/greeting.html?token=',
         SOCKET: 'http://192.168.1.78:8082/SocketRest',
@@ -1527,6 +1527,7 @@ var Exam = {
             if (data) {
                 var noteForPage = $('body').attr('data-note');
                 var html = '';
+
                 var count;
 
                 if (page) {
@@ -1536,10 +1537,13 @@ var Exam = {
                 }
                 
                 $.each(data, function (i, v) {
-
+                    var choices_html = '';
+                    $.each(v.choises,function() {
+                        choices_html += '<li class="question-answer">'+ this.questionContent+'</li>';
+                    });
                     html += '<div data-id="' + v.id + '">' +
-                            '<div class = "count_of_questions_of_tickets">' + (++count) + '.</div>' +
-                            '<div class = "quest-content"><div data-path = "'+ v.filePath +'">' + v.content + '</div>' +
+                            '<div class = "count_of_questions_of_tickets">' + (++count) + '</div>' +
+                            '<div class = "quest-content"><div data-path = "'+ v.filePath +'">' + v.content  + '<ul class="question-choices">'+choices_html+'</ul></div>' +
                             '<div class = "ticket-image"><img class = "imageofquestinticket" src =' + Exam.urls.ExamRest + '/questions/file/' + v.filePath + '/?token=' + Exam.token + '></div>' +           
                             '</div></div>';
                     
