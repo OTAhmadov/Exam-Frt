@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: 'bb73c7b72eb346c483ec158843b2db28f8452129db964c219d5c05bba2934aba',
+    token: '0',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -51,7 +51,7 @@ var Exam = {
 //        REPORT: 'http://192.168.1.78:8082/ReportingRest/',
         EMS: 'http://192.168.1.78:8082/UnibookEMS/',
         // ExamRest: 'http://localhost:8080/ExamRest/',
-       ExamRest: 'http://192.168.1.78:8082/ExamRest/',
+        ExamRest: 'http://localhost:8080/ExamRest/',
         COMMUNICATION: 'http://192.168.1.78:8082/CommunicationRest/',
         NOTIFICATION: 'http://192.168.1.78:8082/NotificationSystem/greeting.html?token=',
         SOCKET: 'http://192.168.1.78:8082/SocketRest',
@@ -167,7 +167,45 @@ var Exam = {
     },
     Proxy: {
             
-        getTickets: function (page, params, callback) {
+        getExamListDetails: function (id, callback) {
+            var data;
+            $.ajax({
+                url: Exam.urls.ExamRest + 'exam/' + id + '?token=' + Exam.token,
+                type: 'GET',
+                success: function (result) {
+                    try {
+                        if (result) {
+                            switch (result.code) {
+                                case Exam.statusCodes.OK:
+                                    data= result.data
+                                    break;
+
+                                case Exam.statusCodes.ERROR:
+                                    $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                        type: 'danger'
+                                    });
+                                    break;
+
+                                case Exam.statusCodes.UNAUTHORIZED:
+
+                                    window.location = Exam.urls.ROS + 'unauthorized';
+                                    break;
+                                }
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    },                
+                    complete: function (jqXHR, textStatus) {
+                    if (callback) {
+                        callback(data);
+                    }
+                }
+
+                });
+            },  
+            
+            getTickets: function (page, params, callback) {
             var data;
             $.ajax({
                 url: Exam.urls.ExamRest + 'ticket?token=' + Exam.token + (params ? '&' + params : '') + (page ? '&page=' + page : ''),
@@ -201,49 +239,83 @@ var Exam = {
             })
         },
         
-            getExamList: function (callback) {
-                var data;
-                $.ajax({
-                    url: Exam.urls.ExamRest + 'exam/list?token=' + Exam.token,
-                    type: 'GET',
-                    success: function (result) {
-                        try {
-                            if (result) {
-                                switch (result.code) {
-                                    case Exam.statusCodes.OK:
-                                        data= result.data
+        getExamList: function (callback) {
+            var data;
+            $.ajax({
+                url: Exam.urls.ExamRest + 'exam/list?token=' + Exam.token,
+                type: 'GET',
+                success: function (result) {
+                    try {
+                        if (result) {
+                            switch (result.code) {
+                                case Exam.statusCodes.OK:
+                                    data= result.data
 
-                                        Exam.Service.parseExamList(data)
-                                        break;
+                                    Exam.Service.parseExamList(data)
+                                    break;
 
-                                    case Exam.statusCodes.ERROR:
-                                        $.notify(Exam.dictionary[Exam.lang]['error'], {
-                                            type: 'danger'
-                                        });
-                                        break;
+                                case Exam.statusCodes.ERROR:
+                                    $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                        type: 'danger'
+                                    });
+                                    break;
 
-                                    case Exam.statusCodes.UNAUTHORIZED:
+                                case Exam.statusCodes.UNAUTHORIZED:
 
-                                        window.location = Exam.urls.ROS + 'unauthorized';
-                                        break;
-                                    }
+                                    window.location = Exam.urls.ROS + 'unauthorized';
+                                    break;
                                 }
-                            } catch (err) {
-                                console.error(err);
                             }
-                        },                
-                        complete: function (jqXHR, textStatus) {
-                        if (callback) {
-                            callback(data);
+                        } catch (err) {
+                            console.error(err);
                         }
+                    },                
+                    complete: function (jqXHR, textStatus) {
+                    if (callback) {
+                        callback(data);
                     }
+                }
 
-                    });
-                },    
+                });
+            },    
 
         addExam: function (formData, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'exam/add',
+                type: 'POST',
+                data: formData,
+                beforeSend: function (xhr) {
+                    $('.module-block[data-id="1000119"]').attr('check', 1);
+                },
+                success: function (data) {
+                    if (data) {
+                        switch (data.code) {
+                            case Exam.statusCodes.OK:
+                                if (callback) {
+                                    callback(data.data);
+                                }
+                                $('body').find('.add-new').css('right', '-100%')
+
+                                break;
+                            case Exam.statusCodes.ERROR:
+                                if(data.message) {
+                                    $.notify(data.message[Exam.lang], {
+                                        type: 'danger'
+                                    });
+                                }
+                                break;
+                        }
+                    }
+                },
+                complete: function () {
+                    $('.module-block[data-id="1000119"]').removeAttr('check', 1);
+                }
+            })
+        },
+        
+        updateExam: function (id, formData, callback) {
+            $.ajax({
+                url: Exam.urls.ExamRest + 'exam/' + id + '/update?token=' + Exam.token,
                 type: 'POST',
                 data: formData,
                 beforeSend: function (xhr) {
@@ -1191,9 +1263,8 @@ var Exam = {
                 contentType: false,
                 processData: false,
                 beforeSend: function (xhr) {
-//                    $('#main-div #question_add').attr('disabled', 'disabled');
-
-                },
+                    $('#main-div #question_add').attr('disabled', 'disabled');
+                    },
                 success: function (result) {
                     if (result) {
                         switch (result.code) {
@@ -1222,6 +1293,11 @@ var Exam = {
                                 break;
                         }
                     }
+                },
+                complete: function (jqXHR, textStatus) {
+                    $('#main-div #question_add').removeAttr('disabled');
+                    $('#quest_file').val('');
+                    $('.file-name').text('');
                 }
             });
         },
@@ -1655,7 +1731,7 @@ var Exam = {
                     count = 0;
                 }
                 $.each(data, function (i, v) {
-                    html += '<tr data-id="' + v.id + '" >' +
+                    html += '<tr data-id="' + v.id + '" data-start-date = "' + v.examStartDate + '" data-duration = "' + v.examDuration + '" data-subject = "' + v.subject.id + '" data-course = "' + v.course.id + '" data-finish-date = "'+ v.examFinishDate +'" data-start-time = "' + v.examStartTime + '" data-finish-time = "' + v.examFinishTime + '">' +
                             '<td>' + (++count) + '</td>' +
                             '<td>' + v.subject.value[Exam.lang].substring(0, 70) + '</td>' +
                             '<td>' + v.course.value[Exam.lang].substring(0, 70) + '</td>' +

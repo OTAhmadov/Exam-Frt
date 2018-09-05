@@ -275,8 +275,7 @@
                     }
 
                     if (allValid) {
-                        Exam.Proxy.addQuestion(formData, function () {alert('')
-                            alert('sadad')
+                        Exam.Proxy.addQuestion(formData, function () {
                             var params = $('.question-search-form').serialize();
                             Exam.Proxy.loadQuestions('', params);
                         });

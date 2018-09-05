@@ -340,6 +340,39 @@ $(function () {
         }
     });
         
+    $('body').on('click', '#operation_1001402', function () {
+        try {
+            var object = $(this).parents('#exam_list tbody tr').addClass('selected'); 
+            var id = object.attr('data-id');
+            $('body').attr('data-id', id)
+            Exam.Proxy.getExamListDetails(id, function (data) {
+                if (data) {
+                    $('body').find('#exam_start_date').val(data.examStartDate)
+                    $('body').find('#exam_finish_date').val(data.examFinishDate)
+                    $('body').find('#exam_start_time').val(data.examStartTime)
+                    $('body').find('#exam_finish_time').val(data.examFinishTime )
+                    $('body').find('#exam_duration').val(data.examDuration)
+                    Exam.Proxy.loadGroups(function (groups) {
+                        if (groups) {
+                            var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                            $.each(groups.data, function (i, v) {
+                                html += '<option value = "' + v.id + '">' + v.code + '</option>'
+                            });
+                            $('#group').html(html);
+                        }
+                        $('body').find('#group').find('option[value="' + data.course.id + '"]').prop('selected', true);
+                    });
+                    
+                }
+            })    
+            $('body .add-new .search-scroll').load('partials/edit_exam.html');
+            $('body').find('.add-new').css('right', '0');
+
+        } catch (err) {
+            console.error(err);
+        }
+    });
+        
     $('body').on('click', '#operation_1001403 ', function (e) {
         try {
             var examId  = $(this).parents('#exam_list tbody tr').attr('data-id');
@@ -478,13 +511,16 @@ $(function () {
 
         return false
     });
-
+    
+    $('body').on('change', '.variant_file', function(){
+        $(this).parents('.variant-item').find('.form-control').removeAttr('variant-required');
+    });
     $('#main-div').on('click', '#question_add', function (e) {
         try {
             if (Exam.Validation.validateRequiredFields('data-required')) {
                 var allValid = true;
                 var formData = new FormData();
-                if (CKEDITOR.instances.quest_content.getData()) {
+                if ($('#quest_file')[0].files[0] || CKEDITOR.instances.quest_content.getData()) {
                     var question = {
                         subjectId: $('#quest_subject').val(),
                         eduPlanId: $('#edu_plan').val(),
@@ -499,7 +535,7 @@ $(function () {
                         token: Exam.token
                     }
                 } else {
-                    $.notify('Sual məzmununu əlavə edin', {
+                    $.notify('Sual məzmununu yaxud şəkil əlavə edin', {
                         type: 'warning'
                     });
                     return false;
@@ -541,6 +577,7 @@ $(function () {
                             question.variants.push(variant);
 
                             if ($(this).find('.variant_file')[0].files[0]) {
+                                
                                 var file = $(this).find('.variant_file')[0].files[0];
                                 console.log(file);
                                 console.log('--');
@@ -578,6 +615,7 @@ $(function () {
                 }));
 
                 if ($('#quest_file')[0].files[0]) {
+                    
                     var image = $('#quest_file')[0].files[0];
                     if (Exam.Validation.checkFile(image.type, fileTypes.IMAGE_CONTENT_TYPE)) {
                         formData.append('file', image);
@@ -776,13 +814,43 @@ $(function () {
                     var examParams = {
                         courseId: $('#group').val(),
                         examStartDate: $('#exam_start_date').val(),
-                        examFinishDate: $('#exam_finish_date').val(),
+                    //    examFinishDate: $('#exam_finish_date').val(),
                         examStartTime: $('#exam_start_time').val(),
                         examFinishTime: $('#exam_finish_time').val(),
                         examDuration: $('#exam_duration').val(),
                         token: Exam.token
                     };
                     Exam.Proxy.addExam(examParams, function () {    
+                        Exam.Proxy.getExamList();
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                }
+
+        } else {
+            return false;
+        }
+    });
+    
+    $('body').on('click', '#exam_edit', function () {
+        
+        var id =  $('body').attr('data-id');
+        if (Exam.Validation.validateRequiredFields('exam-required')) {
+            
+                try {
+                    var params = $('.exam-edit-form').serialize();
+////                    var formData = new FormData();
+//                    var examParams = {
+//                        courseId: $('#group').val(),
+//                        examStartDate: $('#exam_start_date').val(),
+//                        examFinishDate: $('#exam_finish_date').val(),
+//                        examStartTime: $('#exam_start_time').val(),
+//                        examFinishTime: $('#exam_finish_time').val(),
+//                        examDuration: $('#exam_duration').val(),
+//                        token: Exam.token
+//                    };
+                    Exam.Proxy.updateExam(id, params, function () {
                         Exam.Proxy.getExamList();
                     });
 
@@ -827,7 +895,7 @@ $(function () {
                         );
                     });
                     formData.append('question', new Blob([JSON.stringify(question)], {type: "application/json"}));
-                    Exam.Proxy.addTicket(formData, function () {    
+                    Exam.Proxy.addTicket(formData, function () {console.log(question)    
                         Exam.Proxy.getTickets('', params);
                     });
 
@@ -973,8 +1041,9 @@ $(function () {
                         '</div>' +
                         '</div>';
 
-                $('#append_res_param .res-edition-item.selected').html(html);
-//                $('#append_res_param').html(html);
+                    $('#append_res_param .res-edition-item.selected').remove();
+//                    $('#append_res_param .res-edition-item.selected').html(html);
+                $('#append_res_param').prepend(html);
                 $('.resource-edition-modal').modal('hide');
                 $('body').find('div.res-edition-item').removeClass('selected');
                 $('.param-block').has('.blank-panel').children('.blank-panel').remove();

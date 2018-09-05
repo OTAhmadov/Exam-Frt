@@ -7,7 +7,7 @@
                 <!--<h3 class="m-t-6" data-i18n="" class="panel-title">İmtahan </h3>-->
             </div>
             <div class="col-md-2">
-                <button id="exam_add" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Yadda saxla</button>
+                <button id="exam_edit" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Yadda saxla</button>
             </div>
             <div class="col-md-2">
                 <button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>
@@ -15,51 +15,52 @@
         </div>
 
     </div>
+    <form class="exam-edit-form">
     <div class="panel-body " style="margin: 0 -15px;">
         <div class="row exam">
             <div class="form-group col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Qrup</label>
-                        <select class="form-control" id="group"></select>
+                        <select class="form-control" id="group" name="courseId"></select>
                     </div>
                 </div>
             </div>
             <div class="form-group col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label data-i18n="" >Tarix</label>
-                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_start_date">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label data-i18n="" >İmtahan müddəti(dəqiqə)</label>
-                        <input type="text" class="form-control" id="exam_duration">
+                        <label data-i18n="" >Başlama tarixi</label>
+                        <input type="text" class="form-control datepicker" name="examStartDate" data-date-format="dd/mm/yyyy" id="exam_start_date">
                     </div>
                 </div>
 <!--                <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Bitmə tarixi</label>
-                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_finish_date">
+                        <input type="text" class="form-control datepicker" name="examFinishDate" data-date-format="dd/mm/yyyy" id="exam_finish_date">
                     </div>
                 </div>-->
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Başlama vaxtı</label>
-                        <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy" id="exam_start_time">
+                        <input type="text" class="form-control timepicker" name="examStartTime" data-format="MM/dd/yyyy" id="exam_start_time">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Bitmə vaxtı</label>
-                        <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy" id="exam_finish_time">
+                        <input type="text" class="form-control timepicker" name="examFinishTime" data-format="MM/dd/yyyy" id="exam_finish_time">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label data-i18n="" >İmtahan müddəti(dəqiqə)</label>
+                        <input type="text" class="form-control" id="exam_duration" name="examDuration">
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+    </form>
 </div>
 
 <script type="text/javascript">
@@ -72,17 +73,17 @@
             format: 'HH:mm'
         });
         
-        Exam.Proxy.loadGroups(function (groups) {
-            if (groups) {
-                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
-                $.each(groups.data, function (i, v) {
-                    html += '<option value = "' + v.id + '">' + v.code + '</option>'
-                });
-                $('#group').html(html);
-            }
-        });
+//        Exam.Proxy.loadGroups(function (groups) {
+//            if (groups) {
+//                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+//                $.each(groups.data, function (i, v) {
+//                    html += '<option value = "' + v.id + '">' + v.code + '</option>'
+//                });
+//                $('#group').html(html);
+//            }
+//        });
         $('#group').select2({
-            placeholder: Exam.dictionary[Exam.lang]["subjects"],
+////            placeholder: Exam.dictionary[Exam.lang]["subjects"],
             language: {
                 noResults: function () {
                     return Exam.dictionary[Exam.lang]["no_information"];
