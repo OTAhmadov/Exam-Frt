@@ -17,85 +17,86 @@
     </div>
     <div class="panel-body " style="margin: 0 -15px;">
         <div class="row exam">
-<!--            <div class="form-group col-md-12">
+            <!--            <div class="form-group col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Universitet</label>
+                                    <select class="form-control" id="uni_name"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Kafedra</label>
+                                    <select class="form-control" id="department"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fakültə</label>
+                                    <select class="form-control" id="faculty"></select>
+                                </div>
+                            </div>
+                        </div>-->
+            <div class="form-group col-md-12">
+                <div class="form-group col-md-6 фы">
+                    <label data-i18n="">Qrup</label>
+                    <select class="form-control" id="group" ticket-required></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label data-i18n="">Fakültə</label>
+                    <select class="form-control " id="org_faculty_filter"></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label data-i18n="">Kafedra</label>
+                    <select class="form-control " id="department_filter"></select>
+                </div>
+                <div class="form-group col-md-6">
+                    <select class="form-control hidden" id="org_uni_filter"></select>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-6">
+                    <div class=form-group">
+                        <label data-i18n="">Tədris planı</label>
+                        <select class="form-control" id="edu_plan" ticket-required></select>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class=form-group">
+                        <label data-i18n="subject">Fənn Qrupu</label>
+                        <select  class="form-control" id="quest_subject" ticket-required></select>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Universitet</label>
-                        <select class="form-control" id="uni_name"></select>
+                        <label>Mövzu</label>
+                        <select multiple class="form-control" id="quest_topic"></select>
+                        <!--ticket-required-->
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Kafedra</label>
-                        <select class="form-control" id="department"></select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Fakültə</label>
-                        <select class="form-control" id="faculty"></select>
-                    </div>
-                </div>
-            </div>-->
-                <div class="form-group col-md-12">
-                    <div class="form-group col-md-6 фы">
-                        <label data-i18n="">Qrup</label>
-                        <select class="form-control" id="group" ticket-required></select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label data-i18n="">Fakültə</label>
-                        <select class="form-control " id="org_faculty_filter"></select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label data-i18n="">Kafedra</label>
-                        <select class="form-control " id="department_filter"></select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <select class="form-control hidden" id="org_uni_filter"></select>
-                    </div>
-                </div>
-                <div class="form-group col-md-12">
-                    <div class="col-md-6">
-                        <div class=form-group">
-                            <label data-i18n="">Tədris planı</label>
-                            <select class="form-control" id="edu_plan" ticket-required></select>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class=form-group">
-                            <label data-i18n="subject">Fənn Qrupu</label>
-                            <select  class="form-control" id="quest_subject" ticket-required></select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Mövzu</label>
-                            <select multiple class="form-control" id="quest_topic"></select>
-                            <!--ticket-required-->
-                        </div>
-                    </div></div>
+                </div></div>
             <div class="form-group col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Bilet sayı</label>
-                         <input class="form-control" id="ticket_count" ticket-required>
+                        <input class="form-control" id="ticket_count" ticket-required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>İmtahan növü</label>
+                        <label>Sistem</label>
                         <select class="form-control" id="exam_type" ticket-required></select>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-12">
                 <div class="panel-heading" style="padding: 0 0">
                     <div class="add-edition" style="right: 0px;">
                         <h3 class="panel-title">Sual əlavə et</h3>
                         <div id="add-edition-image"><img src="assets/img/AddNew.png" alt="" width="20" height="20"></div>
-                                                            <div class="panel-body param-block" style="padding: 0">
-                    <div class="blank-panel no_information"><h3 data-i18n="no_information">No available information</h3></div>
-                </div>
+                        <div class="panel-body param-block" style="padding: 0">
+                            <div class="blank-panel no_information"><h3 data-i18n="no_information">No available information</h3></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,59 +104,59 @@
                 <div id="append_res_param" class="panel-body add-page" style="padding: 0"></div>
             </div>
             <div class="form-group col-md-12">
-                    <div class="form-group">
-                        <label>Qeyd</label>
-                        <textarea rows="5" cols="90" class="form-control" id="ticket_note"></textarea>
-                    </div>
+                <div class="form-group">
+                    <label>Qeyd</label>
+                    <textarea rows="5" cols="90" class="form-control" id="ticket_note"></textarea>
                 </div>
+            </div>
         </div>
         <div class="modal  resource-edition-modal add-page" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content add-sual" col-md-12>
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 data-i18n="resources_other_info" class="modal-title">Suallar strukturu</h4>
-            </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content add-sual" col-md-12>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 data-i18n="resources_other_info" class="modal-title">Suallar strukturu</h4>
+                    </div>
 
-            <div class="modal-body col-md-12"  style="float: left;">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Sualın Növü</label>
-                                    <select class="form-control" id="quest_type" data-ticket-required></select>
-                                </div>
+                    <div class="modal-body col-md-12"  style="float: left;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sualın Növü</label>
+                                <select class="form-control" id="quest_type" data-ticket-required></select>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Sualın Tipi</label>
-                                    <select class="form-control" id="quest_tipi" data-ticket-required></select>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sualın Tipi</label>
+                                <select class="form-control" id="quest_tipi" data-ticket-required></select>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Çətinlik dərəcəsi</label>
-                                    <select class="form-control" id="quest_difficulty" data-ticket-required></select>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Çətinlik dərəcəsi</label>
+                                <select class="form-control" id="quest_difficulty" data-ticket-required></select>
                             </div>
-                            <div class="col-md-6">        
-                                <div class="form-group">
-                                    <label data-i18n="" >Dil</label>
-                                    <select class="form-control" id="language" data-ticket-required></select>
-                                </div>
+                        </div>
+                        <div class="col-md-6">        
+                            <div class="form-group">
+                                <label data-i18n="" >Dil</label>
+                                <select class="form-control" id="language" data-ticket-required></select>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Sual sayı</label>
-                                    <input type="text" class="form-control" id="quest_count_in_modal" data-ticket-required>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sual sayı</label>
+                                <input type="text" class="form-control" id="quest_count_in_modal" data-ticket-required>
                             </div>
-            </div>
-            <div class="modal-footer flex-img">
-                <button data-i18n="ok"  data class="btn btn-primary confirm-res-param">OK</button>
-                <button data-i18n="close" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer flex-img">
+                        <button data-i18n="ok"  data class="btn btn-primary confirm-res-param">OK</button>
+                        <button data-i18n="close" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
     </div>
 </div>
 
@@ -164,8 +165,8 @@
         Exam.i18n(Exam.lang);
         $('.search-scroll').slimScroll();
         $('#quest_topic').select2();
-            
-        Exam.Proxy.loadEduType(function (data) { 
+
+        Exam.Proxy.loadEduType(function (data) {
             if (data) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
                 $.each(data, function (i, v) {
@@ -174,16 +175,16 @@
                 $('#edu_plan').html(html);
             }
         });
-            
-            Exam.Proxy.loadDictionariesByTypeId(Exam.Type.EXAM_TYPE, '0', function (examType) {
+
+        Exam.Proxy.loadDictionariesByTypeId(Exam.Type.EXAM_TYPE, '0', function (examType) {
             if (examType) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
                 $.each(examType, function (i, v) {
                     html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
                 });
                 $('#exam_type').html(html);
-                }
-            });
+            }
+        });
 //            Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EXAM_TYPE, function (examType) {
 //            if (examType) {
 //                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
@@ -211,24 +212,24 @@
 //                $('#edu_year_part').html(html);
 //                }
 //            });
-            Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LANG, function (eduLang) {
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.EDU_LANG, function (eduLang) {
             if (eduLang) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
                 $.each(eduLang, function (i, v) {
                     html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
                 });
                 $('#language').html(html);
-                }
-            });
-            Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
+            }
+        });
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
             if (questionLevel) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
                 $.each(questionLevel, function (i, v) {
                     html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
                 });
                 $('#quest_difficulty').html(html);
-                }
-            });
+            }
+        });
 //            Exam.Proxy.loadEduYear(function (eduYear) {
 //                
 //            if (eduYear) {
@@ -238,7 +239,7 @@
 //                $('#edu_year').html(html);
 //                }
 //            });
-            Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TIPI, function (questionTipi) {
+        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_TIPI, function (questionTipi) {
             if (questionTipi) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
                 $.each(questionTipi, function (i, v) {
@@ -247,39 +248,39 @@
                 $('#quest_tipi').html(html);
             }
         });
-           
-            $('#uni_name').on('change', function () {
-                var id = $(this).val();
-                var text = $(this).find('option:selected').text();
 
-                Exam.Proxy.getStructureListByFilter(id, '', function (data) {
-                    if (data && data.data) {
-                        var facultyHtml = '';
-                        var departmentHtml = '';
-                        var faculty = data.data.facultyList;
-                        var department = data.data.departmentList;
+        $('#uni_name').on('change', function () {
+            var id = $(this).val();
+            var text = $(this).find('option:selected').text();
 
-                        facultyHtml = '<option value = "0">Fakültə</option>'
-                        $.each(faculty, function (i, v) {
-                            facultyHtml += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
-                        })
-                        
-                        $('#faculty').html(facultyHtml);
+            Exam.Proxy.getStructureListByFilter(id, '', function (data) {
+                if (data && data.data) {
+                    var facultyHtml = '';
+                    var departmentHtml = '';
+                    var faculty = data.data.facultyList;
+                    var department = data.data.departmentList;
 
-                        departmentHtml = '<option value ="0">Kafedra</option>'
-                        $.each(department, function (i, v) {
-                            departmentHtml += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
-                        })
-                        
-                        $('#department').html(departmentHtml);
+                    facultyHtml = '<option value = "0">Fakültə</option>'
+                    $.each(faculty, function (i, v) {
+                        facultyHtml += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
 
-                        $('.btn-load-more').removeAttr('data-page');
-                        var queryparams = $('.main-content-upd .student-search-form').serialize();
+                    $('#faculty').html(facultyHtml);
+
+                    departmentHtml = '<option value ="0">Kafedra</option>'
+                    $.each(department, function (i, v) {
+                        departmentHtml += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+
+                    $('#department').html(departmentHtml);
+
+                    $('.btn-load-more').removeAttr('data-page');
+                    var queryparams = $('.main-content-upd .student-search-form').serialize();
 //                        Exam.Proxy.loadStudents('', queryparams);
 
-                    }
-                })
-            });
+                }
+            })
+        });
 //        
 //            Exam.Proxy.loadGroups(function (groups) {
 //                if (groups) {
@@ -298,7 +299,7 @@
 //                    }
 //                }
 //            });  
-        
+
 //       $('#group').on('change', function () {
 //            var groupId = $(this).val();
 //            Exam.Proxy.loadCoursesByGroupId(groupId, function (groups) {
@@ -312,7 +313,7 @@
 //                }
 //            });
 //        });
-        
+
 //        Exam.Proxy.loadDictionariesByParentCode(Exam.Codes.QUESTION_LEVEL, function (questionLevel) {
 //            if (questionLevel) {
 //                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
@@ -356,12 +357,11 @@
                         $('#quest_subject').html(html);
                     }
                 });
-            }
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             }
         });
-        
+
         $('#main-div').on('change', '#quest_subject', function (e) {
             try {
                 var eduPlanId = $('body').find('#edu_plan').val();
@@ -375,8 +375,7 @@
                         $('#quest_topic').html(html);
                     }
                 });
-            }
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             }
         });
@@ -385,8 +384,7 @@
             try {
                 var fileName = this.files[0].name;
                 $(this).closest('label').siblings('span.file-name').text(fileName);
-            }
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             }
         });
@@ -405,8 +403,7 @@
                 }
                 if (type == "OPEN_QUEST") {
                     $('.question_choises').addClass('hidden');
-                }
-                else {
+                } else {
                     $('.question_choises').removeClass('hidden');
                 }
                 if (type != "") {
@@ -417,81 +414,80 @@
                         $(this).attr('type', inputType);
                     });
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             }
         });
-        
-            $('body').on('click', '.add-page-res #confirmAddRes', function () {
-        var allValid = true;
-        if (Hsis.Validation.validateRequiredFields('data-required')) {
-            if ($('body').find('#append_res_param .res-edition-item').length > 0) {
-                try {
-                    var formData = new FormData();
-                    var resource = {
-                        resourceName: $('#res-name').val(),
-                        isbnCode: $('#isbn').val(),
-                        formatId: $('#format-id').val(),
-                        langId: $('#lang-id').val(),
-                        resCount: $('#res-count').val(),
-                        sectionId: $('#adder_section').val(),
-                        bibdescId: $('#bibdesc-id').val(),
-                        contentId: $('#res-content').val(),
-                        subjectId: $('#subject-id').val(),
-                        serialTypeId: $('#res_serial').val(),
-                        authorId: $('#author-id').val(),
-                        publishPlace: $('#publish-place-id').val(),
-                        edition: [],
-                        compiler: [],
-                        token: Hsis.token
-                    };
-                    $('.res-edition-item').each(function (i, v) {
-                        var tr = $(this).find('tbody tr');
-                        resource.edition.push(
-                            {
-                                publishDate: tr.attr('data-res-publish-date'),
-                                pageCount: tr.attr('data-res-page'),
-                                resPrice: tr.attr('data-res-price'),
-                                resRowSerial: tr.attr('data-res-row-serial')
-                            }
-                        );
-                    });
-                    $('.res-compiler-item').each(function (i, v) {
-                        var tr = $(this).find('tbody tr');
-                        resource.compiler.push(
-                            {
-                                compilerTypeId: tr.attr('data-res-compiler'),
-                                compilerName: tr.attr('data-res-compiler-name')
-                            }
-                        );
-                    });
 
-                    formData.append('resource', new Blob([JSON.stringify(resource)], {type: "application/json"}));
-                    if (allValid) {
-                        Hsis.Proxy.addResource(formData, function () {
-                            var params = $('.resource-form').serialize();
-                            Hsis.Proxy.getResources('', params);
+        $('body').on('click', '.add-page-res #confirmAddRes', function () {
+            var allValid = true;
+            if (Hsis.Validation.validateRequiredFields('data-required')) {
+                if ($('body').find('#append_res_param .res-edition-item').length > 0) {
+                    try {
+                        var formData = new FormData();
+                        var resource = {
+                            resourceName: $('#res-name').val(),
+                            isbnCode: $('#isbn').val(),
+                            formatId: $('#format-id').val(),
+                            langId: $('#lang-id').val(),
+                            resCount: $('#res-count').val(),
+                            sectionId: $('#adder_section').val(),
+                            bibdescId: $('#bibdesc-id').val(),
+                            contentId: $('#res-content').val(),
+                            subjectId: $('#subject-id').val(),
+                            serialTypeId: $('#res_serial').val(),
+                            authorId: $('#author-id').val(),
+                            publishPlace: $('#publish-place-id').val(),
+                            edition: [],
+                            compiler: [],
+                            token: Hsis.token
+                        };
+                        $('.res-edition-item').each(function (i, v) {
+                            var tr = $(this).find('tbody tr');
+                            resource.edition.push(
+                                    {
+                                        publishDate: tr.attr('data-res-publish-date'),
+                                        pageCount: tr.attr('data-res-page'),
+                                        resPrice: tr.attr('data-res-price'),
+                                        resRowSerial: tr.attr('data-res-row-serial')
+                                    }
+                            );
                         });
+                        $('.res-compiler-item').each(function (i, v) {
+                            var tr = $(this).find('tbody tr');
+                            resource.compiler.push(
+                                    {
+                                        compilerTypeId: tr.attr('data-res-compiler'),
+                                        compilerName: tr.attr('data-res-compiler-name')
+                                    }
+                            );
+                        });
+
+                        formData.append('resource', new Blob([JSON.stringify(resource)], {type: "application/json"}));
+                        if (allValid) {
+                            Hsis.Proxy.addResource(formData, function () {
+                                var params = $('.resource-form').serialize();
+                                Hsis.Proxy.getResources('', params);
+                            });
+                        }
+
+                    } catch (err) {
+                        console.error(err);
                     }
 
-                } catch (err) {
-                    console.error(err);
+                } else {
+                    $.notify("Nəşri məlumatları doldurun", {
+                        type: 'danger'
+                    });
                 }
-
             } else {
-                $.notify("Nəşri məlumatları doldurun", {
-                    type: 'danger'
-                });
+
+                return false;
             }
-        } else {
 
-            return false;
-        }
+        });
 
-    });
-        
-                $('#group').select2({
+        $('#group').select2({
             placeholder: 'Fənn qrupları',
             language: {
                 noResults: function () {
@@ -524,8 +520,8 @@
                 });
                 $('#group').html(html);
             }
-         });
-            
+        });
+
 //        $('body').on('change', '#group', function() {
 //            var groupId = $(this).val();
 //            Exam.Proxy.loadCoursesByGroupId(groupId, function(data) {
@@ -536,9 +532,9 @@
 //                $('body').find('.ticket-subject').text(data.eduPlanSubject.value[Exam.lang])
 //            })
 //        });
-        
+
         Exam.Proxy.getStructureListByFilter(0, 0, function (data) {
-           
+
             if (data && data.data) {
                 var html = '';
                 var uni = data.data.universityList;
@@ -549,17 +545,17 @@
                 var department = data.data.departmentList;
 
                 if (uniCount <= 1) {
-				
+
                     $('#org_uni_filter').attr('disabled', 'disabled')
                     $.each(uni, function (i, v) {
 
                         html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
-                        
+
                     })
                     $('#org_uni_filter').html(html)
-                    
+
                 } else {
-                    
+
                     html = '<option value = "0">Universitet</option>'
                     $.each(uni, function (i, v) {
 
@@ -567,11 +563,11 @@
                     })
                     $('#org_uni_filter').html(html)
                 }
-               
+
                 if (departmentCount <= 1) {
                     html = '';
                     $('#department_filter').attr('disabled', 'disabled')
-                    
+
                     $.each(department, function (i, v) {
 
                         html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
@@ -579,7 +575,7 @@
                     $('#department_filter').html(html)
                 } else {
                     html = '<option value = "0">Kafedra</option>'
-                    
+
                     $.each(department, function (i, v) {
                         html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
                     })
@@ -588,19 +584,19 @@
                 if (facultyCount <= 1) {
                     html = '';
                     $('#org_faculty_filter').attr('disabled', 'disabled')
-					
+
                     $.each(faculty, function (i, v) {
 
                         html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
                     })
-					
+
                     $('#org_faculty_filter').html(html)
-                    
+
                 } else {
-                    
+
                     html = '<option value = "0">Fakültə</option>'
-                    
-                        $.each(faculty, function (i, v) {
+
+                    $.each(faculty, function (i, v) {
 
                         html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
                     })
@@ -608,7 +604,7 @@
                 }
             }
         });
-        
+
 //        $('#org_faculty_filter').on('change', function () {
 //            var text = $(this).find('option:selected').text();
 //            if ($(this).val()>0) {

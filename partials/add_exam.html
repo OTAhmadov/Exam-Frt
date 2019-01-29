@@ -18,10 +18,38 @@
     <div class="panel-body " style="margin: 0 -15px;">
         <div class="row exam">
             <div class="form-group col-md-12">
+                <div class="form-group col-md-2">
+                    <label>Təkrar imtahan</label>
+                    </div>
+                    <div class="form-group col-md-10">
+                    <input type="checkbox" class="reexam" style="opacity: 1; position: sticky;">
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Universitet</label>
+                        <select class="form-control" id="uni"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Fakultə</label>
+                        <select class="form-control" id="fac" ticket-required disabled></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Qrup</label>
-                        <select class="form-control" id="group"></select>
+                        <select class="form-control" id="group" disabled></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>İmtahan növü</label>
+                        <select class="form-control" id="exam_type" ticket-required></select>
                     </div>
                 </div>
             </div>
@@ -38,12 +66,12 @@
                         <input type="text" class="form-control" id="exam_duration">
                     </div>
                 </div>
-<!--                <div class="col-md-6">
-                    <div class="form-group">
-                        <label data-i18n="" >Bitmə tarixi</label>
-                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_finish_date">
-                    </div>
-                </div>-->
+                <!--                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label data-i18n="" >Bitmə tarixi</label>
+                                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_finish_date">
+                                    </div>
+                                </div>-->
                 <div class="col-md-6">
                     <div class="form-group">
                         <label data-i18n="" >Başlama vaxtı</label>
@@ -56,6 +84,57 @@
                         <input type="text" class="form-control timepicker" data-format="MM/dd/yyyy" id="exam_finish_time">
                     </div>
                 </div>
+            </div>
+            <div class="form-group col-md-12 students-check hidden">    
+                <label data-i18n="" >Tələbələr</label>
+                <!--<div class=" ">-->
+                    <table id="course-student-table" class="table table-celled table-hover long-last-td" style="white-space: pre-line">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>S.A.A</th>
+                                <th><input type='checkbox' class="all-student-check" style="opacity: 1; position: sticky;"/></th>
+                                <!--<th><div class="add-new add-student course-student-table-add"><img src="assets/img/AddNew.png" alt="" width="20" height="20"></div></th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                <!--</div>-->
+<!--                <div class="modal student-modal">
+                    <div class="modal-dialog document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4  class="modal-title">İştirakçılar</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="form-group-wrapper">
+                                        <div class="table-responsive static-student-table">
+                                            <table id="course-static-student-table" class="table table-celled table-hover long-last-td" style="white-space: pre-line">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>S.A.A</th>
+                                                        <th><input type='checkbox' class="all-student-check" style="opacity: 1; position: sticky;"/></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer flex-img">
+                                <button data-i18n="buttons.ok" doc-confirm type="button" class="btn btn-primary btn-static-course-student-add">OK</button>
+                                <button data-i18n="buttons.back" type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
             </div>
         </div>
 
@@ -71,24 +150,161 @@
 //            format: 'hh:mm' //LT
             format: 'HH:mm'
         });
-        
-        Exam.Proxy.loadGroups(function (groups) {
-            if (groups) {
+
+//        Exam.Proxy.loadGroups(function (groups) {
+//            if (groups) {
+//                var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+//                $.each(groups.data, function (i, v) {
+//                    html += '<option value = "' + v.id + '">' + v.code + '</option>'
+//                });
+//                $('#group').html(html);
+//            }
+//        });
+        Exam.Proxy.loadDictionariesByTypeId(Exam.Type.EXAM_TYPE, '0', function (examType) {
+            if (examType) {
                 var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
-                $.each(groups.data, function (i, v) {
-                    html += '<option value = "' + v.id + '">' + v.code + '</option>'
+                $.each(examType, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.value[Exam.lang] + '</option>'
                 });
-                $('#group').html(html);
+                $('#exam_type').html(html);
             }
         });
-        $('#group').select2({
-            placeholder: Exam.dictionary[Exam.lang]["subjects"],
-            language: {
-                noResults: function () {
-                    return Exam.dictionary[Exam.lang]["no_information"];
+//        $('#group').select2({
+//            placeholder: Exam.dictionary[Exam.lang]["subjects"],
+//            language: {
+//                noResults: function () {
+//                    return Exam.dictionary[Exam.lang]["no_information"];
+//                }
+//            }
+//        });
+
+
+
+        Exam.Proxy.getStructureListByFilter(0, 0, function (data) {
+            $("#uni option:eq(4)").attr("selected", "selected");
+            if (data && data.data) {
+                var html = '';
+                var students = '';
+                var uni = data.data.universityList;
+                var uniCount = data.data.universityList.length;
+                var facultyCount = data.data.facultyList.length;
+                var specCount = data.data.specialityList.length;
+
+                if (uniCount <= 1) {
+                    $('#uni').attr('disabled', 'disabled')
+                    $.each(uni, function (i, v) {
+
+                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+                    $('#uni').html(html)
+                } else {
+                    html = ''
+                    $.each(uni, function (i, v) {
+                        if (i === 0) {
+                            html += '<option value = "' + v.id + '" selected>' + v.name[Exam.lang] + '</option>'
+                        } else {
+                            html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                        }
+                    })
+                    $('#uni').html(html);
+                    $('#uni').select2();
+                }
+
+                if (facultyCount <= 1) {
+                    html = '';
+                    $('#fac').attr('disabled', 'disabled')
+                    $('#fac').html(html)
+                } else {
+                    html = '<option value = "0">Fakültə</option>'
+                    $('#fac').html(html)
+                }
+                if (specCount <= 1) {
+                    html = '';
+                    students = '';
+                    $('#group').attr('disabled', 'disabled')
+                    $('#studentkalar').attr('disabled', 'disabled')
+                    $('#group').html(html)
+                    $('#studentkalar').html(students)
+                } else {
+                    html = '<option value = "0">Qruplar</option>'
+                    students = '<option value = "0">Tələbələr</option>'
+                    $('#group').html(html)
+                    $('#studentkalar').html(students)
                 }
             }
-        });  
+        });
 
+        $('#uni').on('change', function () {
+            var id = $(this).val();
+            Exam.Proxy.getStructureListByFilter(id, 0, function (data) {
+                if (data && data.data) {
+                    var html = '';
+                    var faculty = data.data.facultyList;
+
+                    html = '<option value = "0">Fakültə</option>'
+                    $.each(faculty, function (i, v) {
+                        html += '<option value = "' + v.id + '">' + v.name[Exam.lang] + '</option>'
+                    })
+                    $('#fac').html(html);
+                    $('#fac').select2();
+                    $('#fac').removeAttr('disabled');
+
+                }
+            });
+        });
+        $('#fac').on('change', function () {
+            var id = $(this).val();
+            Exam.Proxy.loadCourseses(id, function (groups) {
+                if (groups) {
+                    var html = '<option value="">' + Exam.dictionary[Exam.lang]['select'] + '</option>';
+                    $.each(groups.data, function (i, v) {
+                        html += '<option value = "' + v.id + '">' + v.code + '</option>'
+                    });
+                    $('#group').html(html);
+                    $('#group').select2();
+                    $('#group').removeAttr('disabled');
+                }
+            });
+        });
+        $('#group').on('change', function () {
+            var id = $(this).val();
+            Exam.Proxy.loadCoursesByGroupId(id, function (dat) {
+                if (dat.data.students) {
+                    var html = '';
+                    $.each(dat.data.students, function (i, v) {
+                        html += '<tr>' +
+                                '<td>' + (++i) + '</td>' +
+                                '<td>' + v.fullname + '</td>' +
+                                '<td><input value = "' + v.id + '"type="checkbox" class="student-check" style="opacity: 1; position: sticky;"/></td>' +
+                                '</tr>'
+                        })
+                    $('#course-student-table tbody').html(html);
+                    $('.students-check').removeClass('hidden')
+                } else {
+                    $('.students-check').addClass('hidden');
+                }
+            })
+        });
+        $('.all-student-check').on('click', function() {
+            var checkedStatus = this.checked;
+            $('#course-student-table tbody tr').each(function() {
+                $(this).find('.student-check').prop('checked', checkedStatus)
+            });
+        });
+        
+//        $('#course-student-table .student-check').each(function(i, v){ 
+//            var checked = $(this).is(':checked'); 
+//            var val = $(this).val(); 
+//            if(checked){
+//                alert(val);
+//            }
+//        });
+//        $('#course-student-table tbody tr').each(function(i, v){ 
+//            var checked = $(this).find('.student-check').is(':checked'); 
+//            var val = $(this).attr('data-participant-id'); 
+//            if(checked){
+//                alert(val);
+//            }
+//        });
     });
 </script>

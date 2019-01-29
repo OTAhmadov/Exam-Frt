@@ -569,7 +569,8 @@ td .dropdown-menu{
 	overflow: hidden; 
 }
 .slimScrollDiv, .mod-con {
-    height: calc(100vh - 70px) !important;
+    /*height: calc(100vh - 70px) !important;*/
+    height: calc(100vh - 0px) !important;
 }
 .info .panel-heading{
 	height: 41px;
@@ -972,13 +973,14 @@ i.jstree-icon.jstree-ocl {
 	display: none !important;
 }
 .table-scroll{
-	max-height: 700px;
+	/*max-height: 700px;*/
 	overflow: hidden;
 	height: auto !important; 
+        max-height: calc(100vh - 167px);
 }
-.data .slimScrollDiv{
+/*.data .slimScrollDiv{
 	height: auto !important
-}
+}*/
 @media only screen and (max-width: 1330px){
 	.col-sm-3 + .slimScrollDiv{
 		width: 75% !important;
@@ -1740,4 +1742,28 @@ li.ems-tab.active>a,li.ems-tab.active>a:hover, li.ems-tab.active>a:focus{
 }
 .question-answer{
 	list-style: none;
+}
+.ham{
+    padding-top: 30px
+}
+.long-last-td th:last-child .add-new {
+    right: 0 !important;
+    top: 10px !important;
+    padding-left: 15px !important;
+}
+.pagebreak { page-break-before: always; 
+}
+.select2-selection__placeholder{
+        margin-top: 0 !important;
+}
+.module_1000011 .btn-group .datepicker{
+        width: 100% !important;
+    height: 32px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    border: solid 1px #edeafa;
+    font: 300 14px/24px 'HelveticaNeue',sans-serif;
+    text-align: left;
+    color: #333333;
+    margin-top: 0 !important;
 }

@@ -64,7 +64,26 @@ $(function () {
         });
     }, 1000)
 
-
+//    $('#module_operations li [data-id = 1001504]').on('click', function(){alert('')
+//        var count = 0;
+//        var note = $(this).attr('data-note');
+//        $('#ticket_list tbody tr').each(function (i, v) {
+//            var tr = $(this).attr('data-id');
+//
+//            count++;
+//            try {
+//                $('body').attr('data-note', note);
+//                Exam.Proxy.loadTicketQuestionsTEST(tr);
+//            } catch (err) {
+//                console.error(err);
+//            }
+////            }
+//        });
+//        if (count > 0) {
+//            $('body .add-new .search-scroll').load('partials/ticket_for_pdf_TEST.html');
+//            $('body').find('.add-new').css('right', '0');
+//        }
+//    })
 
     $('#logoutForm').attr("action", Exam.urls.ROS + "logout");
     $('#logoutForm input[name="token"]').val(Exam.token);
@@ -330,6 +349,39 @@ $(function () {
         }
     });
     
+    $('#main-div').on('change', '#subjects', function (e) {
+        try {
+            var subjectId = $('#subjects').find('option:selected').val();
+            if (subjectId > 0) {
+                $('input[name="courseId"]').val(subjectId);
+
+            } else {
+                $('input[name="courseId"]').val('');
+            }
+            $('.btn-load-more').removeAttr('data-page');
+            var params = $('.exam-search-form').serialize();
+            Exam.Proxy.getExamList(params);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+    $('#main-div').on('change', '#exam_date_filter', function (e) {
+        try {
+            var date = $('#exam_date_filter').val();
+            if (date!=null) {
+                $('input[name="examDate"]').val(date);
+
+            } else {
+                $('input[name="examDate"]').val('');
+            }
+            $('.btn-load-more').removeAttr('data-page');
+            var params = $('.exam-search-form').serialize();
+            Exam.Proxy.getExamList(params);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+    
     $('body').on('click', '#operation_1001401', function () {
         try {
             $('body .add-new .search-scroll').load('partials/add_exam.html');
@@ -376,13 +428,14 @@ $(function () {
     $('body').on('click', '#operation_1001403 ', function (e) {
         try {
             var examId  = $(this).parents('#exam_list tbody tr').attr('data-id');
+            var params = $('.exam-search-form').serialize();
 //            var params = $('.question-search-form').serialize();
             $.confirm({
                 title: Exam.dictionary[Exam.lang]['warning'],
                 content: Exam.dictionary[Exam.lang]['delete_info'],
                 confirm: function () {
                     Exam.Proxy.removeExam(examId, function () {
-                        Exam.Proxy.getExamList();
+                        Exam.Proxy.getExamList(params);
                     })
                 },
                 theme: 'black'
@@ -807,10 +860,14 @@ $(function () {
     });
 
     $('body').on('click', '#exam_add', function () {
-//        var params = $('.ticket-search-form').serialize();
+        var params = $('.exam-search-form').serialize();
         if (Exam.Validation.validateRequiredFields('exam-required')) {
                 try {
-//                    var formData = new FormData();
+                    var repetition = 0;
+                    if($('.reexam').is(":checked")){
+                        repetition=1;
+                    }
+                    var formData = new FormData();
                     var examParams = {
                         courseId: $('#group').val(),
                         examStartDate: $('#exam_start_date').val(),
@@ -818,10 +875,21 @@ $(function () {
                         examStartTime: $('#exam_start_time').val(),
                         examFinishTime: $('#exam_finish_time').val(),
                         examDuration: $('#exam_duration').val(),
+                        examType: $('#exam_type').val(),
+                        participants: [],
+                        repetition:repetition,
                         token: Exam.token
                     };
-                    Exam.Proxy.addExam(examParams, function () {    
-                        Exam.Proxy.getExamList();
+                    $('#course-student-table .student-check').each(function (i, v) {
+                        var checked = $(this).is(':checked');
+                        var val = $(this).val();
+                        if (checked) {
+                            examParams.participants.push(val);
+                        }
+                    });
+                    formData.append('examParams', new Blob([JSON.stringify(examParams)], {type: "application/json"}));
+                    Exam.Proxy.addExam(formData, function () {  
+                        Exam.Proxy.getExamList(params);
                     });
 
                 } catch (err) {
@@ -839,7 +907,8 @@ $(function () {
         if (Exam.Validation.validateRequiredFields('exam-required')) {
             
                 try {
-                    var params = $('.exam-edit-form').serialize();
+                    
+                    var params = $('.exam-search-form').serialize();
 ////                    var formData = new FormData();
 //                    var examParams = {
 //                        courseId: $('#group').val(),
@@ -851,7 +920,7 @@ $(function () {
 //                        token: Exam.token
 //                    };
                     Exam.Proxy.updateExam(id, params, function () {
-                        Exam.Proxy.getExamList();
+                        Exam.Proxy.getExamList(params);
                     });
 
                 } catch (err) {
@@ -1101,7 +1170,15 @@ $(function () {
             console.error(err);
         }
     });
-
+    
+    $('#main-div').on('click', '.add-student', function() {
+        $('.all-student-check').prop('checked', false)
+        $('.all-student-buy-edu-check').prop('checked', false)
+        $('.student-check').prop('checked', false)
+        $('.student-edu-check').prop('checked', false)
+        $('.student-modal').modal('show');
+    });
+     
     $('body').on('change', '#edu_plan_select', function () {
         var eduPlanId = $(this).val();
         $('.ticket-search-form input[name="eduPlanId"]').val(eduPlanId);

@@ -5,7 +5,7 @@
  */
 
 var Exam = {
-    token: '0',
+    token: '2b4ea2a18d54472e946ff9415ac2451dfc172266bf7d4390a075e1741a590f37',
     lang: 'az',
     appId: 1000011,
     currModule: '',
@@ -42,15 +42,15 @@ var Exam = {
     },
     urls: {
         //ROS: "http://localhost:8080/ROS/",
-        ROS: "http://192.168.1.78:8082/ROS/",
+        ROS: "http://192.168.1.8:8082/ROS/",
 //         AdminRest: 'http://localhost:8080/AdministrationRest/',
-        AdminRest: 'http://192.168.1.78:8082/AdministrationRest/',
+        AdminRest: 'http://192.168.1.8:8082/AdministrationRest/',
         // AdminRest: 'http://localhost:8080/AdministrationRest/',
-        HSIS: "http://192.168.1.78:8082/UnibookHsisRest/",
+        HSIS: "http://192.168.1.8:8082/UnibookHsisRest/",
 //        HSIS: "http://localhost:8080/UnibookExamRest/",
 //        REPORT: 'http://192.168.1.78:8082/ReportingRest/',
-        EMS: 'http://192.168.1.78:8082/UnibookEMS/',
-        // ExamRest: 'http://localhost:8080/ExamRest/',
+        EMS: 'http://192.168.1.8:8082/UnibookEMS/',
+//         ExamRest: 'http://localhost:8080/ExamRest/',
         ExamRest: 'http://localhost:8080/ExamRest/',
         COMMUNICATION: 'http://192.168.1.78:8082/CommunicationRest/',
         NOTIFICATION: 'http://192.168.1.78:8082/NotificationSystem/greeting.html?token=',
@@ -239,10 +239,10 @@ var Exam = {
             })
         },
         
-        getExamList: function (callback) {
+        getExamList: function (params, callback) {
             var data;
             $.ajax({
-                url: Exam.urls.ExamRest + 'exam/list?token=' + Exam.token,
+                url: Exam.urls.ExamRest + 'exam/list?token=' + Exam.token + (params ? '&' + params : ''),
                 type: 'GET',
                 success: function (result) {
                     try {
@@ -284,6 +284,8 @@ var Exam = {
                 url: Exam.urls.ExamRest + 'exam/add',
                 type: 'POST',
                 data: formData,
+                contentType: false,
+                processData: false,
                 beforeSend: function (xhr) {
                     $('.module-block[data-id="1000119"]').attr('check', 1);
                 },
@@ -383,6 +385,32 @@ var Exam = {
             })
         },
 
+        loadTicketQuestionsTEST: function (ticketId, callback) {
+//            console.log('2 '+ticketId)
+            $.ajax({
+                url: Exam.urls.ExamRest + 'ticket/' + ticketId + '?token=' + Exam.token,
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
+
+                                if (callback) {
+                                    callback(result.data);
+                                }
+                                Exam.Service.parseTicketQuestionsTEST(result.data)
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
         loadTicketQuestions: function (ticketId, callback) {
             $.ajax({
                 url: Exam.urls.ExamRest + 'ticket/' + ticketId + '?token=' + Exam.token,
@@ -433,7 +461,32 @@ var Exam = {
                 }
             })
         },
+        
+        loadCourseses: function (id, callback) {
+            $.ajax({
+                url: Exam.urls.EMS + 'course?token=' + Exam.token + '&orgId=' + id + '&statusId=1000340',
+                type: 'GET',
+                success: function (result) {
+                    if (result) {
+                        switch (result.code) {
+                            case Exam.statusCodes.OK:
 
+                                if (callback) {
+                                    callback(result);
+                                }
+                                break;
+
+                            case Exam.statusCodes.ERROR:
+                                $.notify(Exam.dictionary[Exam.lang]['error'], {
+                                    type: 'danger'
+                                });
+                                break;
+                        }
+                    }
+                }
+            })
+        },
+        
         loadCoursesByGroupId: function (id, callback) {
             $.ajax({
                 url: Exam.urls.EMS + 'course/' + id + '?token=' + Exam.token,
@@ -547,9 +600,9 @@ var Exam = {
             });
         },
 
-        getExam: function (callback) {
+        getExam: function (params, callback) {
             $.ajax({
-                url: Exam.urls.ExamRest + 'exam?token=' + Exam.token,
+                url: Exam.urls.ExamRest + 'exam?token=' + Exam.token + (params ? '&' + params : ''),
                 type: 'GET',
                 success: function (result) {
                     try {
@@ -1180,7 +1233,6 @@ var Exam = {
                 }
 
             });
-
         },
 
         loadQuestionsForExam: function (page, params, callback) {
@@ -1625,6 +1677,86 @@ var Exam = {
             }
         },
 
+        parseTicketQuestionsTEST: function (data) {
+            if (data) {
+                var noteForPage = $('body').attr('data-note');
+                var html = '';
+                var questHTML ='';
+                var count = 0;
+                var img = $('body .side-title-block img').attr('src');
+//        
+//        $('body .uni_logo img').attr('src', img)
+        
+                $.each(data, function (i, v) {
+                    var choices_html = '';
+                    $.each(v.choises,function() {
+                        
+                        choices_html += '<li class="question-answer">' + this.questionContent + '</li>';
+                    });
+                    html += '<div data-id="' + v.id + '">' +
+                            '<div class = "count_of_questions_of_tickets">' + (++count) + '</div>' +
+                            '<div class = "quest-content"><div data-path = "'+ v.filePath +'">' + v.content  + '<ul class="question-choices">' + choices_html + '</ul></div>' +
+                            '<div class = "ticket-image"><img class = "imageofquestinticket" src =' + Exam.urls.ExamRest + '/questions/file/' + v.filePath + '/?token=' + Exam.token + '></div>' +           
+                            '</div></div>';
+                    questHTML = 
+//                            '<div class="tt" style="min-height: 1100px">' +
+//                                 '<div class="panel-heading test" style="margin: 0 -15px;">' +
+//                                 '<div class="row form-group col-md-12">' +
+//                                 '<div class="form-group col-md-2">' +
+//                                 '<button id="printButton" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Çap et</button>' +
+//                                 '</div>' +
+//                                 '<div class="form-group col-md-2">' +
+//                                 '<button id="back" data-i18n="back" type="submit" class="btn btn-primary btn-block pincode-button-back">Geri</button>' +
+//                                 '</div>' +
+//                                 '</div>' +
+//                                 '</div>' +
+                                 '<div class="row form-group col-md-12 pagebreak">' +
+//                                 '<div class="printableArea">' +
+                                 '<div class="ticket-code">' + v.id + '</div>' +
+                                 '<div class="panel-body" style="margin: 0 -15px;">' +
+                                 '<div class="abcde">' +
+                                 '<div class="ticket-headers">' +
+                                 '<span class="ticket-ministry">Azərbaycan Respublikası Təhsil Nazirliyi</span>' +
+                                 '<span class="ticket-org">Bakı Slavyan Universiteti</span>' +
+                                 '<span class="ticket-faculty">' + v.faculty.value[Exam.lang] + '</span>' +
+                                 '<span class="edu-year"><span class="ticket-edu-year">' + v.eduYear.value[Exam.lang] + ' tədris ili' + '</span></span>' +
+                                 '</div>' +
+                                 '<div class="uni_logo">' +
+                                 '<img style="padding-left:20px; padding-top: 10px;" src="' + img + '">' +
+                                 '</div>' +
+                                 '</div>' +
+                                 '<div class="row col-md-12">' +
+                                 '<div class="ticket-other-details col-md-12">' +
+                                 '<span>Kafedra: <span class="department_span">' + v.department.value[Exam.lang] + '</span></span>' +
+                                 '<span>Semestr: <span class="ticket-edu-part">' + v.eduPart.value[Exam.lang] + '</span></span>' +
+                                 '<span>Qrup: <span class="ticket-group">' + v.course.value[Exam.lang] + '</span></span>' +
+                                 '<span class="fenn">Fənn: <span class="ticket-subject">' + v.subject.value[Exam.lang] + '</span></span>' +
+                                 '</div>' +
+                                 '<div class="row col-md-12 bilet">' +
+                                 '<span>Bilet №</span>' +
+                                 '</div>' +
+                                 '</div>' +
+                                 '<div class="col-md-12 tickets" >' + html + '</div>' +
+                                 '</div>' +
+                                 '<div class="panel-footer" style="margin: 0 -15px;">' +
+                                 '<div class="ticket-note">' + noteForPage + '</div>' +
+                                 '</div>' +
+//                                 '</div>' +
+//                                 '</div>' +
+                                 '</div>';     
+                });
+                $('body').find('img.imageofquestinticket').on('error', function () {
+                    // $(this).attr('src','http://anl.az/new/images/book.png');
+                    $(this).addClass('hidden')
+                });
+                    
+                    $('#main-div').find('.printableArea').append(questHTML);
+
+                $('body').find('.imageofquestinticket').error(function () {
+                    $(this).hide(); 
+                });
+            }
+        },
         parseTicketQuestions: function (data, page) {
 
             if (data) {
@@ -1735,7 +1867,8 @@ var Exam = {
                             '<td>' + (++count) + '</td>' +
                             '<td>' + v.subject.value[Exam.lang].substring(0, 70) + '</td>' +
                             '<td>' + v.course.value[Exam.lang].substring(0, 70) + '</td>' +
-                            '<td>' + v.examStartDate + '-' + v.examFinishDate + '</td>' +
+                            '<td>' + v.examStartDate + '</td>' +
+//                            '<td>' + v.examStartDate + '-' + v.examFinishDate + '</td>' +
                             '<td>' + v.examStartTime + '-' + v.examFinishTime + '</td>' +
                             '<td>' + v.examDuration + '</td>' +
                             '<td><div class="type_2_btns">' + Exam.Service.parseOperations(Exam.operationList, '2') +'</div></td>' +

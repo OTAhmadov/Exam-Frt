@@ -15,9 +15,7 @@
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 
@@ -40,62 +38,53 @@
     </div>
 </div>
 
-<form class="question-search-form">
+<form class="exam-search-form">
     <input type="hidden" name="keyword">
-    <input type="hidden" name="subjectId">
-    <input type="hidden" name="eduLevelId">
+    <input type="hidden" name="courseId">
+<!--    <input type="hidden" name="eduLevelId">
     <input type="hidden" name="questionLevelId">
-    <input type="hidden" name="questionTypeId">
+    <input type="hidden" name="questionTypeId">-->
+    <input type="hidden" name="examDate">
 </form>
 
 <div class="filters-block module_1000011">
 
     <div class="btn-group">
-
         <select id="subjects">
             <option value="0" data-i18n="subject">Subject</option>
         </select>
-
     </div>
-
-    <div class="btn-group">
+                    <div class="btn-group">
+                        <input type="text" class="form-control datepicker" data-date-format="dd/mm/yyyy" id="exam_date_filter" placeholder="Tarix">
+                    </div>
+<!--    <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" aria-expanded="false" >
             <span data-i18n="question_complexity">Sualın çətinliyi</span> 
             <i class="fa fa-angle-down"></i>
         </button>
         <ul data-name="questionLevelId" id="question_level" class="dropdown-menu dropdown-filter">
-
         </ul>
-    </div>
-
+    </div>-->
+<!--
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             <span data-i18n="question_type" >Sualın növü</span> <i class="fa fa-angle-down"></i>
         </button>
         <ul data-name="questionTypeId" id="question_type" class="dropdown-menu dropdown-filter">
-
         </ul>
     </div>
-
-
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
             <span data-i18n="edu_level" >Təhsil səviyyəsi</span> <i class="fa fa-angle-down"></i>
         </button>
         <ul data-name="eduLevelId" id="edu_levels" class="dropdown-menu dropdown-filter">
-
         </ul>
-
-    </div>
-
-
+    </div>-->
 </div>
-
-
 
 <div class="row">
     <div class="col-sm-12 data">
-        <div  class="panel panel-white">
+        <div  class="panel panel-white table-scroll">
 
             <div class="table-responsive">
 
@@ -153,8 +142,8 @@
 <script>
     $(function () {
         Exam.i18n(Exam.lang);
-
-       
+        $('.datepicker').datepicker();
+        $('body').find('.table-scroll').slimScroll();
 
         $('#subjects').select2({
             placeholder: Exam.dictionary[Exam.lang]["subjects"],
@@ -170,6 +159,17 @@
             $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 1));
             Exam.Proxy.getExamList();
              
+        });
+        
+        Exam.Proxy.loadGroups(function (groups) {
+            if (groups.data) {
+                var html = '<option value="0">' + Exam.dictionary[Exam.lang]["select"] + '</option>';
+                $.each(groups.data, function (i, v) {
+                    html += '<option value = "' + v.id + '">' + v.code + ' - '+ v.eduPlanSubject.value[Exam.lang] + '</option>'
+                });
+                    $('#subjects').html(html);
+                    $('#subjects option:first-child').text('Fənn');
+            }
         });
 //        Exam.Proxy.loadOperations(Exam.currModule, function (operations) {
 //            $('#buttons_div').find('ul').html(Exam.Service.parseOperations(operations, 2));

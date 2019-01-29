@@ -1,9 +1,9 @@
 <div class="ticket-for-pdf" >
-    <div class="panel-heading" style="margin: 0 -15px;">
+    <div class="panel-heading test" style="margin: 0 -15px;">
         <div class="row form-group col-md-12">
-            <div class="form-group col-md-8">
-                <!--<h3 class="m-t-6" data-i18n="" class="panel-title">İmtahan </h3>-->
-            </div>
+<!--            <div class="form-group col-md-8">
+                <h3 class="m-t-6" data-i18n="" class="panel-title">İmtahan </h3>
+            </div>-->
             <div class="form-group col-md-2">
                 <button id="printButton" data-i18n="save" type="submit" class="btn btn-primary btn-block pincode-button-next">Çap et</button>
             </div>
@@ -12,8 +12,9 @@
             </div>
         </div>
     </div>
-        <div class="row form-group col-md-12">
-        <div class="printableArea">
+            <div class="printableArea">
+
+<!--        <div class="row form-group col-md-12">
         <div class="ticket-code"></div>
     <div class="panel-body" style="margin: 0 -15px;">
         <div class="abcde">
@@ -46,13 +47,14 @@
             </div>
     </div>
     </div>
-    </div>
+    --></div>
     </div>
 <script type="text/javascript">
     $(function () {
-            
+        
+        
         var img = $('body .side-title-block img').attr('src');
-        console.log(img)
+        
         $('body .uni_logo img').attr('src', img)
         
         $("#printButton").click(function(){
